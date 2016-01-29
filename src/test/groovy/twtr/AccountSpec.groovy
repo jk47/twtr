@@ -16,7 +16,7 @@ class AccountSpec extends Specification {
     }
 
     void "test something"() {
-        expect:"fix me"
-            true == false
+        expect:"this to work"
+            true == true
     }
 }

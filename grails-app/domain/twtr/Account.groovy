@@ -12,6 +12,6 @@ class Account {
 
     static constraints = {
         handle blank: false, unique: true
-        email password realName blank: false
+        email  blank: false
     }
 }
