@@ -10,12 +10,10 @@ class Account {
     Date dateCreated
     Date lastUpdated
 
-<<<<<<< HEAD
+
     static constraints = {
         handle blank: false, unique: true
         email  blank: false
     }
-=======
 
->>>>>>> john
 }
