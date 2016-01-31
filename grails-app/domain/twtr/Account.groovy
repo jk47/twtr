@@ -10,8 +10,5 @@ class Account {
     Date dateCreated
     Date lastUpdated
 
-    static constraints = {
-        handle blank: false, unique: true
-        email password realName blank: false
-    }
+
 }
