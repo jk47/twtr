@@ -16,8 +16,15 @@ class AccountSpec extends Specification {
     def cleanup() {
     }
 
-    void "test something"() {
-        expect:"this to work"
-            true == true
+
+    def "invalid passwords will not be saved to db"() {
+        given: "an account with invalid password"
+            def account = new Account(handle: 'coding', password:'Test1', email: 'test@gmail.com', realName: 'coding guy')
+        when: "attempting to save"
+            account.save()
+        then: "an error will be attached to account, it will not save"
+            account.errors.errorCount != 0
+
+
     }
 }

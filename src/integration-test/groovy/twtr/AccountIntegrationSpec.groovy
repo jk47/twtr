@@ -16,8 +16,8 @@ class AccountIntegrationSpec extends Specification {
     }
 
     def "saving first account to database"() {
-        given: "A brand new account"
-            def account = new Account(handle: 'coding', password:'test', email: 'test@gmail.com', realName: 'coding guy')
+        given: "an account"
+            def account = new Account(handle: 'coding', password:'TestPass1', email: 'test@gmail.com', realName: 'coding guy')
         when: "the account is saved"
             account.save()
         then: "account is saved successfully and can be found in database"
