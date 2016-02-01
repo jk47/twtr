@@ -10,5 +10,11 @@ class Account {
     Date dateCreated
     Date lastUpdated
 
-
+    static constraints = {
+        handle unique: true
+        email unique: true
+        password size: 8..16, blank: false, nullable: false, validator: { password ->
+            password ==~ /.*([0-9]).*/ && password ==~ /.*([a-z]).*/ && password ==~ /.*([A-Z]).*/
+        }
+    }
 }
