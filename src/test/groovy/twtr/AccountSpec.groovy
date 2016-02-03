@@ -23,8 +23,16 @@ class AccountSpec extends Specification {
         when: "attempting to save"
             account.save()
         then: "an error will be attached to account, it will not save"
-            account.errors.errorCount != 0
+            account.errors.errorCount > 0
+    }
 
 
+    def "attempts to save account without required handle, email, and/or password will fail"(){
+        given: "an account with a missing handle field"
+            def account = new Account(password:'Test1', email: 'test@gmail.com', realName: 'coding guy')
+        when: "attempting to save"
+            account.save()
+        then: "an error will be attached to the account, it will not save"
+            account.errors.errorCount > 0
     }
 }
