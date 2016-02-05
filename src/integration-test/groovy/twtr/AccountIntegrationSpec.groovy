@@ -15,7 +15,7 @@ class AccountIntegrationSpec extends Specification {
     def cleanup() {
     }
 
-    def "saving first account to database"() {
+    def "saving account to database"() {
         given: "an account"
             def account = new Account(handle: 'coding', password:'TestPass1', email: 'test@gmail.com', realName: 'coding guy')
         when: "the account is saved"
