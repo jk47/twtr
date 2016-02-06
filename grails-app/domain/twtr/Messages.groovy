@@ -9,5 +9,4 @@ class Message {
     }
     static belongsTo = [ account : Account ]
 
-
 }

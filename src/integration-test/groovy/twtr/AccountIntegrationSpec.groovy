@@ -50,13 +50,22 @@ class AccountIntegrationSpec extends Specification {
             def joe = new Account(handle: 'joe', password:'Testing123', email:'joe@gmail.com', realName:'joe guy').save()
             def jane = new Account(handle: 'jane', password:'Testing123', email:'jane@gmail.com', realName:'jane girl').save()
             def jill = new Account(handle: 'jill', password:'Testing123',email:'jill@gmail.com', realName:'jill girl').save()
+
         when: "Joe follows Jane & Jill, and Jill follows Jane"
             joe.addToFollowing(jane)
+            jane.addToFollowers(joe)
+
             joe.addToFollowing(jill)
+            jill.addToFollowers(joe)
+
             jill.addToFollowing(jane)
+            jane.addToFollowers(jill)
+
         then: "Follower counts should match following people"
             2 == joe.following.size()
             1 == jill.following.size()
+            2 == jane.followers.size()
+            1 == jill.followers.size()
 
     }
 }
