@@ -10,7 +10,7 @@ class Account {
     Date dateCreated
     Date lastUpdated
 
-    static hasMany = [ following : Account ]
+    static hasMany = [ following : Account, messages: Message ]
 
     static constraints = {
         handle unique: true
