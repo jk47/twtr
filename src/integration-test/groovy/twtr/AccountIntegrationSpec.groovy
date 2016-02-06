@@ -44,4 +44,19 @@ class AccountIntegrationSpec extends Specification {
             'two identical emails' |'abc'  | 'cde' | 'abc@gmail.com'  | 'abc@gmail.com' |   1
             'two identical handles'|'def'  | 'def' | 'def@gmail.com'  | 'ghi@gmail.com' |   1
     }
+
+    def "an account may have multiple followers"(){
+        given: "A set of baseline users"
+            def joe = new Account(handle: 'joe', password:'Testing123', email:'joe@gmail.com', realName:'joe guy').save()
+            def jane = new Account(handle: 'jane', password:'Testing123', email:'jane@gmail.com', realName:'jane girl').save()
+            def jill = new Account(handle: 'jill', password:'Testing123',email:'jill@gmail.com', realName:'jill girl').save()
+        when: "Joe follows Jane & Jill, and Jill follows Jane"
+            joe.addToFollowing(jane)
+            joe.addToFollowing(jill)
+            jill.addToFollowing(jane)
+        then: "Follower counts should match following people"
+            2 == joe.following.size()
+            1 == jill.following.size()
+
+    }
 }
