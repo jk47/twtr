@@ -10,6 +10,7 @@ class Account {
     Date dateCreated
     Date lastUpdated
 
+    static hasMany = [ following : Account ]
 
     static constraints = {
         handle unique: true
