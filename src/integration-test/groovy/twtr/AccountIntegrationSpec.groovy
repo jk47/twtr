@@ -52,12 +52,15 @@ class AccountIntegrationSpec extends Specification {
             def jill = new Account(handle: 'jill', password:'Testing123',email:'jill@gmail.com', realName:'jill girl').save()
 
         when: "Joe follows Jane & Jill, and Jill follows Jane"
+            // joe follows jane
             joe.addToFollowing(jane)
             jane.addToFollowers(joe)
 
+            // joe follows jill
             joe.addToFollowing(jill)
             jill.addToFollowers(joe)
 
+            // jill follows jane
             jill.addToFollowing(jane)
             jane.addToFollowers(jill)
 
