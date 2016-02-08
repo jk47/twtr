@@ -5,7 +5,7 @@ class Message {
     Date dateCreated
 
     static constraints = {
-        content blank: false
+        content blank: false, size: 0..40
     }
     static belongsTo = [ account : Account ]
 
