@@ -15,17 +15,6 @@ class AccountIntegrationSpec extends Specification {
     def cleanup() {
     }
 
-    def "saving account to database"() {
-        given: "an account"
-            def account = new Account(handle: 'coding', password:'TestPass1', email: 'test@gmail.com', realName: 'coding guy')
-        when: "the account is saved"
-            account.save()
-        then: "account is saved successfully and can be found in database"
-            account.errors.errorCount == 0
-            account.id != null
-            Account.get(account.id).realName == account.realName
-    }
-
     @Unroll
     def 'saving an account with #description will fail'() {
         given: "2 accounts to save"
