@@ -33,21 +33,16 @@ class MessageSpec extends Specification {
         when: "Retrieve user account"
         def foundAccount = Account.get(account.id)
         def errorSaving = foundAccount == null
-        def contentCharCount = 0;
-        if(foundAccount)
-        {
-            contentCharCount = foundAccount.messages.first().content.length()
-        }
 
         then:
-        ( (errorSaving  || (!errorSaving && (contentCharCount == expectedCount))) && (errorSaving == expectedValidationError))
+        errorSaving == expectedValidationError
 
         where:
-        description                                         | testMessage | expectedValidationError | expectedCount
-        "Message with 1 chars"                              | 'f'         | false                   | 1
-        "Message with 39 chars"                             | 'f'*39      | false                   | 39
-        "Message with 40 chars"                             | 'f'*40      | false                   | 40
-        "Validation error when message has 41 chars"        | 'f'*41      | true                    | 0
-        "Validation error when message has blank content"   | ''          | true                    | 0
+        description                                         | testMessage | expectedValidationError
+        "Message with 1 chars"                              | 'f'         | false
+        "Message with 39 chars"                             | 'f'*39      | false
+        "Message with 40 chars"                             | 'f'*40      | false
+        "Validation error when message has 41 chars"        | 'f'*41      | true
+        "Validation error when message has blank content"   | ''          | true
     }
 }
