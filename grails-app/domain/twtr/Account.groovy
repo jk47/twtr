@@ -13,8 +13,9 @@ class Account {
     static hasMany = [ following : Account, followers: Account, messages: Message ]
 
     static constraints = {
-        handle unique: true
-        email unique: true
+        handle unique: true, blank: false, nullable: false
+        email unique: true, blank:false, nullable: false
+        realName blank:false, nullable: false
         password size: 8..16, blank: false, nullable: false, validator: { password ->
             password ==~ /.*([0-9]).*/ && password ==~ /.*([a-z]).*/ && password ==~ /.*([A-Z]).*/
         }
