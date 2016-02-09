@@ -52,13 +52,21 @@ class AccountSpec extends Specification {
         'Fail with password that contains no lower-case'        | 'M'*4 + 'J'*4 + '23'          | true
     }
 
-
+    @Unroll('#description')
     def "attempts to save account without required handle, email, and/or password will fail"(){
         given: "an account with a missing handle field"
-            def account = new Account(password:'Test1', email: 'test@gmail.com', realName: 'coding guy')
+            def account = new Account(handle: handle, password:password, email: email, realName: name)
         when: "attempting to save"
             account.save()
         then: "an error will be attached to the account, it will not save"
-            account.errors.errorCount > 0
+            account.errors.errorCount > 0 == expectedValidationError
+
+        where:
+        description                 | handle    | password              | email                 | name              | expectedValidationError
+        'Fail on missing handle'    | null      | 'M'*3 + 'j'*3 + '23'  | 'emjay23@gmail.com'   | 'Michael Jordan'  | true
+        'Fail on missing email'     | 'MJ23'   | 'M'*3 + 'j'*3 + '23'   | null                  | 'Michael Jordan'  | true
+        'Fail on missing password'  | 'MJ23'   | null                   | 'emjay23@gmail.com'   | 'Michael Jordan'  | true
+        'Fail on missing name'      | 'MJ23'   | 'M'*3 + 'j'*3 + '23'   | 'emjay23@gmail.com'   | null              | true
+        'Pass on saving account with all valid constraints'    | 'MJ23'   | 'M'*3 + 'j'*3 + '23'   | 'emjay23@gmail.com'   | 'Michael Jordan'  | false
     }
 }
