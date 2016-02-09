@@ -40,19 +40,21 @@ class MessageIntegrationSpec extends Specification {
         def account = new Account(handle: 'john', email: "jhn@gmail.com", password: 'Testing123', realName: "john guy")
         Message message = new Message(content: testMessage)
         account.addToMessages(message)
-        account.save(failOnError: true)
+        account.save(failOnError: false)
 
         when: "Retrieve user account"
         def foundAccount = Account.get(account.id)
+        def errorSaving = foundAccount == null
 
         then:
-        foundAccount.messages.first().content.length() == count
+        (errorSaving == expectedValidationError) || (foundAccount.messages.first().content.length() == count)
 
         where:
-        description                 | testMessage   | count
-        "Message with 39 chars"     | 'f'*39        | 39
-        "Message with 40 chars"     | 'f'*40        | 40
-        "Message with 41 chars"     | 'f'*41        | 41
-        "Blank message"             | ''            | 0
+        description                                         | testMessage | expectedValidationError | count
+        "Message with 1 chars"                              | 'f'         | false                   | 1
+        "Message with 39 chars"                             | 'f'*39      | false                   | 39
+        "Message with 40 chars"                             | 'f'*40      | false                   | 40
+        "Validation error when message has 41 chars"        | 'f'*41      | true                    | 41
+        "Validation error when message has blank content"   | ''          | true                    | 0
     }
 }
