@@ -60,4 +60,25 @@ class AccountIntegrationSpec extends Specification {
             1 == jill.followers.size()
 
     }
+
+    def "two accounts may followe each other"(){
+        given: "A set of baseline users"
+        def joe = new Account(handle: 'joe', password:'Testing123', email:'joe@gmail.com', realName:'joe guy').save()
+        def jane = new Account(handle: 'jane', password:'Testing123', email:'jane@gmail.com', realName:'jane girl').save()
+
+        when: "Joe follows Jane & Jane follows Joe"
+        // joe follows jane
+        joe.addToFollowing(jane)
+        jane.addToFollowers(joe)
+
+        // jane follows joe
+        jane.addToFollowing(joe)
+        joe.addToFollowers(jane)
+
+        then: "jane should be following joe  and be followed by joe. joe should be following jane and followed by jane"
+        joe.followers[0].id == jane.id
+        jane.followers[0].id == joe.id
+        joe.following[0].id == jane.id
+        jane.following[0].id == joe.id
+    }
 }

@@ -20,7 +20,7 @@ class AccountSpec extends Specification {
     def cleanup() {
     }
 
-    def "saving account with valid constraints to database"() {
+    def "saving account with valid constraints to database will succeed"() {
         given: "an account"
         def account = new Account(handle: 'coding', password:'TestPass1', email: 'test@gmail.com', realName: 'coding guy')
         when: "the account is saved"
