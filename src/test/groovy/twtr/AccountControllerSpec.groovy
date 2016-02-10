@@ -15,8 +15,5 @@ class AccountControllerSpec extends Specification {
     def cleanup() {
     }
 
-    void "test something1"() {
-        expect:"fix me"
-            true == false
-    }
+
 }
