@@ -28,6 +28,7 @@ class AccountIntegrationSpec extends Specification {
             account.id != null
             Account.get(account.id).realName == account.realName
             account2.errors.errorCount == expected
+            Account.get(account2.id) == null
         where:
             description            | hndl  | hndl2 |       eml        |     eml2        | expected
             'two identical emails' |'abc'  | 'cde' | 'abc@gmail.com'  | 'abc@gmail.com' |   1
@@ -61,7 +62,7 @@ class AccountIntegrationSpec extends Specification {
 
     }
 
-    def "two accounts may followe each other"(){
+    def "two accounts may follow each other"(){
         given: "A set of baseline users"
         def joe = new Account(handle: 'joe', password:'Testing123', email:'joe@gmail.com', realName:'joe guy').save()
         def jane = new Account(handle: 'jane', password:'Testing123', email:'jane@gmail.com', realName:'jane girl').save()
@@ -74,11 +75,13 @@ class AccountIntegrationSpec extends Specification {
         // jane follows joe
         jane.addToFollowing(joe)
         joe.addToFollowers(jane)
+        joe.save()
+        jane.save()
 
         then: "jane should be following joe  and be followed by joe. joe should be following jane and followed by jane"
-        joe.followers[0].id == jane.id
-        jane.followers[0].id == joe.id
-        joe.following[0].id == jane.id
-        jane.following[0].id == joe.id
+        joe.followers.find { it.id == jane.id }
+        jane.followers.find { it.id == joe.id }
+        joe.following.find { it.id == jane.id }
+        jane.following.find { it.id == joe.id }
     }
 }
