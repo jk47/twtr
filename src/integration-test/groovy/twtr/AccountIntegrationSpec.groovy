@@ -1,12 +1,12 @@
 package twtr
 
-
 import grails.test.mixin.integration.Integration
 import grails.transaction.*
 import spock.lang.*
 
 @Integration
 @Rollback
+@Unroll
 class AccountIntegrationSpec extends Specification {
 
     def setup() {
@@ -15,7 +15,6 @@ class AccountIntegrationSpec extends Specification {
     def cleanup() {
     }
 
-    @Unroll
     def 'saving an account with #description will fail'() {
         given: "2 accounts to save"
             def account = new Account(handle: hndl, password: "Testing123", email: eml, realName: "nameOfGuy")
@@ -31,8 +30,8 @@ class AccountIntegrationSpec extends Specification {
             Account.get(account2.id) == null
         where:
             description            | hndl  | hndl2 |       eml        |     eml2        | expected
-            'two identical emails' |'abc'  | 'cde' | 'abc@gmail.com'  | 'abc@gmail.com' |   1
-            'two identical handles'|'def'  | 'def' | 'def@gmail.com'  | 'ghi@gmail.com' |   1
+            "two identical emails" |'abc'  | 'cde' | 'abc@gmail.com'  | 'abc@gmail.com' |   1
+            "two identical handles"|'def'  | 'def' | 'def@gmail.com'  | 'ghi@gmail.com' |   1
     }
 
     def "an account may have multiple followers"(){
