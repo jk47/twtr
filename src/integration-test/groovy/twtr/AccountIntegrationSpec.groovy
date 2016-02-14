@@ -21,17 +21,19 @@ class AccountIntegrationSpec extends Specification {
             def account2 = new Account(handle: hndl2, password: "Testing123", email: eml2, realName: "nameOfGirl")
         when: "attempting to save"
             account.save()
+            def accountsBefore = Account.count()
             account2.save()
         then: "the account saved second should have an error, the first account should save"
             account.errors.errorCount == 0
             account.id != null
             Account.get(account.id).realName == account.realName
-            account2.errors.errorCount == expected
+            account2.errors.errorCount == expectedErrors
             Account.get(account2.id) == null
+            accountsBefore == accountsAfter
         where:
-            description            | hndl  | hndl2 |       eml        |     eml2        | expected
-            "two identical emails" |'abc'  | 'cde' | 'abc@gmail.com'  | 'abc@gmail.com' |   1
-            "two identical handles"|'def'  | 'def' | 'def@gmail.com'  | 'ghi@gmail.com' |   1
+            description            | hndl  | hndl2 |       eml        |     eml2        | expectedErrors    | accountsAfter
+            "two identical emails" |'abc'  | 'cde' | 'abc@gmail.com'  | 'abc@gmail.com' |   1               |   1
+            "two identical handles"|'def'  | 'def' | 'def@gmail.com'  | 'ghi@gmail.com' |   1               |   1
     }
 
     def "an account may have multiple followers"(){
