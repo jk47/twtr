@@ -22,8 +22,7 @@ class MessageSpec extends Specification {
     }
 
     @Unroll('#description')
-    def "Message test is required to be non-blank and 40 characters or less"()
-    {
+    def "Message test is required to be non-blank and 40 characters or less"() {
         given: "Create user account"
         def account = new Account(handle: 'john', email: "jhn@gmail.com", password: 'Testing123', realName: "john guy")
         Message message = new Message(content: testMessage)
@@ -42,11 +41,11 @@ class MessageSpec extends Specification {
         accountsBefore == accountsBeforeExp
 
         where:
-        description                                         | testMessage | expectedValidationError |   accountsAfterExp   | accountsBeforeExp
-        "Message with 1 chars"                              | 'f'         | false                   |    1              |   0
-        "Message with 39 chars"                             | 'f'*39      | false                   |    1              |   0
-        "Message with 40 chars"                             | 'f'*40      | false                   |    1              |   0
-        "Validation error when message has 41 chars"        | 'f'*41      | true                    |    0              |   0
-        "Validation error when message has blank content"   | ''          | true                    |    0              |   0
+        description                                       | testMessage | expectedValidationError | accountsAfterExp | accountsBeforeExp
+        "Message with 1 chars"                            | 'f'         | false                   | 1                | 0
+        "Message with 39 chars"                           | 'f' * 39    | false                   | 1                | 0
+        "Message with 40 chars"                           | 'f' * 40    | false                   | 1                | 0
+        "Validation error when message has 41 chars"      | 'f' * 41    | true                    | 0                | 0
+        "Validation error when message has blank content" | ''          | true                    | 0                | 0
     }
 }

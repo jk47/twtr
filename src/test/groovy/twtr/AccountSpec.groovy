@@ -22,9 +22,11 @@ class AccountSpec extends Specification {
 
     def "saving account with valid constraints to database will succeed"() {
         given: "an account"
-        def account = new Account(handle: 'coding', password:'TestPass1', email: 'test@gmail.com', realName: 'coding guy')
+        def account = new Account(handle: 'coding', password: 'TestPass1', email: 'test@gmail.com', realName: 'coding guy')
+
         when: "the account is saved"
         account.save()
+
         then: "account is saved successfully and can be found in database"
         account.errors.errorCount == 0
         account.id != null
@@ -34,39 +36,51 @@ class AccountSpec extends Specification {
     @Unroll('#description')
     def "invalid passwords will not be saved to db"() {
         given: "an account with invalid password"
-            def account = new Account(handle: 'coding', password:inputPassword, email: 'test@gmail.com', realName: 'coding guy')
+        def account = new Account(handle: 'coding', password: inputPassword, email: 'test@gmail.com', realName: 'coding guy')
+
         when: "attempting to save"
-            account.save()
+        def accountsBefore = Account.count()
+        account.save()
+        def accountsAfter = Account.count()
+
         then: "an error will be attached to account, it will not save"
-            account.errors.errorCount > 0 == expectedValidationError
+        account.errors.errorCount > 0 == expectedValidationError
+        accountsAfter == accountsAfterExp
+        accountsBefore == accountsBeforeExp
 
         where:
-        description                                             | inputPassword                 | expectedValidationError
-        'Fail on password with 7 valid characters'              | 'M'*3 + 'j'*2 + '23'          | true
-        'Pass on password with 8 valid characters'              | 'M'*3 + 'j'*3 + '23'          | false
-        'Pass on password with 9 valid characters'              | 'M'*3 + 'j'*4 + '23'          | false
-        'Pass on password with 16 valid characters'             | 'M'*7 + 'j'*7 + '23'          | false
-        'Fail on password with 17 valid characters'             | 'M'*7 + 'j'*8 + '23'          | true
-        'Fail with password that contains no numbers'           | 'M'*7 + 'j'*7                 | true
-        'Fail with password that contains no upper-case'        | 'm'*4 + 'j'*4 + '23'          | true
-        'Fail with password that contains no lower-case'        | 'M'*4 + 'J'*4 + '23'          | true
+        description                                      | inputPassword            | expectedValidationError | accountsBeforeExp | accountsAfterExp
+        'Fail on password with 7 valid characters'       | 'M' * 3 + 'j' * 2 + '23' | true                    | 0                 | 0
+        'Pass on password with 8 valid characters'       | 'M' * 3 + 'j' * 3 + '23' | false                   | 0                 | 1
+        'Pass on password with 9 valid characters'       | 'M' * 3 + 'j' * 4 + '23' | false                   | 0                 | 1
+        'Pass on password with 16 valid characters'      | 'M' * 7 + 'j' * 7 + '23' | false                   | 0                 | 1
+        'Fail on password with 17 valid characters'      | 'M' * 7 + 'j' * 8 + '23' | true                    | 0                 | 0
+        'Fail with password that contains no numbers'    | 'M' * 7 + 'j' * 7        | true                    | 0                 | 0
+        'Fail with password that contains no upper-case' | 'm' * 4 + 'j' * 4 + '23' | true                    | 0                 | 0
+        'Fail with password that contains no lower-case' | 'M' * 4 + 'J' * 4 + '23' | true                    | 0                 | 0
     }
 
     @Unroll('#description')
-    def "attempts to save account without required handle, email, and/or password will fail"(){
+    def "attempts to save account without required handle, email, and/or password will fail"() {
         given: "an account with a missing handle field"
-            def account = new Account(handle: handle, password:password, email: email, realName: name)
+        def account = new Account(handle: handle, password: password, email: email, realName: name)
+
         when: "attempting to save"
-            account.save()
+        def accountsBefore = Account.count()
+        account.save()
+        def accountsAfter = Account.count()
+
         then: "an error will be attached to the account, it will not save"
-            account.errors.errorCount > 0 == expectedValidationError
+        account.errors.errorCount > 0 == expectedValidationError
+        accountsBeforeExp == accountsBefore
+        accountsAfterExp == accountsAfter
 
         where:
-        description                 | handle    | password              | email                 | name              | expectedValidationError
-        'Fail on missing handle'    | null      | 'M'*3 + 'j'*3 + '23'  | 'emjay23@gmail.com'   | 'Michael Jordan'  | true
-        'Fail on missing email'     | 'MJ23'   | 'M'*3 + 'j'*3 + '23'   | null                  | 'Michael Jordan'  | true
-        'Fail on missing password'  | 'MJ23'   | null                   | 'emjay23@gmail.com'   | 'Michael Jordan'  | true
-        'Fail on missing name'      | 'MJ23'   | 'M'*3 + 'j'*3 + '23'   | 'emjay23@gmail.com'   | null              | true
-        'Pass on saving account with all valid constraints'    | 'MJ23'   | 'M'*3 + 'j'*3 + '23'   | 'emjay23@gmail.com'   | 'Michael Jordan'  | false
+        description                                | handle | password                 | email               | name             | expectedValidationError | accountsBeforeExp | accountsAfterExp
+        'Fail on missing handle'                   | null   | 'M' * 3 + 'j' * 3 + '23' | 'emjay23@gmail.com' | 'Michael Jordan' | true                    | 0                 | 0
+        'Fail on missing email'                    | 'MJ23' | 'M' * 3 + 'j' * 3 + '23' | null                | 'Michael Jordan' | true                    | 0                 | 0
+        'Fail on missing password'                 | 'MJ23' | null                     | 'emjay23@gmail.com' | 'Michael Jordan' | true                    | 0                 | 0
+        'Fail on missing name'                     | 'MJ23' | 'M' * 3 + 'j' * 3 + '23' | 'emjay23@gmail.com' | null             | true                    | 0                 | 0
+        'Pass saving account w/ valid constraints' | 'MJ23' | 'M' * 3 + 'j' * 3 + '23' | 'emjay23@gmail.com' | 'Michael Jordan' | false                   | 0                 | 1
     }
 }

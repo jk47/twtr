@@ -29,6 +29,7 @@ class MessageIntegrationSpec extends Specification {
         def sortedMessageContent = foundAccount.messages.collect {
             it.content
         }.sort()
+
         then: "The posts appear on the retrieved user"
         sortedMessageContent == ['First', 'Second', 'Third']
     }
