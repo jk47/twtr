@@ -28,7 +28,9 @@ class MessageSpec extends Specification {
         def account = new Account(handle: 'john', email: "jhn@gmail.com", password: 'Testing123', realName: "john guy")
         Message message = new Message(content: testMessage)
         account.addToMessages(message)
+        def accountsBefore = Account.count()
         account.save(failOnError: false)
+        def accountsAfter = Account.count()
 
         when: "Retrieve user account"
         def foundAccount = Account.get(account.id)
@@ -36,13 +38,15 @@ class MessageSpec extends Specification {
 
         then:
         errorSaving == expectedValidationError
+        accountsAfter == accountsAfterExp
+        accountsBefore == accountsBeforeExp
 
         where:
-        description                                         | testMessage | expectedValidationError
-        "Message with 1 chars"                              | 'f'         | false
-        "Message with 39 chars"                             | 'f'*39      | false
-        "Message with 40 chars"                             | 'f'*40      | false
-        "Validation error when message has 41 chars"        | 'f'*41      | true
-        "Validation error when message has blank content"   | ''          | true
+        description                                         | testMessage | expectedValidationError |   accountsAfterExp   | accountsBeforeExp
+        "Message with 1 chars"                              | 'f'         | false                   |    1              |   0
+        "Message with 39 chars"                             | 'f'*39      | false                   |    1              |   0
+        "Message with 40 chars"                             | 'f'*40      | false                   |    1              |   0
+        "Validation error when message has 41 chars"        | 'f'*41      | true                    |    0              |   0
+        "Validation error when message has blank content"   | ''          | true                    |    0              |   0
     }
 }
