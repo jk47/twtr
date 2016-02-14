@@ -32,8 +32,7 @@ class MessageSpec extends Specification {
         def accountsAfter = Account.count()
 
         when: "Retrieve user account"
-        def foundAccount = Account.get(account.id)
-        def errorSaving = foundAccount == null
+        def errorSaving = Account.get(account.id) == null
 
         then:
         errorSaving == expectedValidationError
@@ -42,7 +41,7 @@ class MessageSpec extends Specification {
 
         where:
         description                                       | testMessage | expectedValidationError | accountsAfterExp | accountsBeforeExp
-        "Message with 1 chars"                            | 'f'         | false                   | 1                | 0
+        "Message with 1 char"                             | 'f'         | false                   | 1                | 0
         "Message with 39 chars"                           | 'f' * 39    | false                   | 1                | 0
         "Message with 40 chars"                           | 'f' * 40    | false                   | 1                | 0
         "Validation error when message has 41 chars"      | 'f' * 41    | true                    | 0                | 0
