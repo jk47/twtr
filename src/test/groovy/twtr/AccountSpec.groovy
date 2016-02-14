@@ -76,11 +76,11 @@ class AccountSpec extends Specification {
         accountsAfterExp == accountsAfter
 
         where:
-        description                                | handle | password                 | email               | name             | expectedValidationError | accountsBeforeExp | accountsAfterExp
-        'Fail on missing handle'                   | null   | 'M' * 3 + 'j' * 3 + '23' | 'emjay23@gmail.com' | 'Michael Jordan' | true                    | 0                 | 0
-        'Fail on missing email'                    | 'MJ23' | 'M' * 3 + 'j' * 3 + '23' | null                | 'Michael Jordan' | true                    | 0                 | 0
-        'Fail on missing password'                 | 'MJ23' | null                     | 'emjay23@gmail.com' | 'Michael Jordan' | true                    | 0                 | 0
-        'Fail on missing name'                     | 'MJ23' | 'M' * 3 + 'j' * 3 + '23' | 'emjay23@gmail.com' | null             | true                    | 0                 | 0
-        'Pass saving account w/ valid constraints' | 'MJ23' | 'M' * 3 + 'j' * 3 + '23' | 'emjay23@gmail.com' | 'Michael Jordan' | false                   | 0                 | 1
+        description                                     | handle | password                 | email               | name             | expectedValidationError | accountsBeforeExp | accountsAfterExp
+        'Fail on missing handle'                        | null   | 'M' * 3 + 'j' * 3 + '23' | 'emjay23@gmail.com' | 'Michael Jordan' | true                    | 0                 | 0
+        'Fail on missing email'                         | 'MJ23' | 'M' * 3 + 'j' * 3 + '23' | null                | 'Michael Jordan' | true                    | 0                 | 0
+        'Fail on missing password'                      | 'MJ23' | null                     | 'emjay23@gmail.com' | 'Michael Jordan' | true                    | 0                 | 0
+        'Fail on missing name'                          | 'MJ23' | 'M' * 3 + 'j' * 3 + '23' | 'emjay23@gmail.com' | null             | true                    | 0                 | 0
+        'Pass on saving account w/ valid constraints'   | 'MJ23' | 'M' * 3 + 'j' * 3 + '23' | 'emjay23@gmail.com' | 'Michael Jordan' | false                   | 0                 | 1
     }
 }
