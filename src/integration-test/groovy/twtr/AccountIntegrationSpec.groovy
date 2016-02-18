@@ -9,12 +9,6 @@ import spock.lang.*
 @Unroll
 class AccountIntegrationSpec extends Specification {
 
-    def setup() {
-    }
-
-    def cleanup() {
-    }
-
     def 'saving an account with #description will fail'() {
         given: "2 accounts to save"
         def account = new Account(handle: hndl, password: "Testing123", email: eml, realName: "nameOfGuy")
@@ -39,6 +33,7 @@ class AccountIntegrationSpec extends Specification {
         "two identical handles" | 'def' | 'def' | 'def@gmail.com' | 'ghi@gmail.com' | 1              | 1
     }
 
+    //
     def "an account may have multiple followers"() {
         given: "A set of baseline users"
         def joe = new Account(handle: 'joe', password: 'Testing123', email: 'joe@gmail.com', realName: 'joe guy').save()
@@ -58,12 +53,29 @@ class AccountIntegrationSpec extends Specification {
         jill.addToFollowing(jane)
         jane.addToFollowers(jill)
 
+        joe.save()
+        jane.save()
+        jill.save()
+
+        and: "We retrieve the accounts"
+        joe = Account.get(joe.id)
+        jill = Account.get(jill.id)
+        jane = Account.get(jane.id)
+
         then: "Follower counts should match following people"
         2 == joe.following.size()
-        1 == jill.following.size()
-        2 == jane.followers.size()
-        1 == jill.followers.size()
+        joe.following.find { it.id == jane.id }
+        joe.following.find { it.id == jill.id }
 
+        1 == jill.following.size()
+        jill.following[0].id == jane.id
+
+        2 == jane.followers.size()
+        jane.followers.find { it.id == jill.id }
+        jane.followers.find { it.id == joe.id }
+
+        1 == jill.followers.size()
+        jill.followers[0].id == joe.id
     }
 
     def "two accounts may follow each other"() {
