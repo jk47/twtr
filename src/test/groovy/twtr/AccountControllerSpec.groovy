@@ -26,9 +26,10 @@ class AccountControllerSpec extends Specification {
         request.method = "POST"
         controller.save()
 
-        then: "a 201 is received via JSON response"
+        then: "a 201 is received via JSON response and account is saved to db"
         response.status == 201
         response.json.id != null
+        Account.get(response.json.id).realName == "coding guy"
     }
 
 }
