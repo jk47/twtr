@@ -10,5 +10,8 @@ class UrlMappings {
         "/"(view:"/index")
         "500"(view:'/error')
         "404"(view:'/notFound')
+
+        // Rest Service API
+        "/api/accounts"(resources: 'account')
     }
 }
