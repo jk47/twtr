@@ -10,4 +10,5 @@ class AccountController extends RestfulController<Account>{
         super(Account)
     }
 
+
 }
