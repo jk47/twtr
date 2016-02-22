@@ -1,6 +1,14 @@
 package twtr
 
-class AccountController {
+import grails.rest.RestfulController
 
-    def index() { }
+class AccountController extends RestfulController<Account>{
+    static allowedMethods = [update: "PUT", show: "GET", save: "POST", delete: "DELETE"]
+    static responseFormats = ['json']
+
+    AccountController(){
+        super(Account)
+    }
+
+
 }
