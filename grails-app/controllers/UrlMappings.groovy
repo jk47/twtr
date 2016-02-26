@@ -12,6 +12,8 @@ class UrlMappings {
         "404"(view:'/notFound')
 
         // Rest Service API
-        "/api/accounts"(resources: 'account')
+        "/api/accounts"(resources: 'account'){
+        }
+
     }
 }

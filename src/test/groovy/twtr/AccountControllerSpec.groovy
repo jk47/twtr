@@ -54,4 +54,27 @@ class AccountControllerSpec extends Specification {
         'Fail on missing password' | '{"handle": "coding", "email": "test@gmail.com", "realName": "coding guy"}'
         'Fail on missing name'     | '{"handle": "coding", "password": "TestPass1", "email": "test@gmail.com"}'
     }
+
+    def "account controller returns account based on given ID"(){
+        given: "a few saved accounts"
+        def account1 = new Account(handle: "account1", password: "Testing123", email: "account1@gmail.com", realName: "account1guy").save()
+        def account2 = new Account(handle: "account2", password: "Testing123", email: "account2@gmail.com", realName: "account2guy").save()
+        def account3 = new Account(handle: "account2", password: "Testing123", email: "account3@gmail.com", realName: "account3guy").save()
+
+        when: "requesting an account by id"
+        controller.request.method = "GET"
+        controller.params.id = 1
+        controller.show()
+
+        then: "response should include account for corresponding id"
+        response.status == 200
+        response.json.id == account1.id
+        response.json.handle == account1.handle
+        response.json.email == account1.email
+
+    }
+
+    def "account controller returns account based on a given handle"(){
+
+    }
 }

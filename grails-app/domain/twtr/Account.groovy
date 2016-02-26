@@ -20,5 +20,8 @@ class Account {
             password ==~ /.*([0-9]).*/ && password ==~ /.*([a-z]).*/ && password ==~ /.*([A-Z]).*/
         }
     }
+
+
+
 }
 
