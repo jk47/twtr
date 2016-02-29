@@ -4,6 +4,8 @@ import grails.test.mixin.integration.Integration
 import grails.transaction.*
 import spock.lang.*
 
+
+
 @Integration
 @Rollback
 @Unroll
@@ -18,6 +20,7 @@ class AccountIntegrationSpec extends Specification {
         account.save()
         def accountsBefore = Account.count()
         account2.save()
+        def accountsAfter = Account.count()
 
         then: "the account saved second should have an error, the first account should save"
         account.errors.errorCount == 0
@@ -28,9 +31,9 @@ class AccountIntegrationSpec extends Specification {
         accountsBefore == accountsAfter
 
         where:
-        description             | hndl  | hndl2 | eml             | eml2            | expectedErrors | accountsAfter
-        "two identical emails"  | 'abc' | 'cde' | 'abc@gmail.com' | 'abc@gmail.com' | 1              | 1
-        "two identical handles" | 'def' | 'def' | 'def@gmail.com' | 'ghi@gmail.com' | 1              | 1
+        description             | hndl  | hndl2 | eml             | eml2            | expectedErrors
+        "two identical emails"  | 'abc' | 'cde' | 'abc@gmail.com' | 'abc@gmail.com' | 1
+        "two identical handles" | 'def' | 'def' | 'def@gmail.com' | 'ghi@gmail.com' | 1
     }
 
     //

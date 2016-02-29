@@ -73,7 +73,8 @@ dependencies {
 
     console "org.grails:grails-console"
 
-    testCompile 'org.codehaus.groovy.modules.http-builder:http-builder:0.7'
+    testCompile "org.codehaus.groovy.modules.http-builder:http-builder:0.7"
+    testCompile "org.grails:grails-datastore-rest-client:5.0.0.RC2"
 }
 
 task wrapper(type: Wrapper) {
