@@ -47,12 +47,29 @@ class AccountFunctionalSpec extends GebSpec {
         e.statusCode == 422
         //accountsBefore == Account.count()
 
-
         where:
         description                | json
         'Fail on missing handle'   | '{"password": "TestPass1", "email": "test@gmail.com", "realName": "coding guy"}'
         'Fail on missing email'    | '{"handle": "coding", "password": "TestPass1", "realName": "coding guy"}'
         'Fail on missing password' | '{"handle": "coding", "email": "test@gmail.com", "realName": "coding guy"}'
         'Fail on missing name'     | '{"handle": "coding", "password": "TestPass1", "email": "test@gmail.com"}'
+    }
+
+    def "account endpoint returns account based on given ID"(){
+        when: "requesting an account by id"
+        def response = restClient.get(path: "/api/accounts/1")
+
+        then: "response should include account for corresponding id"
+        response.status == 200
+        response.data.handle == "coding"
+    }
+
+    def "account endpoint returns account based on given handle"(){
+        when: "requesting an account by handle"
+        def response = restClient.get(path: '/api/accounts?handle=coding')
+
+        then: "response should include account for corresponding handle"
+        response.status == 200
+        response.data[0].handle == "coding" //not sure why this comes back as a list
     }
 }

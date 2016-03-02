@@ -14,6 +14,5 @@ class UrlMappings {
         // Rest Service API
         "/api/accounts"(resources: 'account'){
         }
-
     }
 }
