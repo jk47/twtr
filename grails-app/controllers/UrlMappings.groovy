@@ -14,8 +14,6 @@ class UrlMappings {
         // Rest Service API
         "/api/accounts"(resources: 'account'){
             "/messages"(resources: "message")
-            // example: GET	/books/${bookId}/authors/create	create
-            // example: POST	/books/${bookId}/authors	save
         }
     }
 }
