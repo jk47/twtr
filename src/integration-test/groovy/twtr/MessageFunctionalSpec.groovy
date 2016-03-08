@@ -28,7 +28,7 @@ class MessageFunctionalSpec extends GebSpec {
         when: "creating the message via rest endpoint"
         def response = restClient.post(path: "/api/accounts/${accountResponse.data.id.toString()}/messages", requestContentType: "application/json", body: messageJson)
 
-        then: "a 200 should be received and the account should have a message"
+        then: "a 201 should be received and the account should have a message"
         response.status == 201
         response.data.id == 1
     }

@@ -72,4 +72,19 @@ class AccountFunctionalSpec extends GebSpec {
         response.status == 200
         response.data.handle == "coding"
     }
+
+    def "accounts can follow other accounts"(){
+        given: "two accounts"
+        def account1JSON = '{"handle": "follower", "password": "TestPass1", "email": "follower@gmail.com", "realName": "coding guy"}'
+        def resp1 = restClient.post(path: "/api/accounts", requestContentType: "application/json", body: account1JSON)
+        def account2JSON = '{"handle": "following", "password": "TestPass1", "email": "following@gmail.com", "realName": "coding guy"}'
+        def resp2 = restClient.post(path: "/api/accounts", requestContentType: "application/json", body: account2JSON)
+
+        when: "one account follows another account"
+
+
+        then: "stuff"
+
+    }
+
 }

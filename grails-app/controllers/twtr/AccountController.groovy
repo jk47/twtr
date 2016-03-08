@@ -11,8 +11,16 @@ class AccountController extends RestfulController<Account>{
     }
 
     def follow(){
-        def currentAccount = Account.findById(params.id)
+        respond getParams()
+        /*def currentAccount = Account.findById(params.id)
+        def accountGettingFollowed = Account.get(params.accountToFollow)
         currentAccount.addToFollowing(Account.findById(params.accountToFollow))
+        accountGettingFollowed.addToFollowers(currentAccount)*/
+
+    }
+
+    def unfollow() {
+        respond getParams()
     }
 
     def show() {
