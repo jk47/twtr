@@ -66,10 +66,10 @@ class AccountFunctionalSpec extends GebSpec {
 
     def "account endpoint returns account based on given handle"(){
         when: "requesting an account by handle"
-        def response = restClient.get(path: '/api/accounts?handle=coding')
+        def response = restClient.get(path: '/api/accounts/handle=coding')
 
         then: "response should include account for corresponding handle"
         response.status == 200
-        response.data[0].handle == "coding" //not sure why this comes back as a list
+        response.data.handle == "coding"
     }
 }

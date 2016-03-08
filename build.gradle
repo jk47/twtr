@@ -73,6 +73,10 @@ dependencies {
 
     console "org.grails:grails-console"
 
+    // Security
+    //compile 'org.grails.plugins:spring-security-rest:2.0.0.M2'
+    //compile 'org.grails.plugins:spring-security-rest-gorm:2.0.0.M2'
+
     testCompile "org.codehaus.groovy.modules.http-builder:http-builder:0.7"
     testCompile "org.grails:grails-datastore-rest-client:5.0.0.RC2"
 }

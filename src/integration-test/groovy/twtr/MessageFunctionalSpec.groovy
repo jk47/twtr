@@ -7,6 +7,7 @@ import spock.lang.Stepwise
 import spock.lang.Unroll
 
 @Integration
+@Stepwise
 @Unroll
 class MessageFunctionalSpec extends GebSpec {
 
