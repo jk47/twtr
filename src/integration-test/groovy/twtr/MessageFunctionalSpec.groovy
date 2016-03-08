@@ -17,7 +17,7 @@ class MessageFunctionalSpec extends GebSpec {
         restClient = new RESTClient(baseUrl)
     }
 
-    def "create a message"(){
+    def "create a message with an id"(){
         given: "an account that has been saved and a message in json form"
         def accountJSON = '{"handle": "decoding", "password": "TestPass1", "email": "uniqueemail@gmail.com", "realName": "coding guy"}'
         def accountResponse = restClient.post(path: "/api/accounts", requestContentType: "application/json", body: accountJSON)
