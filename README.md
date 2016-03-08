@@ -10,11 +10,11 @@ Repo for Web Dev class
 ## Assignemnt 2 
 ### Account Requirements
 
-A1: Create a REST endpoint that receives JSON data to create an Account
+~~A1: Create a REST endpoint that receives JSON data to create an Account~~
 
-A2: Return an error response from the create Account endpoint if the account values are invalid
+~~A2: Return an error response from the create Account endpoint if the account values are invalid~~
 
-A3: Create a REST endpoint that returns JSON data with Account values for a user based on an account id or handle address. (data-driven test)
+~~A3: Create a REST endpoint that returns JSON data with Account values for a user based on an account id or handle address. (data-driven test)~~
 
 ### Message Requirements
 
