@@ -2,6 +2,7 @@ package twtr
 
 import geb.spock.GebSpec
 import grails.test.mixin.integration.Integration
+import groovyx.net.http.HttpResponseException
 import groovyx.net.http.RESTClient
 import spock.lang.Stepwise
 import spock.lang.Unroll
@@ -31,5 +32,26 @@ class MessageFunctionalSpec extends GebSpec {
         then: "a 201 should be received and the account should have a message"
         response.status == 201
         response.data.id == 1
+    }
+
+    @Unroll('#description')
+    def "Return an error response from the the create message end point"()
+    {
+        given: "a message"
+        def messageJson = '{"content": ' + messageContent +', "account": ' + accountId + '}'
+
+        when: "creating the message via reset endpoint"
+        def createMessageResponse = restClient.post(path: "/api/accounts/1/messages", requestContentType: "application/json", body: messageJson)
+
+        then: "a 422 should be received"
+        HttpResponseException e = thrown()
+        e.statusCode == 422
+
+        where:
+        description                                       | accountId | messageContent
+        "Error when message has 41 chars"      | '1' | 'f'*41
+        "Error when message has blank content" | '1' | ''
+        "Error when invalid account is specified but with valid message" | '88' | 'f'*10
+        "Error when invalid account and invalid message are specified" | '88' | ''
     }
 }
