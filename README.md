@@ -33,6 +33,6 @@ M5: Create a REST endpoint that will search for messages containing a specified 
 
 ~~F2: For the endpoint created for requirement A3, add properties for total counts of follers and following for the account.~~
 
-F3: Add an endpoint to get the followers for an account. This will return the details about the followers (handle, name, email, id). Add the limit and offset logic implemented for messages to this endpoint.
+~~F3: Add an endpoint to get the followers for an account. This will return the details about the followers (handle, name, email, id). Add the limit and offset logic implemented for messages to this endpoint.~~
 
 F4: Create a ‘feed’ endpoint which will return the most recent messages by Accounts being followed by an Account. Include a response limit parameter. Include a parameter to only look for messages after a specified date.

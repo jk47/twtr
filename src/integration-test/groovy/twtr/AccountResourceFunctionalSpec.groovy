@@ -98,11 +98,14 @@ class AccountFunctionalSpec extends GebSpec {
     }
 
     def"followers endpoint will return all the followers for an account"() {
-        given: "an account with two followers"
+        given: "account 2 and 3 follow account1"
+        def response1 = restClient.get(path: "/api/accounts/${account2Resp.data.id}/follow/${account1Resp.data.id}", requestContentType: "application/json")
+        def response2 = restClient.get(path: "/api/accounts/${account3Resp.data.id}/follow/${account1Resp.data.id}", requestContentType: "application/json")
 
-        when: "calling the followers endpoint for that account"
+        when: "getting the followers for account 1"
+        def followerResponse = restClient.get(path: "/api/accounts/${account1Resp.data.id}/followers")
 
         then: "the json representation of those followers will be returned"
+        followerResponse.data[0].id == account2Resp.data.id
     }
-
 }

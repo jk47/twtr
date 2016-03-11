@@ -55,20 +55,28 @@ class AccountController extends RestfulController<Account>{
         }
     }
 
+    def following(){
+
+    }
+
+    def followers(){
+
+        int maximum = params.max == null ? 10 : Integer.parseInt(params.max)
+        int offset = params.offset == null ? 0 : Integer.parseInt(params.offset)
+        long accountId = Long.parseLong(params.id)
+
+        respond Account.findAll("from Account as a where a.id in (:accounts) order by a.id",
+                [accounts: Account.get(accountId).followers*.id], [max: maximum, offset: offset])
+    }
+
     @Override
     @Transactional
     def delete() {
-        if (handleReadOnly()) {
-            return
-        }
-
-        Account account = queryForResource(params.id)
+        Account account = Account.get(params.id)
         if (account == null) {
-            transactionStatus.setRollbackOnly()
-            notFound()
+            render status: 404
             return
         }
-
 
         account.followers.each { it -> it.removeFromFollowing(account) }
         account.following.each { it -> it.removeFromFollowers(account) }

@@ -6,8 +6,9 @@ class UrlMappings {
                 // apply constraints here
             }
         }
-        "/api/accounts/${id}/follow/$accountToFollow"(controller: "account", action: "follow")
-        "/api/accounts/${id}/unfollow/$accountToUnfollow"(controller: "account", action: "unfollow")
+        "/api/accounts/${id}/follow/$accountToFollow"(controller: "account", action: "follow", method: "get")
+        "/api/accounts/${id}/unfollow/$accountToUnfollow"(controller: "account", action: "unfollow", method: "get")
+        "/api/accounts/${id}/followers"(controller: "account", action: "followers", method: "get")
 
         "/"(view:"/index")
         "500"(view:'/error')
@@ -16,10 +17,7 @@ class UrlMappings {
 
         // Rest Service API
         "/api/accounts"(resources: "account"){
-            "/messages"(resources: "message")
+            "/messages"(resources: "message") {}
         }
-
-
-
     }
 }
