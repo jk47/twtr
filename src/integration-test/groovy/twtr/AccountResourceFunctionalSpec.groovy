@@ -85,7 +85,19 @@ class AccountFunctionalSpec extends GebSpec {
 
         then: "account 1 is following account 2 and account 2 is being followed by account 1"
         response.data[0].id == resp2.data.id
+    }
 
+    def "account gets return follower and following data fields in JSON response"(){
+        given: "an account"
+        def account1JSON = '{"handle": "abcfollower", "password": "TestPass1", "email": "abcfollower@gmail.com", "realName": "coddding guy"}'
+        def resp1 = restClient.post(path: "/api/accounts", requestContentType: "application/json", body: account1JSON)
+
+        when: "getting an account by id"
+        def response = restClient.get(path: "/api/accounts/${resp1.data.id}")
+
+        then:
+        response.data.followerCount
+        response.data.followingCount
 
     }
 
