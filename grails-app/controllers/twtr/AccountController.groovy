@@ -3,6 +3,7 @@ package twtr
 import grails.converters.JSON
 import grails.rest.RestfulController
 import groovy.json.JsonSlurper
+import grails.transaction.Transactional
 
 class AccountController extends RestfulController<Account>{
     static responseFormats = ['json']
@@ -52,6 +53,32 @@ class AccountController extends RestfulController<Account>{
         else {
             response.status = 404
         }
+    }
+
+    @Override
+    @Transactional
+    def delete() {
+        if (handleReadOnly()) {
+            return
+        }
+
+        Account account = queryForResource(params.id)
+        if (account == null) {
+            transactionStatus.setRollbackOnly()
+            notFound()
+            return
+        }
+
+
+        account.followers.each { it -> it.removeFromFollowing(account) }
+        account.following.each { it -> it.removeFromFollowers(account) }
+        account.followers.clear()
+        account.following.clear()
+        account.messages.clear()
+        account.save(flush: true)
+        account.delete(flush: true)
+
+        render status: 204
     }
 
 }

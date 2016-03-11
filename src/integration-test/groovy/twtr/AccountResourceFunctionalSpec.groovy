@@ -13,31 +13,39 @@ import spock.lang.Unroll
 @Stepwise
 class AccountFunctionalSpec extends GebSpec {
 
-    RESTClient restClient
+    def restClient
+    def account1Resp
+    def account2Resp
+    def account3Resp
 
     def setup() {
         restClient = new RESTClient(baseUrl)
+        def account1JSON = '{"handle": "account1", "password": "TestPass1", "email": "account1@gmail.com", "realName": "account 1 guy"}'
+        def account2JSON = '{"handle": "account2", "password": "TestPass1", "email": "account2@gmail.com", "realName": "account 2 guy"}'
+        def account3JSON = '{"handle": "account3", "password": "TestPass1", "email": "account3@gmail.com", "realName": "account 3 guy"}'
+        account1Resp = restClient.post(path: "/api/accounts", requestContentType: "application/json", body: account1JSON)
+        account2Resp = restClient.post(path: "/api/accounts", requestContentType: "application/json", body: account2JSON)
+        account3Resp = restClient.post(path: "/api/accounts", requestContentType: "application/json", body: account3JSON)
+    }
+
+    def cleanup() {
+        assert restClient.delete(path: "/api/accounts/${account1Resp.data.id}").status == 204
+        def delete2 = restClient.delete(path: "/api/accounts/${account2Resp.data.id}")
+        def delete3 = restClient.delete(path: "/api/accounts/${account3Resp.data.id}")
+
     }
 
     def "create an account"(){
-        given: "an account in JSON form"
-        def accountJSON = '{"handle": "coding", "password": "TestPass1", "email": "test@gmail.com", "realName": "coding guy"}'
-
-        when: "trying to post the account via rest"
-        def resp = restClient.post(path: "/api/accounts", requestContentType: "application/json", body: accountJSON)
+        when: "using account created in setup"
 
         then:
-        resp.status == 201
-        resp.data.id != null
-        //Account.get(resp.data.id).realName == "coding guy"
+        account1Resp.status == 201
+        account1Resp.data.id != null
     }
 
     @Unroll('#description')
     def "verify an error is returned for invalid JSON account creation request"() {
-        given: "an account with invalid JSON"
-        //def accountsBefore = Account.count()
-
-        when: "saving by submitting a JSON request"
+        when: "saving by submitting an invalid JSON request"
         def resp = restClient.post(path: "/api/accounts", requestContentType: "application/json", body: json)
 
         then: "a 422 is received via JSON response and account is not saved to db"
@@ -45,7 +53,6 @@ class AccountFunctionalSpec extends GebSpec {
         e.cause == null
         e.message == "Unprocessable Entity"//this is the message for a 422
         e.statusCode == 422
-        //accountsBefore == Account.count()
 
         where:
         description                | json
@@ -57,48 +64,45 @@ class AccountFunctionalSpec extends GebSpec {
 
     def "account endpoint returns account based on given ID"(){
         when: "requesting an account by id"
-        def response = restClient.get(path: "/api/accounts/1")
+        def response = restClient.get(path: "/api/accounts/${account1Resp.data.id}")
 
         then: "response should include account for corresponding id"
         response.status == 200
-        response.data.handle == "coding"
+        response.data.handle == account1Resp.data.handle
     }
 
     def "account endpoint returns account based on given handle"(){
         when: "requesting an account by handle"
-        def response = restClient.get(path: '/api/accounts/handle=coding')
+        def response = restClient.get(path: "/api/accounts/handle=${account1Resp.data.handle}")
 
         then: "response should include account for corresponding handle"
         response.status == 200
-        response.data.handle == "coding"
+        response.data.handle == account1Resp.data.handle
     }
 
     def "accounts can follow other accounts"(){
-        given: "two accounts"
-        def account1JSON = '{"handle": "follower", "password": "TestPass1", "email": "follower@gmail.com", "realName": "coding guy"}'
-        def resp1 = restClient.post(path: "/api/accounts", requestContentType: "application/json", body: account1JSON)
-        def account2JSON = '{"handle": "following", "password": "TestPass1", "email": "following@gmail.com", "realName": "coding guy"}'
-        def resp2 = restClient.post(path: "/api/accounts", requestContentType: "application/json", body: account2JSON)
-
         when: "one account follows another account"
-        def response = restClient.get(path: "/api/accounts/${resp1.data.id}/follow/${resp2.data.id}", requestContentType: "application/json")
+        def response = restClient.get(path: "/api/accounts/${account1Resp.data.id}/follow/${account2Resp.data.id}", requestContentType: "application/json")
 
         then: "account 1 is following account 2 and account 2 is being followed by account 1"
-        response.data[0].id == resp2.data.id
+        response.data[0].id == account2Resp.data.id
     }
 
     def "account gets return follower and following data fields in JSON response"(){
-        given: "an account"
-        def account1JSON = '{"handle": "abcfollower", "password": "TestPass1", "email": "abcfollower@gmail.com", "realName": "coddding guy"}'
-        def resp1 = restClient.post(path: "/api/accounts", requestContentType: "application/json", body: account1JSON)
-
         when: "getting an account by id"
-        def response = restClient.get(path: "/api/accounts/${resp1.data.id}")
+        def response = restClient.get(path: "/api/accounts/${account1Resp.data.id}")
 
         then:
         response.data.followerCount
         response.data.followingCount
+    }
 
+    def"followers endpoint will return all the followers for an account"() {
+        given: "an account with two followers"
+
+        when: "calling the followers endpoint for that account"
+
+        then: "the json representation of those followers will be returned"
     }
 
 }
