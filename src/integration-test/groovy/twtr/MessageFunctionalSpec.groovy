@@ -31,7 +31,7 @@ class MessageFunctionalSpec extends GebSpec {
 
         then: "a 201 should be received and the account should have a message"
         response.status == 201
-        response.data.id == 1
+        response.data.content != null
     }
 
     @Unroll('#description')
