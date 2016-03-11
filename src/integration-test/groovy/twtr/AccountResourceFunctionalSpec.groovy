@@ -29,9 +29,9 @@ class AccountFunctionalSpec extends GebSpec {
     }
 
     def cleanup() {
-        assert restClient.delete(path: "/api/accounts/${account1Resp.data.id}").status == 204
-        def delete2 = restClient.delete(path: "/api/accounts/${account2Resp.data.id}")
-        def delete3 = restClient.delete(path: "/api/accounts/${account3Resp.data.id}")
+        restClient.delete(path: "/api/accounts/${account1Resp.data.id}")
+        restClient.delete(path: "/api/accounts/${account2Resp.data.id}")
+        restClient.delete(path: "/api/accounts/${account3Resp.data.id}")
 
     }
 
