@@ -3,11 +3,11 @@ package twtr
 import grails.converters.JSON
 import grails.rest.RestfulController
 
-class MessageController extends RestfulController<Message>{
+class MessageController extends RestfulController<Message> {
     //static allowedMethods = [update: "PUT", show: "GET", save: "POST", delete: "DELETE"]
     static responseFormats = ['json']
 
-    MessageController(){
+    MessageController() {
         super(Message)
     }
 
@@ -19,8 +19,7 @@ class MessageController extends RestfulController<Message>{
         }.find()
     }
 
-    def index()
-    {
+    def index() {
         def accountId = params.accountId
         Account account = Account.get(accountId)
         if (account == null) {
