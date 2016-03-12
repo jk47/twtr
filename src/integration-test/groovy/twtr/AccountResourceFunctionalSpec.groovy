@@ -32,7 +32,6 @@ class AccountFunctionalSpec extends GebSpec {
         restClient.delete(path: "/api/accounts/${account1Resp.data.id}")
         restClient.delete(path: "/api/accounts/${account2Resp.data.id}")
         restClient.delete(path: "/api/accounts/${account3Resp.data.id}")
-
     }
 
     def "create an account"(){

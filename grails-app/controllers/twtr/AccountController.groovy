@@ -24,10 +24,6 @@ class AccountController extends RestfulController<Account>{
         render currentAccount.following as JSON
     }
 
-    def unfollow() {
-        respond getParams()
-    }
-
     def show() {
         def id
         def handle
@@ -54,10 +50,6 @@ class AccountController extends RestfulController<Account>{
         else {
             response.status = 404
         }
-    }
-
-    def following(){
-
     }
 
     def followers(){

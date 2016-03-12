@@ -7,7 +7,6 @@ class UrlMappings {
             }
         }
         "/api/accounts/${id}/follow/$accountToFollow"(controller: "account", action: "follow", method: "get")
-        "/api/accounts/${id}/unfollow/$accountToUnfollow"(controller: "account", action: "unfollow", method: "get")
         "/api/accounts/${id}/followers"(controller: "account", action: "followers", method: "get")
         "/api/accounts/${id}/feed"(controller: "account", action: "feed", method: "get")
 
