@@ -51,7 +51,7 @@ class MessageFunctionalSpec extends GebSpec {
         description                                       | accountId | messageContent
         "Error when message has 41 chars"      | '1' | 'f'*41
         "Error when message has blank content" | '1' | ''
-        "Error when invalid account is specified but with valid message" | '88' | 'f'*10
-        "Error when invalid account and invalid message are specified" | '88' | ''
+        "Error when invalid account is specified but with valid message" | '0' | 'f'*10
+        "Error when invalid account and invalid message are specified" | '0' | ''
     }
 }
