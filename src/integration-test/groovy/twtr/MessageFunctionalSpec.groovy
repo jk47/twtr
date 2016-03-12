@@ -18,7 +18,7 @@ class MessageFunctionalSpec extends GebSpec {
         restClient = new RESTClient(baseUrl)
     }
 
-    def "create a message with an id"(){
+    def "create a message with an id"() {
         given: "an account that has been saved and a message in json form"
         def accountJSON = '{"handle": "decoding", "password": "TestPass1", "email": "uniqueemail@gmail.com", "realName": "coding guy"}'
         def accountResponse = restClient.post(path: "/api/accounts", requestContentType: "application/json", body: accountJSON)
@@ -35,10 +35,9 @@ class MessageFunctionalSpec extends GebSpec {
     }
 
     @Unroll('#description')
-    def "Return an error response from the the create message end point"()
-    {
+    def "Return an error response from the the create message end point"() {
         given: "a message"
-        def messageJson = '{"content": ' + messageContent +', "account": ' + accountId + '}'
+        def messageJson = '{"content": ' + messageContent + ', "account": ' + accountId + '}'
 
         when: "creating the message via reset endpoint"
         def createMessageResponse = restClient.post(path: "/api/accounts/1/messages", requestContentType: "application/json", body: messageJson)
@@ -48,10 +47,10 @@ class MessageFunctionalSpec extends GebSpec {
         e.statusCode == 422
 
         where:
-        description                                       | accountId | messageContent
-        "Error when message has 41 chars"      | '1' | 'f'*41
-        "Error when message has blank content" | '1' | ''
-        "Error when invalid account is specified but with valid message" | '0' | 'f'*10
-        "Error when invalid account and invalid message are specified" | '0' | ''
+        description                                                      | accountId | messageContent
+        "Error when message has 41 chars"                                | '1'       | 'f' * 41
+        "Error when message has blank content"                           | '1'       | ''
+        "Error when invalid account is specified but with valid message" | '0'       | 'f' * 10
+        "Error when invalid account and invalid message are specified"   | '0'       | ''
     }
 }
