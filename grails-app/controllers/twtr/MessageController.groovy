@@ -46,8 +46,9 @@ class MessageController extends RestfulController<Message> {
             return
         }
 
-        int messageLimit = params.limit == null ? 10 : Integer.parseInt(params.limit)
-        int offset = params.offset == null ? 0 : Integer.parseInt(params.offset)
+        long messageLimit = params.limit == null ? 10 : Long.parseLong(params.limit)
+
+        long offset = params.offset == null ? 0 : Long.parseLong(params.offset)
 
         respond Message.listOrderByDateCreated(max: messageLimit, order: "desc", offset: offset * messageLimit)
     }
