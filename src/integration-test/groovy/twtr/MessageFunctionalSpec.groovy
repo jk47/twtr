@@ -80,9 +80,22 @@ class MessageFunctionalSpec extends GebSpec {
         when: "get the most recent messages via rest endpoint"
         def recentMessagesResponse = restClient.get(path: "/api/accounts/1/messages/recent", requestContentType: "application/json")
 
-        then: "200 should be received"
+        then: "200 should be received and the returned messages should contain message ids ordered in an descending order"
         recentMessagesResponse.status == 200
         recentMessagesResponse.data.size == 10
+
+        // most recent message id starts at 20
+        def messageId = 20;
+        recentMessagesResponse.data[0].id == messageId--
+        recentMessagesResponse.data[1].id == messageId--
+        recentMessagesResponse.data[2].id == messageId--
+        recentMessagesResponse.data[3].id == messageId--
+        recentMessagesResponse.data[4].id == messageId--
+        recentMessagesResponse.data[5].id == messageId--
+        recentMessagesResponse.data[6].id == messageId--
+        recentMessagesResponse.data[7].id == messageId--
+        recentMessagesResponse.data[8].id == messageId--
+        recentMessagesResponse.data[9].id == messageId--
     }
 
     @Unroll('#description')
