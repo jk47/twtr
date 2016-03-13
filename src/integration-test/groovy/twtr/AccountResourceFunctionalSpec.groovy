@@ -165,11 +165,11 @@ class AccountFunctionalSpec extends GebSpec {
         def createMessageResponse3 = restClient.post(path: "/api/accounts/${account3Resp.data.id}/messages", requestContentType: "application/json", body: message3Json)
         def createMessageResponse4 = restClient.post(path: "/api/accounts/${account3Resp.data.id}/messages", requestContentType: "application/json", body: message4Json)
 
-        when: "calling the feed endpoint on account 1 with a date param in the future"
-        def feedResponse = restClient.get(path: "/api/accounts/${account1Resp.data.id}/feed", query: [max: 2])
+        when: "calling the feed endpoint on account 1 with a limit parameter of 3"
+        def feedResponse = restClient.get(path: "/api/accounts/${account1Resp.data.id}/feed", query: [max: 3])
 
-        then: "the response will include no messages because they wont satisfy the date param"
-        feedResponse.data.size() == 2
+        then: "the response should include the most recent messages by followed accounts and the number of returned messages should be capped at 3(specified as part of the query)"
+        feedResponse.data.size() == 3
     }
 
 
