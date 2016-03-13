@@ -57,8 +57,10 @@ class AccountController extends RestfulController<Account>{
         int maximum = params.max == null ? 10 : Integer.parseInt(params.max)
         int offset = params.offset == null ? 0 : Integer.parseInt(params.offset)
 
-        respond Account.findAll("from Account as a where a.id in (:accounts) order by a.id",
-                [accounts: Account.get(accountId).followers*.id], [max: maximum, offset: offset])
+        def filteredFollowers =Account.findAll("from Account as a where a.id in (:accounts) order by a.id",
+                [accounts: Account.get(accountId).followers*.id], [max: maximum, offset: offset * maximum])
+
+        respond filteredFollowers
     }
 
     @Override

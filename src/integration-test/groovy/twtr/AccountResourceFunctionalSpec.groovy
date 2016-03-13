@@ -19,21 +19,29 @@ class AccountFunctionalSpec extends GebSpec {
     def account1Resp
     def account2Resp
     def account3Resp
+    def account4Resp
+    def account5Resp
 
     def setup() {
         restClient = new RESTClient(baseUrl)
         def account1JSON = '{"handle": "account1", "password": "TestPass1", "email": "account1@gmail.com", "realName": "account 1 guy"}'
         def account2JSON = '{"handle": "account2", "password": "TestPass1", "email": "account2@gmail.com", "realName": "account 2 guy"}'
         def account3JSON = '{"handle": "account3", "password": "TestPass1", "email": "account3@gmail.com", "realName": "account 3 guy"}'
+        def account4JSON = '{"handle": "account4", "password": "TestPass1", "email": "account4@gmail.com", "realName": "account 4 guy"}'
+        def account5JSON = '{"handle": "account5", "password": "TestPass1", "email": "account5@gmail.com", "realName": "account 5 guy"}'
         account1Resp = restClient.post(path: "/api/accounts", requestContentType: "application/json", body: account1JSON)
         account2Resp = restClient.post(path: "/api/accounts", requestContentType: "application/json", body: account2JSON)
         account3Resp = restClient.post(path: "/api/accounts", requestContentType: "application/json", body: account3JSON)
+        account4Resp = restClient.post(path: "/api/accounts", requestContentType: "application/json", body: account4JSON)
+        account5Resp = restClient.post(path: "/api/accounts", requestContentType: "application/json", body: account5JSON)
     }
 
     def cleanup() {
         restClient.delete(path: "/api/accounts/${account1Resp.data.id}")
         restClient.delete(path: "/api/accounts/${account2Resp.data.id}")
         restClient.delete(path: "/api/accounts/${account3Resp.data.id}")
+        restClient.delete(path: "/api/accounts/${account4Resp.data.id}")
+        restClient.delete(path: "/api/accounts/${account5Resp.data.id}")
     }
 
     def "create an account"(){
@@ -99,16 +107,37 @@ class AccountFunctionalSpec extends GebSpec {
     }
 
     def"followers endpoint will return all the followers for an account"() {
-        given: "account 2 and 3 follow account 1"
+        given: "account 2,3,4 and 5 follow account 1"
         def response1 = restClient.get(path: "/api/accounts/${account2Resp.data.id}/follow/${account1Resp.data.id}", requestContentType: "application/json")
         def response2 = restClient.get(path: "/api/accounts/${account3Resp.data.id}/follow/${account1Resp.data.id}", requestContentType: "application/json")
+        def response3 = restClient.get(path: "/api/accounts/${account4Resp.data.id}/follow/${account1Resp.data.id}", requestContentType: "application/json")
+        def response4 = restClient.get(path: "/api/accounts/${account5Resp.data.id}/follow/${account1Resp.data.id}", requestContentType: "application/json")
 
         when: "getting the followers for account 1"
         def followerResponse = restClient.get(path: "/api/accounts/${account1Resp.data.id}/followers")
 
-        then: "the json representation of account 2 and 3 followers will be returned"
+        then: "the json representation of account 2,3,4 and 5 followers will be returned"
+        followerResponse.data.size() == 4
         followerResponse.data[0].id == account2Resp.data.id
         followerResponse.data[1].id == account3Resp.data.id
+        followerResponse.data[2].id == account4Resp.data.id
+        followerResponse.data[3].id == account5Resp.data.id
+    }
+
+    def"followers endpoint will return all the followers for an account using specified limit and offset"() {
+        given: "account 2,3,4 and 5 follow account 1"
+        def response1 = restClient.get(path: "/api/accounts/${account2Resp.data.id}/follow/${account1Resp.data.id}", requestContentType: "application/json")
+        def response2 = restClient.get(path: "/api/accounts/${account3Resp.data.id}/follow/${account1Resp.data.id}", requestContentType: "application/json")
+        def response3 = restClient.get(path: "/api/accounts/${account4Resp.data.id}/follow/${account1Resp.data.id}", requestContentType: "application/json")
+        def response4 = restClient.get(path: "/api/accounts/${account5Resp.data.id}/follow/${account1Resp.data.id}", requestContentType: "application/json")
+
+        when: "getting the followers for account 1"
+        def followerResponse = restClient.get(path: "/api/accounts/${account1Resp.data.id}/followers", query: [max: 2, offset: 1])
+
+        then: "the json representation of account 4 and 5 followers will be returned due max = 2 and offset = 1"
+        followerResponse.data.size() == 2
+        followerResponse.data[0].id == account4Resp.data.id
+        followerResponse.data[1].id == account5Resp.data.id
     }
 
     def "feed endpoint will return messages from the users that the account follows"(){
