@@ -74,20 +74,32 @@ class MessageFunctionalSpec extends GebSpec {
     }
 
     @Unroll('#description')
-    def "Create a REST endpoint that will return the most recent messages for an Account. The endpoint must honor a limit parameter that caps the number of responses. The default limit is 10"() {
+    def "Create a REST endpoint that will return the most recent messages for an Account using the default limit"() {
         given: "a message"
 
         when: "get the most recent messages via rest endpoint"
-        def recentMessagesResponse = restClient.get(path: queryPath, requestContentType: "application/json")
+        def recentMessagesResponse = restClient.get(path: "/api/accounts/1/messages/recent", requestContentType: "application/json")
+
+        then: "200 should be received"
+        recentMessagesResponse.status == 200
+        recentMessagesResponse.data.size == 10
+    }
+
+    @Unroll('#description')
+    def "Create a REST endpoint that will return the most recent messages for an Account with specified limits"() {
+        given: "a message"
+
+        when: "get the most recent messages via rest endpoint"
+        def recentMessagesResponse = restClient.get(path: "/api/accounts/1/messages/recent", query: [limit: messageLimit], requestContentType: "application/json")
 
         then: "200 should be received"
         recentMessagesResponse.status == 200
         recentMessagesResponse.data.size == expectedCount
 
         where:
-        description                                | queryPath                                 | expectedCount
-        "Recent messages with default limit of 10" | '/api/accounts/1/messages/recent'         | 10
-        "Recent messages with limit of 5"          | '/api/accounts/1/messages/recent?limit=5' | 5
-
+        description                        | queryPath                         | messageLimit | expectedCount
+        "Recent messages with limit of 10" | '/api/accounts/1/messages/recent' | 10           | 10
+        "Recent messages with limit of 5"  | '/api/accounts/1/messages/recent' | 5            | 5
+        "Recent messages with limit of 1"  | '/api/accounts/1/messages/recent' | 1            | 1
     }
 }
