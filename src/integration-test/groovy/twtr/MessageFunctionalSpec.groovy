@@ -190,31 +190,26 @@ class MessageFunctionalSpec extends GebSpec {
         when: "search messages via rest endpoint using the search term jordan"
         def searchMessagesResponse = restClient.get(path: "/api/messages/search", query: [term: 'jordan'], requestContentType: "application/json")
 
-        then: "200 should be received and message 1,2 and 5, which contains matching term should be returned with handle of an account"
+        then: "200 should be received and message 1,2 and 5, which contains matching terms should be returned with handle of an account"
         searchMessagesResponse.status == 200
         searchMessagesResponse.data.size == 3
 
-        //def foundMessage = searchMessagesResponse.data.get(message.id == messageCreated1Response.id)
+        // validate that message1(posted to account1), which contains the searched term is part of the returned response
+        def responseObject1 = searchMessagesResponse.data.find{it.message.id == messageCreated1Response.data.id}
+        responseObject1.handle == accountResponse1.data.handle
+        responseObject1.message.content == messageCreated1Response.data.content
+        responseObject1.message.dateCreated == messageCreated1Response.data.dateCreated
 
+        // validate that message2(posted to account1), which contains the searched term is part of the returned response
+        def responseObject2 = searchMessagesResponse.data.find{it.message.id == messageCreated2Response.data.id}
+        responseObject2.handle == accountResponse1.data.handle
+        responseObject2.message.content == messageCreated2Response.data.content
+        responseObject2.message.dateCreated == messageCreated2Response.data.dateCreated
 
-        /*
-        // matching messages are returned ordered based on most recently created
-        // validate that message5(posted to account2) matches the first returned value
-        messageCreated5Response.data.account.id == accountResponse2.data.id
-        searchMessagesResponse.data[0].handle == accountResponse2.data.handle
-        searchMessagesResponse.data[0].message.content == messageCreated5Response.data.content
-        searchMessagesResponse.data[0].message.dataCreated == messageCreated5Response.data.dataCreated
-
-        // validate that message2(posted to account1) matches the second returned value
-        messageCreated2Response.data.account.id == accountResponse1.data.id
-        searchMessagesResponse.data[1].handle == accountResponse1.data.handle
-        searchMessagesResponse.data[1].message.content == messageCreated2Response.data.content
-        searchMessagesResponse.data[1].message.dataCreated == messageCreated2Response.data.dataCreated
-
-        // validate that message1(posted to account1) matches the third returned value
-        messageCreated1Response.data.account.id == accountResponse1.data.id
-        searchMessagesResponse.data[2].handle == accountResponse1.data.handle
-        searchMessagesResponse.data[2].message.content == messageCreated1Response.data.content
-        searchMessagesResponse.data[2].message.dataCreated == messageCreated1Response.data.dataCreated*/
+        // validate that message5(posted to account2), which contains the searched term is part of the returned response
+        def responseObject3 = searchMessagesResponse.data.find{it.message.id == messageCreated5Response.data.id}
+        responseObject3.handle == accountResponse2.data.handle
+        responseObject3.message.content == messageCreated5Response.data.content
+        responseObject3.message.dateCreated == messageCreated5Response.data.dateCreated
     }
 }
