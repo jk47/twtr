@@ -53,10 +53,9 @@ class AccountController extends RestfulController<Account>{
     }
 
     def followers(){
-
+        long accountId = Long.parseLong(params.id)
         int maximum = params.max == null ? 10 : Integer.parseInt(params.max)
         int offset = params.offset == null ? 0 : Integer.parseInt(params.offset)
-        long accountId = Long.parseLong(params.id)
 
         respond Account.findAll("from Account as a where a.id in (:accounts) order by a.id",
                 [accounts: Account.get(accountId).followers*.id], [max: maximum, offset: offset])
@@ -93,7 +92,7 @@ class AccountController extends RestfulController<Account>{
         respond Message.createCriteria().list(max: maximum, offset: offset) {
             'in'('account', Account.get(accountId).following)
             if (fromDate != null) {
-                gte('dateCreated', new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX").parse(fromDate))
+                gte('dateCreated', new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy").parse(fromDate))
             }
             order('dateCreated', 'desc')
         }

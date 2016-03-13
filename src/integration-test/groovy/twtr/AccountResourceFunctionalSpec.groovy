@@ -8,6 +8,8 @@ import spock.lang.Stepwise
 import groovyx.net.http.RESTClient
 import spock.lang.Unroll
 
+import java.text.SimpleDateFormat
+
 
 @Integration
 @Stepwise
@@ -97,15 +99,16 @@ class AccountFunctionalSpec extends GebSpec {
     }
 
     def"followers endpoint will return all the followers for an account"() {
-        given: "account 2 and 3 follow account1"
+        given: "account 2 and 3 follow account 1"
         def response1 = restClient.get(path: "/api/accounts/${account2Resp.data.id}/follow/${account1Resp.data.id}", requestContentType: "application/json")
         def response2 = restClient.get(path: "/api/accounts/${account3Resp.data.id}/follow/${account1Resp.data.id}", requestContentType: "application/json")
 
         when: "getting the followers for account 1"
         def followerResponse = restClient.get(path: "/api/accounts/${account1Resp.data.id}/followers")
 
-        then: "the json representation of those followers will be returned"
+        then: "the json representation of account 2 and 3 followers will be returned"
         followerResponse.data[0].id == account2Resp.data.id
+        followerResponse.data[1].id == account3Resp.data.id
     }
 
     def "feed endpoint will return messages from the users that the account follows"(){
@@ -127,4 +130,26 @@ class AccountFunctionalSpec extends GebSpec {
         then: "the response will include all messages from the 2 users"
         feedResponse.data.size() == 4
     }
+
+    def "the feed endpoint honors the date parameter"(){
+        given: "account 1 follows account 2 and account 3, both of whom have 2 messages"
+        def response1 = restClient.get(path: "/api/accounts/${account1Resp.data.id}/follow/${account2Resp.data.id}", requestContentType: "application/json")
+        def response2 = restClient.get(path: "/api/accounts/${account1Resp.data.id}/follow/${account3Resp.data.id}", requestContentType: "application/json")
+        def message1Json = '{"content": "testMessage1", "account": ' + account2Resp.data.id + '}'
+        def message2Json = '{"content": "testMessage2", "account": ' + account2Resp.data.id + '}'
+        def message3Json = '{"content": "testMessage3", "account": ' + account3Resp.data.id + '}'
+        def message4Json = '{"content": "testMessage4", "account": ' + account3Resp.data.id + '}'
+        def createMessageResponse1 = restClient.post(path: "/api/accounts/${account2Resp.data.id}/messages", requestContentType: "application/json", body: message1Json)
+        def createMessageResponse2 = restClient.post(path: "/api/accounts/${account2Resp.data.id}/messages", requestContentType: "application/json", body: message2Json)
+        def createMessageResponse3 = restClient.post(path: "/api/accounts/${account3Resp.data.id}/messages", requestContentType: "application/json", body: message3Json)
+        def createMessageResponse4 = restClient.post(path: "/api/accounts/${account3Resp.data.id}/messages", requestContentType: "application/json", body: message4Json)
+
+        when: "calling the feed endpoint on account 1 with a date param in the future"
+        def dateNow = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy").parse("Tue Aug 02 21:53:43 EST 2016")//current date and time
+        def feedResponse = restClient.get(path: "/api/accounts/${account1Resp.data.id}/feed", query: [fromDate: dateNow])
+
+        then: "the response will include no messages because they wont satisfy the date param"
+        feedResponse.data.size() == 0
+    }
+
 }
