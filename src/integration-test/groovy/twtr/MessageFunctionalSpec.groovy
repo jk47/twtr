@@ -74,7 +74,7 @@ class MessageFunctionalSpec extends GebSpec {
     }
 
     @Unroll('#description')
-    def "Create a REST endpoint that will return the most recent messages for an Account using the default limit"() {
+    def "Return the most recent messages for an Account using the default limit"() {
         given: "a message"
 
         when: "get the most recent messages via rest endpoint"
@@ -99,7 +99,7 @@ class MessageFunctionalSpec extends GebSpec {
     }
 
     @Unroll('#description')
-    def "Create a REST endpoint that will return the most recent messages for an Account with specified limits"() {
+    def "Return the most recent messages for an Account with specified limits"() {
         given: "a message"
 
         when: "get the most recent messages via rest endpoint"
@@ -117,7 +117,7 @@ class MessageFunctionalSpec extends GebSpec {
     }
 
     @Unroll('#description')
-    def "Support an offset parameter into the recent Messages endpoint to provide paged responses."() {
+    def "Return the most recent messages for an Account with specified limit=5 and offset =2"() {
         given: "a message"
 
         when: "get the most recent messages via rest endpoint and specifying both limit and offset queries"
@@ -131,5 +131,24 @@ class MessageFunctionalSpec extends GebSpec {
         recentMessagesResponse.data[2].id == 8
         recentMessagesResponse.data[3].id == 7
         recentMessagesResponse.data[4].id == 6
+    }
+
+    @Unroll('#description')
+    def "Return messages that contains specified search terms."() {
+        given: "a message"
+        def messageJson1 = '{"content": "Jordan with soul, performance and style", "account": "1"}'
+        def messageJson2 = '{"content": "See jordan himself in action", "account": "1"}'
+        def messageJson3 = '{"content": "Rocking the Jordan UltraFly", "account": "1"}'
+        restClient.post(path: "/api/accounts/1/messages", requestContentType: "application/json", body: messageJson1)
+        restClient.post(path: "/api/accounts/1/messages", requestContentType: "application/json", body: messageJson2)
+        restClient.post(path: "/api/accounts/1/messages", requestContentType: "application/json", body: messageJson3)
+
+
+        when: "get the most recent messages via rest endpoint and specifying both limit and offset queries"
+        def searchMessagesResponse = restClient.get(path: "/api/accounts/1/messages/search", query: [term: 'jordan'], requestContentType: "application/json")
+
+        then: "200 should be received and the order of the returned message ids should correspond to the specified limit and offset values in the query"
+        searchMessagesResponse.status == 200
+        searchMessagesResponse.data.size == 3
     }
 }

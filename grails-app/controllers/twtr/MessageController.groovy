@@ -66,7 +66,10 @@ class MessageController extends RestfulController<Message> {
         def searchTerm = params.term == null ? '' : params.term.toString()
         searchTerm = '%' + searchTerm + '%'
 
-        respond Message.where{content ==~ searchTerm.toString()}.list()
+        def c = Message.createCriteria()
+
+        respond c.list{
+            ilike("content", searchTerm)}
     }
 
     def accountExists(def id) {
