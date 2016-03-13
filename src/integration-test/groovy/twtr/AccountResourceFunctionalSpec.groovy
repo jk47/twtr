@@ -131,10 +131,10 @@ class AccountFunctionalSpec extends GebSpec {
         def response3 = restClient.get(path: "/api/accounts/${account4Resp.data.id}/follow/${account1Resp.data.id}", requestContentType: "application/json")
         def response4 = restClient.get(path: "/api/accounts/${account5Resp.data.id}/follow/${account1Resp.data.id}", requestContentType: "application/json")
 
-        when: "getting the followers for account 1"
+        when: "getting the followers for account 1 with specified max and offset as part of the query"
         def followerResponse = restClient.get(path: "/api/accounts/${account1Resp.data.id}/followers", query: [max: 2, offset: 1])
 
-        then: "the json representation of account 4 and 5 followers will be returned due max = 2 and offset = 1"
+        then: "the json representation of account 4 and 5 followers will be returned due to max = 2 and offset = 1"
         followerResponse.data.size() == 2
         followerResponse.data[0].id == account4Resp.data.id
         followerResponse.data[1].id == account5Resp.data.id
