@@ -134,7 +134,7 @@ class AccountFunctionalSpec extends GebSpec {
         when: "getting the followers for account 1 with specified max and offset as part of the query"
         def followerResponse = restClient.get(path: "/api/accounts/${account1Resp.data.id}/followers", query: [max: 2, offset: 1])
 
-        then: "the json representation of account 4 and 5 followers will be returned due to max = 2 and offset = 1"
+        then: "the json representation of account 4 and 5 followers will be returned due to query parameter max = 2 and offset = 1"
         followerResponse.data.size() == 2
         followerResponse.data[0].id == account4Resp.data.id
         followerResponse.data[1].id == account5Resp.data.id
@@ -156,8 +156,12 @@ class AccountFunctionalSpec extends GebSpec {
         when: "calling the feed endpoint on account 1"
         def feedResponse = restClient.get(path: "/api/accounts/${account1Resp.data.id}/feed")
 
-        then: "the response will include all messages from the 2 users"
+        then: "the response will include all messages from the 2 users ordered chronologically starting with the most recent messages"
         feedResponse.data.size() == 4
+        feedResponse.data[0].id == createMessageResponse4.data.id
+        feedResponse.data[1].id == createMessageResponse3.data.id
+        feedResponse.data[2].id == createMessageResponse2.data.id
+        feedResponse.data[3].id == createMessageResponse1.data.id
     }
 
     def "the feed endpoint honors the date parameter"(){
@@ -189,16 +193,21 @@ class AccountFunctionalSpec extends GebSpec {
         def message2Json = '{"content": "testMessage2", "account": ' + account2Resp.data.id + '}'
         def message3Json = '{"content": "testMessage3", "account": ' + account3Resp.data.id + '}'
         def message4Json = '{"content": "testMessage4", "account": ' + account3Resp.data.id + '}'
+        def message5Json = '{"content": "testMessage5", "account": ' + account4Resp.data.id + '}'
         def createMessageResponse1 = restClient.post(path: "/api/accounts/${account2Resp.data.id}/messages", requestContentType: "application/json", body: message1Json)
         def createMessageResponse2 = restClient.post(path: "/api/accounts/${account2Resp.data.id}/messages", requestContentType: "application/json", body: message2Json)
         def createMessageResponse3 = restClient.post(path: "/api/accounts/${account3Resp.data.id}/messages", requestContentType: "application/json", body: message3Json)
         def createMessageResponse4 = restClient.post(path: "/api/accounts/${account3Resp.data.id}/messages", requestContentType: "application/json", body: message4Json)
+        def createMessageResponse5 = restClient.post(path: "/api/accounts/${account4Resp.data.id}/messages", requestContentType: "application/json", body: message4Json)
 
         when: "calling the feed endpoint on account 1 with a limit parameter of 3"
         def feedResponse = restClient.get(path: "/api/accounts/${account1Resp.data.id}/feed", query: [max: 3])
 
         then: "the response should include the most recent messages by followed accounts and the number of returned messages should be capped at 3(specified as part of the query)"
         feedResponse.data.size() == 3
+        feedResponse.data[0].id == createMessageResponse5.data.id
+        feedResponse.data[1].id == createMessageResponse4.data.id
+        feedResponse.data[2].id == createMessageResponse3.data.id
     }
 
 
