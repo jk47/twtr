@@ -10,6 +10,7 @@ class UrlMappings {
         "/api/accounts/${id}/followers"(controller: "account", action: "followers", method: "get")
         "/api/accounts/${id}/feed"(controller: "account", action: "feed", method: "get")
         "/api/accounts/${id}/messages/recent"(controller: "message", action: "recent", method: "get")
+        "/api/accounts/${id}/messages/search"(controller: "message", action: "search", method: "get")
 
         "/"(view:"/index")
         "500"(view:'/error')
