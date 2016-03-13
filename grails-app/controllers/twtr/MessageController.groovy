@@ -49,7 +49,7 @@ class MessageController extends RestfulController<Message> {
         int messageLimit = params.limit == null ? 10 : Integer.parseInt(params.limit)
         int offset = params.offset == null ? 0 : Integer.parseInt(params.offset)
 
-        respond Message.listOrderByDateCreated(max: messageLimit, order: "desc", offset: offset)
+        respond Message.listOrderByDateCreated(max: messageLimit, order: "desc", offset: offset * messageLimit)
     }
 
     def accountExists(def id) {
