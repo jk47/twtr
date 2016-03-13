@@ -2,6 +2,7 @@ package twtr
 
 import grails.converters.JSON
 import grails.rest.RestfulController
+import org.hibernate.criterion.CriteriaSpecification
 
 import java.text.SimpleDateFormat
 
@@ -56,20 +57,16 @@ class MessageController extends RestfulController<Message> {
 
     def search() {
         def accountId = params.id
-        if(!accountExists(accountId))
-        {
-            render status: 404
-
-            return
-        }
 
         def searchTerm = params.term == null ? '' : params.term.toString()
         searchTerm = '%' + searchTerm + '%'
 
-        def c = Message.createCriteria()
+        def filteredMessages = Message.where{content =~ searchTerm.toString()}.list().collect
+                {
+                    m -> return [message: m, handle: Account.get(m.account.id).handle]
+                }
 
-        respond c.list{
-            ilike("content", searchTerm)}
+        respond filteredMessages
     }
 
     def accountExists(def id) {

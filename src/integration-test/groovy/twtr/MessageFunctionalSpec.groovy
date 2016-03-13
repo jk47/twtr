@@ -134,7 +134,7 @@ class MessageFunctionalSpec extends GebSpec {
     }
 
     @Unroll('#description')
-    def "Return messages that contains specified search terms."() {
+    def "Return messages with the associated handle that contains specified search terms."() {
         given: "a message"
         def messageJson1 = '{"content": "Jordan with soul, performance and style", "account": "1"}'
         def messageJson2 = '{"content": "See jordan himself in action", "account": "1"}'
@@ -143,11 +143,10 @@ class MessageFunctionalSpec extends GebSpec {
         restClient.post(path: "/api/accounts/1/messages", requestContentType: "application/json", body: messageJson2)
         restClient.post(path: "/api/accounts/1/messages", requestContentType: "application/json", body: messageJson3)
 
+        when: "search messages via rest endpoint using the search term jordan"
+        def searchMessagesResponse = restClient.get(path: "/api/messages/search", query: [term: 'jordan'], requestContentType: "application/json")
 
-        when: "get the most recent messages via rest endpoint and specifying both limit and offset queries"
-        def searchMessagesResponse = restClient.get(path: "/api/accounts/1/messages/search", query: [term: 'jordan'], requestContentType: "application/json")
-
-        then: "200 should be received and the order of the returned message ids should correspond to the specified limit and offset values in the query"
+        then: "200 should be received"
         searchMessagesResponse.status == 200
         searchMessagesResponse.data.size == 3
     }
