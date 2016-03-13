@@ -80,7 +80,7 @@ class MessageFunctionalSpec extends GebSpec {
         when: "get the most recent messages via rest endpoint"
         def recentMessagesResponse = restClient.get(path: "/api/accounts/1/messages/recent", requestContentType: "application/json")
 
-        then: "200 should be received and the returned messages should contain message ids ordered in an descending order"
+        then: "200 should be received and the returned messages should contain message ids ordered in an descending order, which represents chronological order of when the messages were created"
         recentMessagesResponse.status == 200
         recentMessagesResponse.data.size == 10
 
@@ -121,9 +121,9 @@ class MessageFunctionalSpec extends GebSpec {
         given: "a message"
 
         when: "get the most recent messages via rest endpoint and specifying both limit and offset queries"
-        def recentMessagesResponse = restClient.get(path: "/api/accounts/1/messages/recent", query: [limit: 5, offset:2], requestContentType: "application/json")
+        def recentMessagesResponse = restClient.get(path: "/api/accounts/1/messages/recent", query: [limit: 5, offset: 2], requestContentType: "application/json")
 
-        then: "200 should be received the order of the returned message ids should correspond to the specified limit and offset values in the query"
+        then: "200 should be received and the order of the returned message ids should correspond to the specified limit and offset values in the query"
         recentMessagesResponse.status == 200
         recentMessagesResponse.data.size == 5
         recentMessagesResponse.data[0].id == 10
