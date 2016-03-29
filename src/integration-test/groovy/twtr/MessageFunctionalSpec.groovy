@@ -5,12 +5,14 @@ import grails.converters.JSON
 import grails.test.mixin.integration.Integration
 import groovyx.net.http.HttpResponseException
 import groovyx.net.http.RESTClient
+import spock.lang.Ignore
 import spock.lang.Stepwise
 import spock.lang.Unroll
 
 @Integration
 @Stepwise
 @Unroll
+@Ignore
 class MessageFunctionalSpec extends GebSpec {
 
     RESTClient restClient
