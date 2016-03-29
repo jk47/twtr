@@ -19,14 +19,18 @@ class MessageFunctionalSpec extends GebSpec {
 
     def setup() {
         restClient = new RESTClient(baseUrl)
-        (1..2).each { i ->
-              def json = ([handle: "account${i}", password: "TestPass${i}", email: "account${i}@gmail.com", realName: "account${i} guy"] as JSON).toString()
-              accounts << restClient.post(path: "/api/accounts", requestContentType: "application/json", body: json)
-              assert accounts[i-1].status == 201
-          }
+
     }
 
-    def cleanup() {
+    def createAccounts() {
+        (1..2).each { i ->
+            def json = ([handle: "account${i}", password: "TestPass${i}", email: "account${i}@gmail.com", realName: "account${i} guy"] as JSON).toString()
+            accounts << restClient.post(path: "/api/accounts", requestContentType: "application/json", body: json)
+            assert accounts[i-1].status == 201
+        }
+    }
+
+    def deleteAccounts() {
       (1..2).each { i ->
         restClient.delete(path: "/api/accounts/${accounts[i-1].data.id}")
       }
@@ -34,6 +38,7 @@ class MessageFunctionalSpec extends GebSpec {
 
     def "Create a message with an id"() {
         given: "an account that has been saved and a message in json form"
+        createAccounts()
         def messageJson = '{"content": "twitter message content", "account": ' + accounts[0].data.id.toString() + '}'
 
         when: "creating the message via rest endpoint"
@@ -42,6 +47,7 @@ class MessageFunctionalSpec extends GebSpec {
         then: "a 201 should be received and the account should have a message"
         response.status == 201
         response.data.content != null
+        deleteAccounts()
     }
 
     def "Return error response when #description"() {
@@ -65,6 +71,7 @@ class MessageFunctionalSpec extends GebSpec {
 
     def "Messages for a user are retrieved"() {
         given: "a message"
+        createAccounts()
         def messageJson = '{"content": "1", "account": ' + accounts[0].data.id.toString() + '}'
 
         when: "create 20 messages"
@@ -79,10 +86,12 @@ class MessageFunctionalSpec extends GebSpec {
         then: "200 should be received"
         getMessagesResponse.status == 200
         getMessagesResponse.data.size == 20 // total should be 20
+        deleteAccounts()
     }
 
     def "Return the most recent messages for an Account using the default limit"() {
         given: "20 messages that got posted to account1"
+        createAccounts()
         def messageJson = '{"content": "twitter message", "account": ' + accounts[0].data.id.toString() + '}'
         int[] createdMessageIds = new int [20]
         for (int i = 0; i < 20; i++) {
@@ -105,10 +114,12 @@ class MessageFunctionalSpec extends GebSpec {
         (0..9).each { i ->
           assert recentMessagesResponse.data[i].id == createdMessageIds[messageIndex--]
         }
+        deleteAccounts()
     }
 
     def "Return the most recent messages for an Account with specified limits: #messageLimit"() {
         given: "20 messages posted to account1"
+        createAccounts()
         def messageJson = '{"content": "twitter message", "account": ' + accounts[0].data.id.toString() + '}'
         def responses = []
 
@@ -129,14 +140,15 @@ class MessageFunctionalSpec extends GebSpec {
         then: "200 should be received"
         recentMessagesResponse.status == 200
         recentMessagesResponse.data.size == messageLimit
+        deleteAccounts()
 
         where:
-        messageLimit  << [10, 5, 1]
+        messageLimit  << [10, 5, 1];
     }
 
     def "Return the most recent messages for an Account with specified limit=5 and offset =2"() {
         given: "20 messages posted to account1"
-
+        createAccounts()
         def messageJson = '{"content": "twitter message", "account": ' + accounts[0].data.id.toString() + '}'
         int[] createdMessageIds = new int [20]
         for (int i = 0; i < 20; i++) {
@@ -159,10 +171,12 @@ class MessageFunctionalSpec extends GebSpec {
         (0..4).each { i ->
           assert recentMessagesResponse.data[i].id == createdMessageIds[messageIndex--]
         }
+        deleteAccounts()
     }
 
     def "Return messages with the associated handle that contains specified search terms."() {
         given: "six messages posted with 2 different accounts"
+        createAccounts()
         def id0 = accounts[0].data.id as String
         def id1 = accounts[1].data.id as String
         def messageJson1 = '{"content": "Jordan with soul, performance and style", "account": ' + id0 + '}'
@@ -202,5 +216,6 @@ class MessageFunctionalSpec extends GebSpec {
         responseObject3.handle == accounts[1].data.handle
         responseObject3.message.content == messageCreated5Response.data.content
         responseObject3.message.dateCreated == messageCreated5Response.data.dateCreated
+        deleteAccounts()
     }
 }
