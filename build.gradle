@@ -102,6 +102,9 @@ bower {
     }
 }
 
+compileJava.dependsOn bowerInstall
+clean.dependsOn bowerClean
+
 task wrapper(type: Wrapper) {
     gradleVersion = gradleWrapperVersion
 }

@@ -8,9 +8,10 @@ class AngularFunctionalSpec extends GebSpec {
 
     def 'welcome page displays welcome message'() {
         when:
-        go '/'
+        go 'localhost:8080'
 
         then: 'Static welcome displayed properly'
+        driver.currentUrl == 'localhost:8080'
         $('h1').first().text() == 'Welcome to the sample Grails 3 Angular App'
 
         and: 'Angular generated test displayed properly'
