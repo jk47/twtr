@@ -5,16 +5,17 @@
 // You're free to add application-wide JavaScript to this file, but it's generally better
 // to create separate JavaScript files as needed.
 //
+//= encoding UTF-8
 //= require jquery-2.1.3.js
-//= require_tree .
+//= require ../bower/bootstrap/bootstrap.js
+//= require ../bower/angular/angular.js
 //= require_self
+//= require_tree app
 
-if (typeof jQuery !== 'undefined') {
-    (function($) {
-        $('#spinner').ajaxStart(function() {
-            $(this).fadeIn();
-        }).ajaxStop(function() {
-            $(this).fadeOut();
-        });
-    })(jQuery);
-}
+// Create the angular application called 'app'
+angular.module('app', []);
+
+// Define a controller called 'welcomeController'
+angular.module('app').controller('angularController', function($scope) {
+    $scope.greeting = 'Hello Stranger'
+});
