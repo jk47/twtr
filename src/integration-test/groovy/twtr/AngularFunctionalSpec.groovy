@@ -8,7 +8,7 @@ class AngularFunctionalSpec extends GebSpec {
 
     def 'welcome page displays welcome message'() {
         when:
-        go 'localhost:8080'
+        go '/'
 
         then: 'Static welcome displayed properly'
         driver.currentUrl == 'localhost:8080'

@@ -6,16 +6,32 @@
 // to create separate JavaScript files as needed.
 //
 //= encoding UTF-8
-//= require jquery-2.1.3.js
+//= require jquery-2.2.0.js
 //= require ../bower/bootstrap/bootstrap.js
 //= require ../bower/angular/angular.js
 //= require_self
 //= require_tree app
 
 // Create the angular application called 'app'
-angular.module('app', []);
+var app = angular.module('myApp', []);
+
+app.factory("Messages", function($resource) {
+    return $resource("/api/messages");
+});
 
 // Define a controller called 'welcomeController'
-angular.module('app').controller('angularController', function($scope) {
-    $scope.greeting = 'Hello Stranger'
+app.controller('twtrController', function($scope, Get) {
+    $scope.formInfo = {};
+    $scope.SearchPosts = function(){
+
+    };
+    $scope.SearchPeople = function(){
+        Messages.query(function(data) {
+            $scope.messages = data;
+        })
+        var peopleSearchTerm = $scope.formInfo.SearchPeople;
+        $http.get('/api/accounts').then(function(response){ $scope.details = response.status; });
+        alert($scope.details);
+    };
+
 });
