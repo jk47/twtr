@@ -9,7 +9,7 @@
     <asset:stylesheet src="application.css"/>
 </head>
 
-<body ng-app="app">
+<body ng-app="myApp">
 <div class="container">
 
     <h1>Twtr</h1>
@@ -24,7 +24,7 @@
             </div>
             <button type="submit" class="btn btn-default" ng-click="SearchPosts()">Submit</button>
         </form>
-        {{ details }}
+
     </div>
 
 
