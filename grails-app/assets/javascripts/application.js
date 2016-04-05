@@ -14,20 +14,5 @@
 //= require_tree app
 
 // Create the angular application called 'app'
-var app = angular.module('myApp', []);
+var app = angular.module('app', []);
 
-// Define a controller called 'welcomeController'
-app.controller('twtrController', function ($scope, $http) {
-    $scope.formInfo = {};
-
-    $scope.SearchPeople = function () {
-        $http.get('/api/accounts')
-            .success(function (data, status, headers, config) {
-                $scope.accounts = status;
-
-            }).error(function (data, status, headers, config) {
-                $scope.accounts = status;
-
-        });
-    };
-});

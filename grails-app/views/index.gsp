@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html>
 <head>
@@ -9,23 +8,8 @@
     <asset:stylesheet src="application.css"/>
 </head>
 
-<body ng-app="myApp">
-<div class="container">
-
-    <h1>Twtr</h1>
-    <div ng-controller="twtrController">
-        <form class="navbar-form navbar-left" role="search">
-            <div class="form-group">
-                <input type="text" class="form-control" placeholder="Search People" ng-model="formInfo.SearchPeople">
-            </div>
-            <button type="submit" class="btn btn-default" ng-click="SearchPeople()">Submit</button>
-            <div class="form-group">
-                <input type="text" class="form-control" placeholder="Search Posts" ng-model="formInfo.SearchPosts">
-            </div>
-            <button type="submit" class="btn btn-default" ng-click="SearchPosts()">Submit</button>
-        </form>
-
-    </div>
+<body ng-app="app">
+<div class="container" ng-controller="twtrController">
 
 
 </div>
