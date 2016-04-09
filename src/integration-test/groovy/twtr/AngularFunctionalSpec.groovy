@@ -2,15 +2,13 @@ package twtr
 
 import geb.spock.GebSpec
 import grails.test.mixin.integration.Integration
-import spock.lang.Ignore
 
 @Integration
-@Ignore
 class AngularFunctionalSpec extends GebSpec {
 
     def 'welcome page displays welcome message'() {
         when:
-        go '/'
+        go("/")
 
         then: 'Static welcome displayed properly'
         driver.currentUrl == 'localhost:8080'

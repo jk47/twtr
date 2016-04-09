@@ -10,14 +10,12 @@ buildscript {
         classpath "org.grails:grails-gradle-plugin:$grailsVersion"
         classpath 'com.bertramlabs.plugins:asset-pipeline-gradle:2.5.0'
         classpath "org.grails.plugins:hibernate:4.3.10.5"
-
     }
 }
 
-
-
 plugins {
     id "io.spring.dependency-management" version "0.5.4.RELEASE"
+
     id 'com.craigburke.bower-installer' version '2.5.1'
 }
 
@@ -55,6 +53,7 @@ dependencyManagement {
 }
 
 dependencies {
+    assets "com.craigburke.angular:angular-template-asset-pipeline:2.2.7"
     compile "org.springframework.boot:spring-boot-starter-logging"
     compile "org.springframework.boot:spring-boot-starter-actuator"
     compile "org.springframework.boot:spring-boot-autoconfigure"
@@ -67,27 +66,41 @@ dependencies {
     compile "org.hibernate:hibernate-ehcache"
     compile "org.grails.plugins:scaffolding"
 
+    compile (group: 'org.hibernate', name: 'hibernate-ehcache', version: '4.3.10.Final')
+
     runtime "org.grails.plugins:asset-pipeline"
 
     testCompile "org.grails:grails-plugin-testing"
     testCompile "org.grails.plugins:geb"
 
     // Note: It is recommended to update to a more robust driver (Chrome, Firefox etc.)
-    testRuntime 'org.seleniumhq.selenium:selenium-firefox-driver:2.51.0'
-    testRuntime 'org.seleniumhq.selenium:selenium-chrome-driver:2.51.0'
+    testRuntime 'org.seleniumhq.selenium:selenium-htmlunit-driver:2.47.0'
+    testRuntime 'org.seleniumhq.selenium:selenium-firefox-driver:2.53.0'
+    testRuntime 'org.seleniumhq.selenium:selenium-chrome-driver:2.53.0'
+
+    testRuntime "net.sourceforge.htmlunit:htmlunit:2.18"
 
     console "org.grails:grails-console"
 
-    // Security
+    // Making REST calls from functional tests
+    testCompile 'org.codehaus.groovy.modules.http-builder:http-builder:0.7'
+
+    // Spring REST Security
     compile 'org.grails.plugins:spring-security-rest:2.0.0.M2'
     compile 'org.grails.plugins:spring-security-rest-gorm:2.0.0.M2'
 
-    testCompile "org.codehaus.groovy.modules.http-builder:http-builder:0.7"
-    testCompile "org.grails:grails-datastore-rest-client:5.0.0.RC2"
+    testCompile ("org.grails.plugins:geb"){
+        exclude group: 'org.seleniumhq.selenium'
+    }
+
+    testCompile 'com.google.guava:guava:18.0'
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = gradleWrapperVersion
 }
 
 bower {
-
     'bootstrap'('3.3.x') {
         source 'dist/css/bootstrap.css' >> 'css/'
         source 'dist/css/bootstrap-theme.css' >> 'css/'
@@ -96,17 +109,15 @@ bower {
         excludes 'jquery'
     }
 
-    'angular'('1.5.x') {
+    'angular-route'('1.3.x') {
+        source 'angular-route.js'
+    }
+
+    'angular'('1.3.x') {
         source 'angular.js'
         source 'angular-csp.css'
     }
-
-    'angular-route'('1.5.x') { source 'angular-route.js' }
 }
 
 compileJava.dependsOn bowerInstall
 clean.dependsOn bowerClean
-
-task wrapper(type: Wrapper) {
-    gradleVersion = gradleWrapperVersion
-}

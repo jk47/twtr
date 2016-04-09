@@ -1,12 +1,9 @@
-/*
-    This is the Geb configuration file.
-    See: http://www.gebish.org/manual/current/#configuration
-*/
-
+/**
+ * Created by johnkotz on 4/9/16.
+ */
 import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.firefox.FirefoxDriver
 import org.openqa.selenium.remote.DesiredCapabilities
-import geb.waiting.WaitingSupport
 
 waiting {
     timeout = 2

@@ -1,6 +1,6 @@
 app.controller('twtrController', function ($scope, $location, $http, authService) {
     $scope.test = "test";
-
+    
     $scope.login = function() {
         //TO DO: implement login
     };
