@@ -11,7 +11,6 @@ import java.text.SimpleDateFormat
 @Integration
 @Stepwise
 @Unroll
-@Ignore
 class AccountFunctionalSpec extends GebSpec {
 
     def restClient
@@ -45,6 +44,17 @@ class AccountFunctionalSpec extends GebSpec {
         HttpResponseException problem = thrown(HttpResponseException)
         problem.statusCode == 403
         problem.message.contains('Forbidden')
+    }
+
+    def 'valid username and password generates a token'(){
+        setup:
+        def auth = ([username: 'admin', password: 'R00tPass!'] as JSON) as String
+
+        when:
+        def response = restClient.post(path: '/api/login', body: auth, requestContentType: 'application/json')
+
+        then:
+        response.status == 200
     }
 
     def "create an account"() {

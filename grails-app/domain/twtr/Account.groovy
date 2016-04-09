@@ -6,7 +6,7 @@ class Account {
 
     //Account has a valid handle, email, password and name
     String handle
-    String username = handle
+    String username
     String email
     String password
     String realName

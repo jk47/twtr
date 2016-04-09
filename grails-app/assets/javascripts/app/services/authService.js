@@ -1,3 +1,3 @@
-app.factory('authService', function ($http) {
+app.service('authService', function ($http) {
     return true;
 });
