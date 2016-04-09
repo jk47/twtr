@@ -3,7 +3,7 @@ package twtr
 class AuthenticationToken {
 
     String tokenValue
-    String username
+    String handle
 
     static mapping = {
         version false

@@ -37,7 +37,7 @@
 
         </div>
         <div id="logout-container" class="container well" ng-show="isLoggedIn">
-            <h2>You are currently logged in as {{ auth.username }}</h2>
+            <h2>You are currently logged in as {{ auth.handle }}</h2>
             <button id="logout" ng-click="logout()">Logout</button>
         </div>
 
