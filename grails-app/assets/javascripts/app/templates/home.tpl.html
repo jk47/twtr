@@ -1,13 +1,22 @@
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
-        <div class="navbar-header" disabled>
-            <a class="navbar-brand">Twitter</a>
+<div class="container-fluid">
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand">Twitter</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li class="active">
+                    <a class="nav-link" href="#/home">Home <span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#/exit" ng-click="doLogout()"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
+                </li>
+            </ul>
         </div>
-        <ul class="nav navbar-nav">
-            <li class="active"><a href="#/home">Home</a></li>
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
-            <li><a href="#/exit" ng-click="doLogout()"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
-        </ul>
-    </div>
-</nav>
+    </nav>
+    <form class="form-inline pull-xs-right">
+        <input class="form-control" type="text" placeholder="Search messages...">
+        <button class="btn btn-success-outline" type="submit">Search</button>
+    </form>
+</div>

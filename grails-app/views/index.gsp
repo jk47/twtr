@@ -8,7 +8,7 @@
     <asset:stylesheet src="application.css"/>
 </head>
 
-<body ng-app="app">
+<body ng-app="app" style="height: 100%;">
 <div ng-view>
 </div>
 
