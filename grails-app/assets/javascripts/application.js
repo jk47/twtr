@@ -6,13 +6,14 @@
 // to create separate JavaScript files as needed.
 //
 //= encoding UTF-8
-//= require jquery-2.2.0.js
+//= require jquery-2.1.3.js
 //= require ../bower/bootstrap/bootstrap.js
 //= require ../bower/angular/angular.js
-//= require angular-route/angular-route
+//= require ../bower/angular-resource/angular-resource.js
+//= require ../bower/angular-route/angular-route.js
 //= require_self
 //= require_tree app
 
 // Create the angular application called 'app'
-var app = angular.module('app', []);
+var app = angular.module('app', ['ngRoute']);
 

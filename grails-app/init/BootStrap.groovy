@@ -8,7 +8,7 @@ class BootStrap {
 
     def init = { servletContext ->
 
-        def admin = new Account(handle: 'admin', password: 'R00tPass!', email: 'admin@gmail.com', realName: 'admin').save(flush: true, failOnError: true)
+        def admin = new Account(handle: 'admin', password: 'Password1', email: 'admin@gmail.com', realName: 'admin').save(flush: true, failOnError: true)
         def john = new Account(handle: 'john', password: 'Password1', email: 'john@gmail.com', realName: 'john').save(flush: true, failOnError: true)
         def role = new Role(authority: 'ROLE_READ').save(flush: true, failOnError: true)
         new AccountRole(account: admin, role: role).save(flush: true, failOnError: true)

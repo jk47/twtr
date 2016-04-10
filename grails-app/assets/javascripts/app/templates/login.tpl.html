@@ -1,0 +1,15 @@
+<div class="container">
+    <div class="row error" ng-show="error">{{ error }}</div>
+
+    <div class="row">
+        <label>Username</label>
+        <input ng-model="loginAttempt.username" />
+    </div>
+
+    <div class="row">
+        <label>Password</label>
+        <input type="password" ng-model="loginAttempt.password">
+    </div>
+
+    <button ng-click="doLogin()">Login</button>
+</div>
