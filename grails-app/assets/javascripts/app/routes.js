@@ -5,9 +5,12 @@ app.config(function ($routeProvider) {
                 templateUrl: '/app/login.html',
                 controller: 'loginController'
             })
+            .when('/exit', {
+                templateUrl: '/app/exit.html',
+            })
             .when('/home/:handle?', {
                 templateUrl: '/app/home.html',
-                controller: 'homeController'
+                controller: 'twtrController'
             })
             .when('/feed', {
                 templateUrl: '/app/feed.html',
@@ -22,7 +25,7 @@ app.config(function ($routeProvider) {
     .run(function ($rootScope, $location, securityService) {
         $rootScope.$on('$routeChangeStart', function (event, next) {
             if (next.$$route.originalPath != '/login') {
-                if (!securityService.currentUser()) {
+                if (!securityService.currentUser() && (next.$$route.originalPath != '/exit')) {
                     $location.path('/login');
                 }
             }

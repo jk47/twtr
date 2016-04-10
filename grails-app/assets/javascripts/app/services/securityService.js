@@ -17,6 +17,11 @@ app.factory('securityService', ['$http', '$rootScope', function ($http, $rootSco
     delete $rootScope.currentUser;
   };
 
+  service.logout = function () {
+    currentUser = undefined
+    delete $rootScope.currentUser;
+  };
+
   service.login = function (username, password) {
     var loginPayload = {username: username, password: password};
     return $http.post('/api/login', loginPayload).then(loginSuccess, loginFailure);
