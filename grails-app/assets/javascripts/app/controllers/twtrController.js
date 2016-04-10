@@ -1,11 +1,9 @@
-app.controller('twtrController', function ($scope, $location, $http, authService) {
+app.controller('twtrController', function ($scope, $location, $http, securityService) {
     $scope.test = "test";
-    
-    $scope.login = function() {
-        //TO DO: implement login
+
+
+    $scope.doLogout = function() {
+        securityService.logout();
     };
 
-    $scope.logout = function() {
-        //TO DO: implement logout
-    };
 });

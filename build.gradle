@@ -24,11 +24,11 @@ group "twtr"
 
 apply plugin: "spring-boot"
 apply plugin: "war"
-apply plugin: "asset-pipeline"
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: "org.grails.grails-web"
 apply plugin: "org.grails.grails-gsp"
+apply plugin: "asset-pipeline"
 
 ext {
     grailsVersion = project.grailsVersion
@@ -101,6 +101,8 @@ task wrapper(type: Wrapper) {
 }
 
 bower {
+    installBase = 'grails-app/assets/bower'
+
     'bootstrap'('3.3.x') {
         source 'dist/css/bootstrap.css' >> 'css/'
         source 'dist/css/bootstrap-theme.css' >> 'css/'
@@ -109,11 +111,11 @@ bower {
         excludes 'jquery'
     }
 
-    'angular-route'('1.3.x') {
+    'angular-route'('1.5.x') {
         source 'angular-route.js'
     }
 
-    'angular'('1.3.x') {
+    'angular'('1.5.x') {
         source 'angular.js'
         source 'angular-csp.css'
     }
