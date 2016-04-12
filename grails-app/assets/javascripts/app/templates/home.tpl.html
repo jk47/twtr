@@ -15,8 +15,26 @@
             </ul>
         </div>
     </nav>
-    <form class="form-inline pull-xs-right">
-        <input class="form-control" type="text" placeholder="Search messages...">
-        <button class="btn btn-success-outline" type="submit">Search</button>
-    </form>
+    <div>
+        <form class="form-inline pull-xs-right">
+            <input class="form-control" placeholder="Search messages..." ng-model="searchArgs.text">
+            <button class="btn btn-success-outline" type="submit" ng-click="doMessageSearch()">Search</button>
+        </form>
+    </div>
+    <div style="margin-top:18px">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Message</th>
+                <th>Handle</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="searchResult in searchResults">
+                <td>{{searchResult.message}}</td>
+                <td><a href="#/userDetail?handle={{searchResult.handle}}">{{searchResult.handle}}</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
