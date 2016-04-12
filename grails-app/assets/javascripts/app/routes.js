@@ -8,6 +8,10 @@ app.config(function ($routeProvider) {
             .when('/exit', {
                 templateUrl: '/app/exit.html',
             })
+            .when('/userDetail/:handle?', {
+                templateUrl: '/app/userDetail.html',
+                controller: 'userDetailController'
+            })
             .when('/home/:handle?', {
                 templateUrl: '/app/home.html',
                 controller: 'twtrController'
