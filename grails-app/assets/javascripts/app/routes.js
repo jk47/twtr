@@ -9,8 +9,8 @@ app.config(function ($routeProvider) {
                 templateUrl: '/app/exit.html',
             })
             .when('/userDetail/:handle?', {
-                templateUrl: '/app/userDetail.html',
-                controller: 'userDetailController'
+                templateUrl: '/app/details.html',
+                controller: 'detailController'
             })
             .when('/home/:handle?', {
                 templateUrl: '/app/home.html',
