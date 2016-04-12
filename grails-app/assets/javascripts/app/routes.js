@@ -16,6 +16,10 @@ app.config(function ($routeProvider) {
                 templateUrl: '/app/feed.html',
                 controller: 'feedController'
             })
+            .when('/detail', {
+                templateUrl: '/app/details.html',
+                controller: 'detailController'
+            })
             .otherwise({
                 redirectTo: '/feed'
             })

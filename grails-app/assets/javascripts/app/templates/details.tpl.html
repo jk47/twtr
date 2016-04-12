@@ -1,0 +1,33 @@
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header" disabled>
+            <a class="navbar-brand">Twitter</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="#/home">Home</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="#/exit" ng-click="doLogout()"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+        </ul>
+    </div>
+</nav>
+<div>
+    <h1>Name: {{ realname }} </h1>
+</div>
+<div>
+    <h2>Tweets</h2>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th class="column-header">Tweet Content</th>
+            <th class="column-header">Tweet Time</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="t in account.tweets">
+            <td id="td-feed-content"> {{ tweet.messageText }}</td>
+            <td id="td-feed-date"> {{ tweet.dateCreated }}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>

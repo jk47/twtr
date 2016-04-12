@@ -17,6 +17,14 @@ app.factory('securityService', ['$http', '$rootScope', function ($http, $rootSco
     delete $rootScope.currentUser;
   };
 
+  service.getToken = function(){
+    return currentUser.token;
+  };
+
+  service.getUsername= function(){
+    return currentUser.username;
+  };
+
   service.logout = function () {
     currentUser = undefined
     delete $rootScope.currentUser;
