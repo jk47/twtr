@@ -6,7 +6,9 @@ app.factory('securityService', ['$http', '$rootScope', function ($http, $rootSco
     currentUser = {
       username: response.data.username,
       roles: response.data.roles,
-      token: response.data['access_token']
+      token: response.data['access_token'],
+        
+
     };
 
     $rootScope.$emit('userChange', currentUser)
@@ -20,6 +22,10 @@ app.factory('securityService', ['$http', '$rootScope', function ($http, $rootSco
   service.getToken = function(){
     return currentUser.token;
   };
+
+    service.getCurrentUser= function(){
+        return currentUser;
+    };
 
   service.getUsername= function(){
     return currentUser.username;

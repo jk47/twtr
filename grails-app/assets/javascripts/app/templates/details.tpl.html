@@ -11,8 +11,11 @@
         </ul>
     </div>
 </nav>
-<div>
-    <h1>Name: {{ username }} </h1>
+<div data-ng-init="getAccount()">
+    <h1>Details Page</h1>
+    <h2>Name: {{ username }} </h2>
+    <button id="follow" class="btn" ng-click="startFollowing()" ng-disable="myOwnDetails" ng-show="!myOwnDetails && !account.alreadyFollowing">Follow</button>
+    <p id="alreadyFollowing" ng-show="!myOwnDetails && account.alreadyFollowing">You are already following {{ account.handle }} </p>
 </div>
 <div>
     <h2>Tweets</h2>
@@ -24,9 +27,9 @@
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="t in account.tweets">
-            <td id="td-feed-content"> {{ tweet.messageText }}</td>
-            <td id="td-feed-date"> {{ tweet.dateCreated }}</td>
+        <tr ng-repeat="t in tweets">
+            <td id="td-feed-content"> {{ t.content }}</td>
+            <td id="td-feed-date"> {{ t.dateCreated }}</td>
         </tr>
         </tbody>
     </table>
