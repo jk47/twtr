@@ -21,7 +21,7 @@
             <button class="btn btn-success-outline" type="submit" ng-click="doMessageSearch()">Search</button>
         </form>
     </div>
-    <div style="margin-top:18px">
+    <div style="height: 350px; overflow: auto; margin-top:18px">
         <table class="table">
             <thead>
             <tr>
@@ -31,7 +31,7 @@
             </thead>
             <tbody>
             <tr ng-repeat="searchResult in searchResults">
-                <td>{{searchResult.message}}</td>
+                <td>{{searchResult.message.content}}</td>
                 <td><a href="#/userDetail?handle={{searchResult.handle}}">{{searchResult.handle}}</a></td>
             </tr>
             </tbody>

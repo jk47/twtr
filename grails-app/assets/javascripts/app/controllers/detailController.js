@@ -50,6 +50,7 @@ app.controller('detailController', function ($scope, $location, $http, securityS
                 var isAFollower = false;
                 for (var i = 0; i<data.length; i++){
                     if (data[i].handle == $scope.handle){
+
                         isAFollower = true;
                         break;
                     }
