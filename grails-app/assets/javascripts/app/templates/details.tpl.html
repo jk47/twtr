@@ -35,3 +35,34 @@
         </tbody>
     </table>
 </div>
+<div ng-show="myOwnDetails" style="margin-top:18px">
+    <h2>Edit Details</h2>
+    <form role="form">
+        <div class="form-group">
+            <label for="nameInput">Name:</label>
+            <input id="nameInput"
+                   class="form-control"
+                   ng-model="account.realName" autofocus>
+        </div>
+        <div class="form-group">
+            <label for="emailInput">Email address:</label>
+            <input id="emailInput"
+                   type="email"
+                   class="form-control"
+                   ng-model="account.email">
+        </div>
+        <div class="form-group">
+            <button
+                    class="btn btn-primary btn-block" ng-click="updateUserDetails()">Update
+            </button>
+        </div>
+        <div class="form-group">
+            <div class="alert alert-danger" ng-show="error">
+                <strong>Error!</strong> {{ error }}
+            </div>
+        </div>
+        <div class="alert alert-success" ng-show="success">
+            <strong>Success!</strong> {{ success }}
+        </div>
+    </form>
+</div>
