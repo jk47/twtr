@@ -13,7 +13,7 @@ app.controller('twtrController', function ($scope, $location, $http, securitySer
     };
 
     $scope.doMessageSearch = function() {
-        $http.get('/api/messages/search', {headers: {'X-Auth-Token': $scope.auth.token.toString(), 'term': $scope.searchArgs.text}})
+        $http.get('/api/messages/search?term=' + $scope.searchArgs.text, {headers: {'X-Auth-Token': $scope.auth.token.toString()}})
             .success(function (data){
                 $scope.searchResults = data;
             })
