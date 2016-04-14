@@ -18,9 +18,10 @@ app.controller('detailController', function ($scope, $location, $http, securityS
     }
 
     $scope.getAccount = function() {
-        $http.get('/api/accounts/handle=john' ,{headers: {'X-Auth-Token': $scope.auth.token.toString()}})
+        $http.get('/api/accounts/handle=' + $scope.handle ,{headers: {'X-Auth-Token': $scope.auth.token.toString()}})
             .success(function(data){
                 $scope.account = data;
+                $scope.detailHandle = $scope.account.handle;
                 $scope.getTweets();
                 $scope.isCurrentUser();
                 $scope.isFollower();
@@ -45,14 +46,14 @@ app.controller('detailController', function ($scope, $location, $http, securityS
     };
 
     $scope.isFollower = function() {
-        $http.get('/api/accounts/' + $scope.account.id + '/followers', {headers: {'X-Auth-Token': $scope.auth.token.toString()}})
+        $http.get('/api/accounts/' + $scope.currentId + '/followers', {headers: {'X-Auth-Token': $scope.auth.token.toString()}})
             .success(function (data){
                 var isAFollower = false;
                 for (var i = 0; i<data.length; i++){
-                    if (data[i].handle == $scope.handle){
-
+                    alert("detailHanle: " + $scope.detailHandle );
+                    alert("data: " + data[i].handle);
+                    if (data[i].handle == $scope.detailHandle){
                         isAFollower = true;
-                        break;
                     }
                 }
                 $scope.isAFollower = isAFollower;

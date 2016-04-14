@@ -14,7 +14,8 @@ class BootStrap {
         new AccountRole(account: admin, role: role).save(flush: true, failOnError: true)
         new AccountRole(account: john, role: role).save(flush: true, failOnError: true)
 
-        (1..20).each { id -> john.addToMessages(content: "John's Message #$id").save(flush:true)}
+        (1..10).each { id -> john.addToMessages(content: "John's Message #$id").save(flush:true)}
+        (1..10).each { id -> admin.addToMessages(content: "Admin's Message #$id").save(flush:true)}
 
         def dateFormatter = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss")
 
