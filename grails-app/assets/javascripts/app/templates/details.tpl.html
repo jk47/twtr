@@ -15,8 +15,8 @@
     <h1>Details Page</h1>
     <h2>Name: {{ detailHandle }} </h2>
     <button id="follow" class="btn" ng-click="startFollowing()" ng-disable="myOwnDetails" ng-show="!myOwnDetails && !isAFollower">Follow</button>
-    <p id="alreadyFollowing" ng-show="!myOwnDetails && isAFollower">You are already following {{ account.handle }} </p>
-    <h1>{{ isAFollower }}</h1>
+    <p id="alreadyFollowing" ng-show="!myOwnDetails && isAFollower">{{currentUser.username}} already follows {{ account.handle }} </p>
+
 </div>
 <div style="height: 350px; overflow: auto;">
     <h2>Tweets</h2>

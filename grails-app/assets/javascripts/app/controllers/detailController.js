@@ -52,7 +52,7 @@ app.controller('detailController', function ($scope, $location, $http, securityS
             .success(function (data) {
                 var isAFollower = false;
                 for (var i = 0; i < data.length; i++) {
-                    if (data[i].handle == $scope.handle) {
+                    if (data[i].handle == $scope.currentUser.username) {
                         isAFollower = true;
                     }
                 }
