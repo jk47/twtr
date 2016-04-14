@@ -14,10 +14,10 @@
 <div data-ng-init="getAccount()">
     <h1>Details Page</h1>
     <h2>Name: {{ username }} </h2>
-    <button id="follow" class="btn" ng-click="startFollowing()" ng-disable="myOwnDetails" ng-show="!myOwnDetails && !account.alreadyFollowing">Follow</button>
-    <p id="alreadyFollowing" ng-show="!myOwnDetails && account.alreadyFollowing">You are already following {{ account.handle }} </p>
+    <button id="follow" class="btn" ng-click="startFollowing()" ng-disable="myOwnDetails" ng-show="!myOwnDetails && !isAFollower">Follow</button>
+    <p id="alreadyFollowing" ng-show="!myOwnDetails && isAFollower">You are already following {{ account.handle }} </p>
 </div>
-<div>
+<div style="height: 350px; overflow: auto;">
     <h2>Tweets</h2>
     <table class="table table-striped">
         <thead>

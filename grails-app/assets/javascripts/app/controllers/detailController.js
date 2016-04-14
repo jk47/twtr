@@ -3,6 +3,10 @@ app.controller('detailController', function ($scope, $location, $http, securityS
     $scope.auth.token = securityService.getToken();
     $scope.username = securityService.getUsername();
     $scope.currentUser = securityService.getCurrentUser();
+    $http.get('/api/accounts/handle='+$scope.currentUser.username, {headers: {'X-Auth-Token': $scope.auth.token.toString()}})
+        .success(function (data){
+            $scope.currentId = data.id;
+        })
 
     // get the handle that the page should show
     var params = $location.search();
@@ -18,7 +22,8 @@ app.controller('detailController', function ($scope, $location, $http, securityS
             .success(function(data){
                 $scope.account = data;
                 $scope.getTweets();
-
+                $scope.isCurrentUser();
+                $scope.isFollower();
             })
             .error(function (error){
                 alert(error.toString());
@@ -43,8 +48,8 @@ app.controller('detailController', function ($scope, $location, $http, securityS
         $http.get('/api/accounts/' + $scope.account.id + '/followers', {headers: {'X-Auth-Token': $scope.auth.token.toString()}})
             .success(function (data){
                 var isAFollower = false;
-                for (var i = 0; i<data.followers.length; i++){
-                    if (data.followers[i].handle == $scope.handle){
+                for (var i = 0; i<data.length; i++){
+                    if (data[i].handle == $scope.handle){
                         isAFollower = true;
                         break;
                     }
@@ -62,7 +67,7 @@ app.controller('detailController', function ($scope, $location, $http, securityS
     };
 
     $scope.startFollowing = function() {
-        $http.post('/api/accounts/' + securityService.currentUser.id + '/follow/' + $scope.account.id, {headers: {'X-Auth-Token': $scope.auth.token.toString()}})
+        $http.get('/api/accounts/' + $scope.currentId + '/follow/' + $scope.account.id, {headers: {'X-Auth-Token': $scope.auth.token.toString()}})
             .success(function (data){
                 $scope.getAccount();//refresh the current account
             })
