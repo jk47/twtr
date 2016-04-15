@@ -12,7 +12,7 @@
     </div>
 </nav>
 <div data-ng-init="getAccount()">
-    <h1>Details Page</h1>
+    <h1 id="detailsHeader">Details Page</h1>
     <h2>Name: {{ detailHandle }} </h2>
     <button id="follow" class="btn" ng-click="startFollowing()" ng-disable="myOwnDetails" ng-show="!myOwnDetails && !isAFollower">Follow</button>
     <p id="alreadyFollowing" ng-show="!myOwnDetails && isAFollower">{{currentUser.username}} already follows {{ account.handle }} </p>

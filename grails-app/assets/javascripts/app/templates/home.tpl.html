@@ -32,7 +32,7 @@
             <tbody>
             <tr ng-repeat="searchResult in searchResults">
                 <td id="messageContent">{{searchResult.message.content}}</td>
-                <td id="messagePoster"><a href="#/userDetail?handle={{searchResult.handle}}">{{searchResult.handle}}</a></td>
+                <td id="messagePoster"><a id="nameLink" href="#/userDetail?handle={{searchResult.handle}}">{{searchResult.handle}}</a></td>
             </tr>
             </tbody>
         </table>

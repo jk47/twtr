@@ -56,20 +56,28 @@ class AngularFunctionalSpec extends GebSpec {
 
     }
 
-    def 'S2: messages are displayed in scrollable area'() {
+    def 'S2/S3/S4: messages are displayed in scrollable area'() {
         given: 'logged in'
         signIn()
 
         when: 'searching'
-        Thread.sleep(2000)
+        Thread.sleep(3000)
         $('#searchBox').value('#')
         $('#searchButton').click()
 
         then: 'results in scrollable list'
-        waitFor {
-            $('#resultsDiv').isDisplayed()
-        }
+        Thread.sleep(2000)
         $('#resultsDiv').height < $('#searchResultsTable').height
+
+        and: 'content and author are displayed'
+        $('#messageContent').isDisplayed()
+        $('#messagePoster').isDisplayed()
+
+        and: 'clicking user link will bring user to details page'
+        $('#nameLink').click()
+        waitFor {
+            $('#detailsHeader').isDisplayed()
+        }
 
     }
 }
