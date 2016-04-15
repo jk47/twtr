@@ -7,13 +7,13 @@
             <li class="active"><a href="#/home">Home</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-            <li><a href="#/exit" ng-click="doLogout()"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+            <li><a id="logout" href="#/exit" ng-click="doLogout()"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
         </ul>
     </div>
 </nav>
-<div data-ng-init="getAccount()">
+<div id="headerDiv" data-ng-init="getAccount()">
     <h1 id="detailsHeader">Details Page</h1>
-    <h2>Name: {{ detailHandle }} </h2>
+    <h2 id="detailName">Name: {{ detailHandle }} </h2>
     <button id="follow" class="btn" ng-click="startFollowing()" ng-disable="myOwnDetails" ng-show="!myOwnDetails && !isAFollower">Follow</button>
     <p id="alreadyFollowing" ng-show="!myOwnDetails && isAFollower">{{currentUser.username}} already follows {{ account.handle }} </p>
 
@@ -29,8 +29,8 @@
         </thead>
         <tbody>
         <tr ng-repeat="t in tweets">
-            <td id="td-feed-content"> {{ t.content }}</td>
-            <td id="td-feed-date"> {{ t.dateCreated }}</td>
+            <td id="postingContent"> {{ t.content }}</td>
+            <td id="postingName"> {{ t.dateCreated }}</td>
         </tr>
         </tbody>
     </table>

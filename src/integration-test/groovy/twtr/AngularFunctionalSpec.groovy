@@ -10,12 +10,21 @@ class AngularFunctionalSpec extends GebSpec {
 
     def signIn(){
         go("localhost:8080")
+        Thread.sleep(1000)
         waitFor {
+
             $('#usernameLoginBox').isDisplayed()
         }
         $('#usernameLoginBox').value("john")
         $('#passwordLoginBox').value("Password1")
         $('#loginButton').click()
+    }
+
+    def signOut(){
+        waitFor {
+            $('#logout').click()
+            $('#exitMessage').isDisplayed()
+        }
     }
 
     def 'L1/L2: route to login page when not logged in'() {
@@ -54,6 +63,9 @@ class AngularFunctionalSpec extends GebSpec {
             $('#searchBox').isDisplayed()
         }
 
+        cleanup:
+        signOut()
+
     }
 
     def 'S2/S3/S4: messages are displayed in scrollable area'() {
@@ -79,5 +91,23 @@ class AngularFunctionalSpec extends GebSpec {
             $('#detailsHeader').isDisplayed()
         }
 
+        cleanup:
+        signOut()
+
+    }
+
+    def 'U1/U2: detail page will display user’s name and a scrollable list of that user’s postings and follow button'(){
+        when: 'signed in and at details page'
+        signIn()
+        Thread.sleep(1000)
+        go('/#/userDetail?handle=admin')
+        Thread.sleep(1000)
+
+        then: 'name and postings are displayed as well as follow'
+        $('#postingContent').isDisplayed()
+        $('#detailName').isDisplayed()
+        $('#follow').isDisplayed()
+
+        signOut()
     }
 }
