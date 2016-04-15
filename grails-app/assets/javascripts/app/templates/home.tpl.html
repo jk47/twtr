@@ -17,12 +17,12 @@
     </nav>
     <div>
         <form class="form-inline pull-xs-right">
-            <input class="form-control" placeholder="Search messages..." ng-model="searchArgs.text">
-            <button class="btn btn-success-outline" type="submit" ng-click="doMessageSearch()">Search</button>
+            <input id="searchBox" class="form-control" placeholder="Search messages..." ng-model="searchArgs.text">
+            <button id="searchButton" class="btn btn-success-outline" type="submit" ng-click="doMessageSearch()">Search</button>
         </form>
     </div>
-    <div style="height: 350px; overflow: auto; margin-top:18px">
-        <table class="table">
+    <div id="resultsDiv" style="height: 350px; overflow: auto; margin-top:18px">
+        <table id="searchResultsTable" class="table">
             <thead>
             <tr>
                 <th>Message</th>
@@ -31,8 +31,8 @@
             </thead>
             <tbody>
             <tr ng-repeat="searchResult in searchResults">
-                <td>{{searchResult.message.content}}</td>
-                <td><a href="#/userDetail?handle={{searchResult.handle}}">{{searchResult.handle}}</a></td>
+                <td id="messageContent">{{searchResult.message.content}}</td>
+                <td id="messagePoster"><a href="#/userDetail?handle={{searchResult.handle}}">{{searchResult.handle}}</a></td>
             </tr>
             </tbody>
         </table>
