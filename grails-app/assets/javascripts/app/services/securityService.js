@@ -1,4 +1,4 @@
-app.factory('securityService', ['$http', '$rootScope', 'webStorage', function ($http, $rootScope, webStorage) {
+app.factory('securityService', ['$http', '$rootScope', '$location', 'webStorage', function ($http, $rootScope, $location, webStorage) {
   var service = {};
   var currentUser;
 
@@ -36,6 +36,9 @@ app.factory('securityService', ['$http', '$rootScope', 'webStorage', function ($
   service.logout = function () {
     setCurrentUser(undefined);
     delete $rootScope.currentUser;
+
+    $location.url($location.path());
+    $location.path('/login');
   };
 
   service.login = function (username, password) {

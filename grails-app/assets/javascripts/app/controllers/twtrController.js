@@ -6,7 +6,7 @@ app.controller('twtrController', function ($scope, $location, $http, securitySer
     $http.get('/api/accounts/handle='+$scope.currentUser.username, {headers: {'X-Auth-Token': $scope.auth.token.toString()}})
         .success(function (data){
             $scope.currentId = data.id;
-        })
+        });
 
     $scope.doLogout = function() {
         securityService.logout();

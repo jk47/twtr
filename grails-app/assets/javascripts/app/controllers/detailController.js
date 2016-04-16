@@ -17,6 +17,9 @@ app.controller('detailController', function ($scope, $location, $http, securityS
         $scope.handle = params['handle'];
     }
 
+    $scope.doLogout = function() {
+        securityService.logout();
+    };
 
     $scope.getAccount = function() {
         $http.get('/api/accounts/handle=' + $scope.handle ,{headers: {'X-Auth-Token': $scope.auth.token.toString()}})
