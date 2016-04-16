@@ -18,6 +18,7 @@ app.factory('securityService', ['$http', '$rootScope', 'webStorage', function ($
 
   var loginFailure = function () {
     setCurrentUser(undefined);
+    delete $rootScope.currentUser;
   };
 
   service.getToken = function(){
@@ -33,7 +34,7 @@ app.factory('securityService', ['$http', '$rootScope', 'webStorage', function ($
   };
 
   service.logout = function () {
-    currentUser = undefined
+    setCurrentUser(undefined);
     delete $rootScope.currentUser;
   };
 
