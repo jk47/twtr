@@ -1,22 +1,23 @@
-app.factory('securityService', ['$http', '$rootScope', function ($http, $rootScope) {
+app.factory('securityService', ['$http', '$rootScope', 'webStorage', function ($http, $rootScope, webStorage) {
   var service = {};
   var currentUser;
 
+  var setCurrentUser = function(user){
+    currentUser = user;
+    webStorage.set('restaurantUser', currentUser);
+    $rootScope.$emit('userChange', currentUser);
+  };
+
   var loginSuccess = function (response) {
-    currentUser = {
+    setCurrentUser({
       username: response.data.username,
       roles: response.data.roles,
       token: response.data['access_token'],
-        
-
-    };
-
-    $rootScope.$emit('userChange', currentUser)
+    });
   };
 
   var loginFailure = function () {
-    currentUser = undefined
-    delete $rootScope.currentUser;
+    setCurrentUser(undefined);
   };
 
   service.getToken = function(){
@@ -44,6 +45,8 @@ app.factory('securityService', ['$http', '$rootScope', function ($http, $rootSco
   service.currentUser = function () {
     return currentUser;
   };
+
+  setCurrentUser(webStorage.get('restaurantUser'));
 
   return service;
 }]);
