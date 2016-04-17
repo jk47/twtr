@@ -4,7 +4,7 @@ app.factory('securityService', ['$http', '$rootScope', '$location', 'webStorage'
 
   var setCurrentUser = function(user){
     currentUser = user;
-    webStorage.set('restaurantUser', currentUser);
+    webStorage.set('twitterUser', currentUser);
     $rootScope.$emit('userChange', currentUser);
   };
 
@@ -50,7 +50,7 @@ app.factory('securityService', ['$http', '$rootScope', '$location', 'webStorage'
     return currentUser;
   };
 
-  setCurrentUser(webStorage.get('restaurantUser'));
+  setCurrentUser(webStorage.get('twitterUser'));
 
   return service;
 }]);
