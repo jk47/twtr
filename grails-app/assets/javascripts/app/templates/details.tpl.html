@@ -15,8 +15,8 @@
             </ul>
         </div>
     </nav>
-    <div id="headerDiv" data-ng-init="getAccount()">
-        <div style="margin-left: 8px; margin-top: -24px">
+    <div id="headerDiv" data-ng-init="getAccount()" style="margin-left: 8px; margin-top: -8px">
+        <span>
             <div style="display:inline-block">
                 <h3 id="detailsHeader"><p><b>{{handleRealName}}</b></p></h3>
             </div>
@@ -29,9 +29,8 @@
                         ng-click="startFollowing()">Follow
                 </button>
             </div>
-            <p id="detailName"><b>@{{account.handle}}</b></p>
-        </div>
-
+        </span>
+        <p id="detailName"><b>@{{account.handle}}</b></p>
     </div>
     <div class="panel-group" style="margin: 8px">
         <div class="panel panel-primary" style="height: 350px; overflow: auto;">
