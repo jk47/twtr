@@ -23,7 +23,6 @@ class AngularFunctionalSpec extends GebSpec {
     def signOut(){
         Thread.sleep(1000)
         $('#logout').click()
-        $('#exitMessage').isDisplayed()
     }
 
     def 'L1/L2: route to login page when not logged in'() {
@@ -140,5 +139,17 @@ class AngularFunctionalSpec extends GebSpec {
 
         cleanup:
         signOut()
+    }
+
+    def 'N3: When signed out successfully, sign out message is displayed'()
+    {
+        when: 'signed out from home page'
+        signIn()
+        Thread.sleep(1000)
+        signOut()
+        Thread.sleep(1000)
+
+        then: 'sign out message is displayed'
+        $('#logoutMessage').isDisplayed()
     }
 }
