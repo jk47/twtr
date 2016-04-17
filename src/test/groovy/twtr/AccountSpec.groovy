@@ -26,7 +26,7 @@ class AccountSpec extends Specification {
 
     @Unroll('#description')
     @Ignore
-    def "invalid passwords will not be saved to db"() {
+    def "invalid passwords will not be saved to db (@IGNORE due to password encryption)"() {
         given: "an account with invalid password"
         def account = new Account(handle: 'coding', password: inputPassword, email: 'test@gmail.com', realName: 'coding guy')
 
