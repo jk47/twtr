@@ -21,10 +21,10 @@
                 <h2 id="detailsRealName"><p><b>{{handleRealName}}</b></p></h2>
             </div>
             <div style="display:inline-block">
-                <button style="margin-top: -10px" id="alreadyFollowing" type="button" class="btn btn-success"
+                <button id="followingButton" style="margin-top: -10px" id="alreadyFollowing" type="button" class="btn btn-success"
                         ng-show="!myOwnDetails && isAFollower">Following
                 </button>
-                <button style="margin-top: -10px" id="follow" type="button" class="btn btn-info"
+                <button id="followButton" style="margin-top: -10px" id="follow" type="button" class="btn btn-info"
                         ng-show="!myOwnDetails && !isAFollower"
                         ng-click="startFollowing()">Follow
                 </button>

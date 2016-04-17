@@ -8,7 +8,7 @@ import spock.lang.Stepwise
 @Stepwise
 class AngularFunctionalSpec extends GebSpec {
 
-    def signIn(){
+    def signIn() {
         go("localhost:8080")
         Thread.sleep(1000)
         waitFor {
@@ -20,7 +20,7 @@ class AngularFunctionalSpec extends GebSpec {
         $('#loginButton').click()
     }
 
-    def signIn2(){
+    def signIn2() {
         go("localhost:8080")
         Thread.sleep(1000)
         waitFor {
@@ -32,7 +32,7 @@ class AngularFunctionalSpec extends GebSpec {
         $('#loginButton').click()
     }
 
-    def signOut(){
+    def signOut() {
         Thread.sleep(1000)
         $('#logout').click()
     }
@@ -107,7 +107,7 @@ class AngularFunctionalSpec extends GebSpec {
 
     }
 
-    def 'U1/U2: detail page will display user’s name and a scrollable list of that user’s postings and follow button'(){
+    def 'U1/U2: detail page will display user’s name and a scrollable list of that user’s postings and follow button'() {
         when: 'signed in and at details page'
         signIn()
         Thread.sleep(1000)
@@ -117,13 +117,72 @@ class AngularFunctionalSpec extends GebSpec {
         then: 'name and postings are displayed as well as follow'
         $('#postingContent').isDisplayed()
         $('#detailsHandle').isDisplayed()
-        $('#follow').isDisplayed()
 
         cleanup:
         signOut()
     }
 
-    def 'U4: When logged in user is on their own detail page, they can edit their name and email'(){
+    def 'U3: When the logged in user is following the detail user, the detail page will display the following button'() {
+        given: 'logged in'
+        signIn2()
+
+        when: 'searching'
+        waitFor {
+            $('#homeView').isDisplayed()
+        }
+        $('#searchBox').value('John')
+        $('#searchButton').click()
+
+        then: 'content and author are displayed'
+        Thread.sleep(2000)
+        $('#messageContent').isDisplayed()
+        $('#messagePoster').isDisplayed()
+
+        and: 'clicking user link will bring user to details page'
+        $('#nameLink').click()
+        waitFor {
+            $('#detailsView').isDisplayed()
+        }
+
+        and: 'verify user real name and check that the following button is displayed to show that user is currently being followed'
+        $('#detailsRealName').text() == 'john'
+        $('#followingButton').isDisplayed()
+
+        cleanup:
+        signOut()
+    }
+
+    def '!U3: When the logged in user is NOT following the detail user, the detail page will display the follow button'() {
+        given: 'logged in'
+        signIn2()
+
+        when: 'searching'
+        waitFor {
+            $('#homeView').isDisplayed()
+        }
+        $('#searchBox').value('Admin')
+        $('#searchButton').click()
+
+        then: 'content and author are displayed'
+        Thread.sleep(2000)
+        $('#messageContent').isDisplayed()
+        $('#messagePoster').isDisplayed()
+
+        and: 'clicking user link will bring user to details page'
+        $('#nameLink').click()
+        waitFor {
+            $('#detailsView').isDisplayed()
+        }
+
+        and: 'verify user real name and check that the following button is displayed to show that user is currently being followed'
+        $('#detailsRealName').text() == 'admin'
+        $('#followButton').isDisplayed()
+
+        cleanup:
+        signOut()
+    }
+
+    def 'U4: When logged in user is on their own detail page, they can edit their name and email'() {
         when: 'signed in and on own detail page'
         signIn()
         Thread.sleep(1000)
@@ -138,7 +197,7 @@ class AngularFunctionalSpec extends GebSpec {
         signOut()
     }
 
-    def '!U4: When logged in user is NOT on their own detail page, they CANNOT edit name and email'(){
+    def '!U4: When logged in user is NOT on their own detail page, they CANNOT edit name and email'() {
         when: 'signed in and on own detail page'
         signIn()
         Thread.sleep(1000)
@@ -153,8 +212,7 @@ class AngularFunctionalSpec extends GebSpec {
         signOut()
     }
 
-    def 'N1/N2: When signed in, user can navigate user detail view and home view to search' ()
-    {
+    def 'N1/N2: When signed in, user can navigate between user detail view and home view to search'() {
         when: 'signed in and current user link is clicked'
         signIn2()
         Thread.sleep(1000)
@@ -199,8 +257,7 @@ class AngularFunctionalSpec extends GebSpec {
         signOut()
     }
 
-    def 'N3: When signed out successfully, sign out message is displayed'()
-    {
+    def 'N3: When signed out successfully, sign out message is displayed'() {
         when: 'signed out from home page'
         signIn()
         Thread.sleep(1000)
