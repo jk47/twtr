@@ -26,6 +26,7 @@ app.controller('detailController', function ($scope, $location, $http, securityS
             .success(function(data){
                 $scope.account = data;
                 $scope.detailHandle = $scope.account.handle;
+                $scope.handleRealName = $scope.account.realName;
                 $scope.getTweets();
                 $scope.isCurrentUser();
                 $scope.isFollower();
@@ -99,6 +100,7 @@ app.controller('detailController', function ($scope, $location, $http, securityS
             })
             .success(function (data, status, headers) {
                 $scope.success = 'Update successful.';
+                $scope.handleRealName = $scope.account.realName;
             })
             .error(function (error) {
                 $scope.error = error;
