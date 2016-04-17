@@ -111,4 +111,34 @@ class AngularFunctionalSpec extends GebSpec {
         cleanup:
         signOut()
     }
+
+    def 'U4: When logged in user is on their own detail page, they can edit their name and email'(){
+        when: 'signed in and on own detail page'
+        signIn()
+        Thread.sleep(1000)
+        go('/#/userDetail?handle=john')
+        Thread.sleep(1000)
+
+        then: 'edit name and email fields are displayed'
+        $('#nameInput').isDisplayed()
+        $('#emailInput').isDisplayed()
+
+        cleanup:
+        signOut()
+    }
+
+    def '!U4: When logged in user is NOT on their own detail page, they CANNOT edit name and email'(){
+        when: 'signed in and on own detail page'
+        signIn()
+        Thread.sleep(1000)
+        go('/#/userDetail?handle=admin')
+        Thread.sleep(1000)
+
+        then: 'edit name and email fields are displayed'
+        !$('#nameInput').isDisplayed()
+        !$('#emailInput').isDisplayed()
+
+        cleanup:
+        signOut()
+    }
 }
