@@ -27,7 +27,8 @@
                             <p>@{{account.handle}}</p>
                         </div>
                         <div class="col-md-2">
-                            <a id="currentUserDetailsLink" href="#/userDetail?handle={{account.handle}}" class="btn btn-info" role="button"><span
+                            <a id="currentUserDetailsLink" href="#/userDetail?handle={{account.handle}}"
+                               class="btn btn-info" role="button"><span
                                     class="glyphicon glyphicon-user"></span></a>
                         </div>
                     </div>
@@ -48,7 +49,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-9" id="resultsDiv" style="overflow: auto; height:450px;">
+        <div class="col-md-9" id="resultsDiv">
             <form class="form-inline" role="form">
                 <div class="form-group">
                     <input id="searchBox" class="form-control" placeholder="Search messages..."
@@ -57,21 +58,23 @@
                 <button id="searchButton" type="submit" class="btn btn-primary" ng-click="doMessageSearch()">Search
                 </button>
             </form>
-            <table id="searchResultsTable" class="table">
-                <thead>
-                <tr>
-                    <th>Message</th>
-                    <th>Handle</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr ng-repeat="searchResult in searchResults">
-                    <td id="messageContent">{{searchResult.message.content}}</td>
-                    <td id="messagePoster"><a id="nameLink" href="#/userDetail?handle={{searchResult.handle}}">{{searchResult.handle}}</a>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+            <div class="panel panel-default" style="height: 400px; overflow: auto; margin-top: 16px; margin-right: 8px">
+                <table id="searchResultsTable" class="table">
+                    <thead>
+                    <tr>
+                        <th>Message</th>
+                        <th>Handle</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="searchResult in searchResults">
+                        <td id="messageContent">{{searchResult.message.content}}</td>
+                        <td id="messagePoster"><a id="nameLink" href="#/userDetail?handle={{searchResult.handle}}">{{searchResult.handle}}</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
