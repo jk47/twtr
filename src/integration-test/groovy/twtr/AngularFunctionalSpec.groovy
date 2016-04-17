@@ -197,6 +197,31 @@ class AngularFunctionalSpec extends GebSpec {
         signOut()
     }
 
+    def 'U4: When name is edited, it will be reflected on the UI'(){
+        given: 'signed in and on own detail page'
+        signIn()
+        Thread.sleep(1000)
+        go('/#/userDetail?handle=john')
+        Thread.sleep(1000)
+
+        when: 'changing the name and saving'
+        $('#nameInput').value("john2")
+        $('#emailInput').value("john2@gmail.com")
+        $('#updateSaveButton').click()
+        Thread.sleep(2000)
+
+        then: 'new name will show on details page'
+        $('#detailsRealName').text() == "john2"
+
+        cleanup:
+        $('#nameInput').value("john")
+        $('#emailInput').value("john@gmail.com")
+        $('#updateSaveButton').click()
+        Thread.sleep(2000)
+        signOut()
+
+    }
+
     def '!U4: When logged in user is NOT on their own detail page, they CANNOT edit name and email'() {
         when: 'signed in and on own detail page'
         signIn()
