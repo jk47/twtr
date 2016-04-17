@@ -10,7 +10,7 @@ class BootStrap {
 
         def admin = new Account(handle: 'admin', password: 'Password1', email: 'admin@gmail.com', realName: 'admin').save(flush: true, failOnError: true)
         def john = new Account(handle: 'john', password: 'Password1', email: 'john@gmail.com', realName: 'john').save(flush: true, failOnError: true)
-        def aragorn = new Account(handle: 'kingofgondor', password: 'Password1', email: 'narsil@gmail.com', realName: 'Aragorn').save(flush: true, failOnError: true)
+        def aragorn = new Account(handle: 'kingofgondor', password: 'TheRanger', email: 'narsil@gmail.com', realName: 'Aragorn').save(flush: true, failOnError: true)
         def role = new Role(authority: 'ROLE_READ').save(flush: true, failOnError: true)
         new AccountRole(account: admin, role: role).save(flush: true, failOnError: true)
         new AccountRole(account: john, role: role).save(flush: true, failOnError: true)
