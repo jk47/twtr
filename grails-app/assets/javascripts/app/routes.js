@@ -32,7 +32,14 @@ app.config(function ($routeProvider) {
     // Protect all routes other than login
     .run(function ($rootScope, $location, securityService) {
         $rootScope.$on('$routeChangeStart', function (event, next) {
-            if (next.$$route.originalPath != '/login') {
+            // route to home view even though login page has been requested because
+            // a user is currently logged in
+            if (next.$$route.originalPath == '/login'){
+                if (securityService.currentUser()) {
+                    $location.path('/home');
+                }
+            }
+            else if (next.$$route.originalPath != '/login') {
                 if (!securityService.currentUser()) {
                     $location.path('/login');
                 }
