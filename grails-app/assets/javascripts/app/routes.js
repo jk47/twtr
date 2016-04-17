@@ -25,7 +25,7 @@ app.config(function ($routeProvider) {
                 controller: 'detailController'
             })
             .otherwise({
-                redirectTo: '/feed'
+                redirectTo: '/login'
             })
     })
 
@@ -33,7 +33,7 @@ app.config(function ($routeProvider) {
     .run(function ($rootScope, $location, securityService) {
         $rootScope.$on('$routeChangeStart', function (event, next) {
             if (next.$$route.originalPath != '/login') {
-                if (!securityService.currentUser() && (next.$$route.originalPath != '/exit')) {
+                if (!securityService.currentUser()) {
                     $location.path('/login');
                 }
             }

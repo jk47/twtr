@@ -6,7 +6,7 @@ app.controller('detailController', function ($scope, $location, $http, securityS
     $http.get('/api/accounts/handle=' + $scope.currentUser.username, {headers: {'X-Auth-Token': $scope.auth.token.toString()}})
         .success(function (data) {
             $scope.currentId = data.id;
-        })
+        });
 
     // get the handle that the page should show
     var params = $location.search();
@@ -17,6 +17,9 @@ app.controller('detailController', function ($scope, $location, $http, securityS
         $scope.handle = params['handle'];
     }
 
+    $scope.doLogout = function() {
+        securityService.logout();
+    };
 
     $scope.getAccount = function() {
         $http.get('/api/accounts/handle=' + $scope.handle ,{headers: {'X-Auth-Token': $scope.auth.token.toString()}})
@@ -79,13 +82,13 @@ app.controller('detailController', function ($scope, $location, $http, securityS
     };
 
     $scope.updateUserDetails = function () {
-        delete $scope.error
-        delete $scope.success
+        delete $scope.error;
+        delete $scope.success;
 
         var newUserDetails = new Object();
-        newUserDetails.email = $scope.account.email
-        newUserDetails.realName = $scope.account.realName
-        var jsonBody = JSON.stringify(newUserDetails)
+        newUserDetails.email = $scope.account.email;
+        newUserDetails.realName = $scope.account.realName;
+        var jsonBody = JSON.stringify(newUserDetails);
 
         $http.put('/api/accounts/' + $scope.currentId + '/', jsonBody,
             {
@@ -95,7 +98,7 @@ app.controller('detailController', function ($scope, $location, $http, securityS
                 }
             })
             .success(function (data, status, headers) {
-                $scope.success = 'Update successful.'
+                $scope.success = 'Update successful.';
             })
             .error(function (error) {
                 $scope.error = error;

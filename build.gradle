@@ -119,6 +119,14 @@ bower {
         source 'angular.js'
         source 'angular-csp.css'
     }
+
+    'angular-resource'('1.5.x') {
+        source 'angular-resource.js'
+    }
+
+    'angular-webstorage'() {
+        source 'angular-webstorage.js'
+    }
 }
 
 compileJava.dependsOn bowerInstall

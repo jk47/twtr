@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div>
     <nav class="navbar navbar-default">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -10,31 +10,60 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a id="logout" href="#/exit" ng-click="doLogout()"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
-                </li>
+                <button ng-click="doLogout()" id="logout" type="button" class="btn btn-default navbar-btn"
+                        style="margin-right: 8px"><span
+                        class="glyphicon glyphicon-log-out"></span> Logout
+                </button>
             </ul>
         </div>
     </nav>
-    <div>
-        <form class="form-inline pull-xs-right">
-            <input id="searchBox" class="form-control" placeholder="Search messages..." ng-model="searchArgs.text">
-            <button id="searchButton" class="btn btn-success-outline" type="submit" ng-click="doMessageSearch()">Search</button>
-        </form>
-    </div>
-    <div id="resultsDiv" style="height: 350px; overflow: auto; margin-top:18px">
-        <table id="searchResultsTable" class="table">
-            <thead>
-            <tr>
-                <th>Message</th>
-                <th>Handle</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr ng-repeat="searchResult in searchResults">
-                <td id="messageContent">{{searchResult.message.content}}</td>
-                <td id="messagePoster"><a id="nameLink" href="#/userDetail?handle={{searchResult.handle}}">{{searchResult.handle}}</a></td>
-            </tr>
-            </tbody>
-        </table>
+    <div class="row" style="margin-left: 8px">
+        <div class=" col-md-3">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3><p><b>{{account.realName}}</b></p></h3>
+                    <p>@{{account.handle}}</p>
+                </div>
+                <div class="row panel-body" style="margin: 2px">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6>TWEETS</h6>
+                        </div>
+                        <div class="col-md-6">
+                            <h6>FOLLOWING</h6>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">{{messages.length}}</div>
+                        <div class="col-md-6">{{account.followingCount}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9" id="resultsDiv" style="overflow: auto">
+            <form class="form-inline" role="form">
+                <div class="form-group">
+                    <input id="searchBox" class="form-control" placeholder="Search messages..."
+                           ng-model="searchArgs.text">
+                </div>
+                <button id="searchButton" type="submit" class="btn btn-default" ng-click="doMessageSearch()">Search
+                </button>
+            </form>
+            <table id="searchResultsTable" class="table">
+                <thead>
+                <tr>
+                    <th>Message</th>
+                    <th>Handle</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="searchResult in searchResults">
+                    <td id="messageContent">{{searchResult.message.content}}</td>
+                    <td id="messagePoster"><a id="nameLink" href="#/userDetail?handle={{searchResult.handle}}">{{searchResult.handle}}</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>

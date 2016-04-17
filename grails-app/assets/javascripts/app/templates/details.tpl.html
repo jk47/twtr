@@ -1,68 +1,80 @@
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
-        <div class="navbar-header" disabled>
-            <a class="navbar-brand">Twitter</a>
-        </div>
-        <ul class="nav navbar-nav">
-            <li class="active"><a href="#/home">Home</a></li>
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
-            <li><a id="logout" href="#/exit" ng-click="doLogout()"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
-        </ul>
-    </div>
-</nav>
-<div id="headerDiv" data-ng-init="getAccount()">
-    <h1 id="detailsHeader">Details Page</h1>
-    <h2 id="detailName">Name: {{ detailHandle }} </h2>
-    <button id="follow" class="btn" ng-click="startFollowing()" ng-disable="myOwnDetails" ng-show="!myOwnDetails && !isAFollower">Follow</button>
-    <p id="alreadyFollowing" ng-show="!myOwnDetails && isAFollower">{{currentUser.username}} already follows {{ account.handle }} </p>
-
-</div>
-<div style="height: 350px; overflow: auto;">
-    <h2>Tweets</h2>
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th class="column-header">Tweet Content</th>
-            <th class="column-header">Tweet Time</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr ng-repeat="t in tweets">
-            <td id="postingContent"> {{ t.content }}</td>
-            <td id="postingName"> {{ t.dateCreated }}</td>
-        </tr>
-        </tbody>
-    </table>
-</div>
-<div ng-show="myOwnDetails" style="margin-top:18px">
-    <h2>Edit Details</h2>
-    <form role="form">
-        <div class="form-group">
-            <label for="nameInput">Name:</label>
-            <input id="nameInput"
-                   class="form-control"
-                   ng-model="account.realName" autofocus>
-        </div>
-        <div class="form-group">
-            <label for="emailInput">Email address:</label>
-            <input id="emailInput"
-                   type="email"
-                   class="form-control"
-                   ng-model="account.email">
-        </div>
-        <div class="form-group">
-            <button
-                    class="btn btn-primary btn-block" ng-click="updateUserDetails()">Update
-            </button>
-        </div>
-        <div class="form-group">
-            <div class="alert alert-danger" ng-show="error">
-                <strong>Error!</strong> {{ error }}
+<div>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header" disabled>
+                <a class="navbar-brand">Twitter</a>
             </div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#/home">Home</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <button ng-click="doLogout()" id="logout" type="button" class="btn btn-default navbar-btn"
+                        style="margin-right: 8px"><span
+                        class="glyphicon glyphicon-log-out"></span> Logout
+                </button>
+            </ul>
         </div>
-        <div class="alert alert-success" ng-show="success">
-            <strong>Success!</strong> {{ success }}
+    </nav>
+    <div id="headerDiv" data-ng-init="getAccount()">
+        <div style="margin-left: 8px">
+            <div style="display:inline-block">
+                <h2 id="detailsHeader"><p><b>{{account.realName}}</b></p></h2>
+            </div>
+            <div style="display:inline-block">
+                <button id="alreadyFollowing" type="button" class="btn btn-info" ng-show="!myOwnDetails && isAFollower">Following</button>
+                <button id="follow" type="button" class="btn btn-info" ng-show="!myOwnDetails && !isAFollower"
+                        ng-click="startFollowing()">Follow</button>
+            </div>
+            <p id="detailName">@{{account.handle}}</p>
         </div>
-    </form>
+
+    </div>
+    <div style="height: 350px; overflow: auto;">
+        <h2>Tweets</h2>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th class="column-header">Tweet Content</th>
+                <th class="column-header">Tweet Time</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="t in tweets">
+                <td id="postingContent"> {{ t.content }}</td>
+                <td id="postingName"> {{ t.dateCreated }}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div ng-show="myOwnDetails" style="margin-top:18px">
+        <h2>Edit Details</h2>
+        <form role="form">
+            <div class="form-group">
+                <label for="nameInput">Name:</label>
+                <input id="nameInput"
+                       class="form-control"
+                       ng-model="account.realName" autofocus>
+            </div>
+            <div class="form-group">
+                <label for="emailInput">Email address:</label>
+                <input id="emailInput"
+                       type="email"
+                       class="form-control"
+                       ng-model="account.email">
+            </div>
+            <div class="form-group">
+                <button
+                        class="btn btn-primary btn-block" ng-click="updateUserDetails()">Update
+                </button>
+            </div>
+            <div class="form-group">
+                <div class="alert alert-danger" ng-show="error">
+                    <strong>Error!</strong> {{ error }}
+                </div>
+            </div>
+            <div class="alert alert-success" ng-show="success">
+                <strong>Success!</strong> {{ success }}
+            </div>
+        </form>
+    </div>
 </div>

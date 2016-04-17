@@ -11,9 +11,10 @@
 //= require ../bower/angular/angular.js
 //= require ../bower/angular-resource/angular-resource.js
 //= require ../bower/angular-route/angular-route.js
+//= require ../bower/angular-webstorage/angular-webstorage.js
 //= require_self
 //= require_tree app
 
 // Create the angular application called 'app'
-var app = angular.module('app', ['ngRoute']);
+var app = angular.module('app', ['ngRoute', 'ngResource', 'webStorageModule']);
 
