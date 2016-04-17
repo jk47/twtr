@@ -18,11 +18,19 @@
         </div>
     </nav>
     <div class="row" style="margin-left: 8px">
-        <div class=" col-md-3">
+        <div class="col-md-3">
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    <h3><p><b>{{account.realName}}</b></p></h3>
-                    <p>@{{account.handle}}</p>
+                    <div class="row">
+                        <div class="col-md-10">
+                            <h3><p><b>{{account.realName}}</b></p></h3>
+                            <p>@{{account.handle}}</p>
+                        </div>
+                        <div class="col-md-2">
+                            <a href="#/userDetail?handle={{account.handle}}" class="btn btn-info" role="button"><span
+                                    class="glyphicon glyphicon-user"></span></a>
+                        </div>
+                    </div>
                 </div>
                 <div class="row panel-body" style="margin: 2px">
                     <div class="row">
