@@ -20,6 +20,18 @@ class AngularFunctionalSpec extends GebSpec {
         $('#loginButton').click()
     }
 
+    def signIn2(){
+        go("localhost:8080")
+        Thread.sleep(1000)
+        waitFor {
+
+            $('#usernameLoginBox').isDisplayed()
+        }
+        $('#usernameLoginBox').value("kingofgondor")
+        $('#passwordLoginBox').value("TheRanger")
+        $('#loginButton').click()
+    }
+
     def signOut(){
         Thread.sleep(1000)
         $('#logout').click()
@@ -87,7 +99,7 @@ class AngularFunctionalSpec extends GebSpec {
         and: 'clicking user link will bring user to details page'
         $('#nameLink').click()
         waitFor {
-            $('#detailsHeader').isDisplayed()
+            $('#detailsRealName').isDisplayed()
         }
 
         cleanup:
@@ -104,7 +116,7 @@ class AngularFunctionalSpec extends GebSpec {
 
         then: 'name and postings are displayed as well as follow'
         $('#postingContent').isDisplayed()
-        $('#detailName').isDisplayed()
+        $('#detailsHandle').isDisplayed()
         $('#follow').isDisplayed()
 
         cleanup:
@@ -136,6 +148,52 @@ class AngularFunctionalSpec extends GebSpec {
         then: 'edit name and email fields are displayed'
         !$('#nameInput').isDisplayed()
         !$('#emailInput').isDisplayed()
+
+        cleanup:
+        signOut()
+    }
+
+    def 'N1/N2: When signed in, user can navigate user detail view and home view to search' ()
+    {
+        when: 'signed in and current user link is clicked'
+        signIn2()
+        Thread.sleep(1000)
+        $('#currentUserDetailsLink').click()
+
+        then: 'page will navigate to the current logged in user detail page'
+        waitFor {
+            $('#detailsView').isDisplayed()
+        }
+
+        and: 'displayed name in user detail view matches current logged in user'
+        $('#detailsRealName').text() == 'Aragorn'
+
+        and: 'click home link to view home'
+        $('#homeLink').click()
+        waitFor {
+            $('#homeView').isDisplayed()
+        }
+
+        and: 'search messages using search box'
+        $('#searchBox').value('#')
+        $('#searchButton').click()
+
+        then: 'results in scrollable list'
+        Thread.sleep(2000)
+        $('#resultsDiv').height < $('#searchResultsTable').height
+
+        and: 'content and author are displayed'
+        $('#messageContent').isDisplayed()
+        $('#messagePoster').isDisplayed()
+
+        and: 'clicking user link will bring user to details page'
+        $('#nameLink').click()
+        waitFor {
+            $('#detailsView').isDisplayed()
+        }
+
+        and: 'displayed name in user detail view matches user from search result'
+        $('#detailsRealName').text() == 'john'
 
         cleanup:
         signOut()
