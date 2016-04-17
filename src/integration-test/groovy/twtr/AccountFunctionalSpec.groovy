@@ -50,7 +50,7 @@ class AccountFunctionalSpec extends GebSpec {
 
     def 'valid username and password generates a token'(){
         setup:
-        def auth = ([username: 'admin', password: 'R00tPass!'] as JSON) as String
+        def auth = ([username: 'admin', password: 'Password1'] as JSON) as String
 
         when:
         def response = restClient.post(path: '/api/login', body: auth, requestContentType: 'application/json')
@@ -76,7 +76,7 @@ class AccountFunctionalSpec extends GebSpec {
 
         then:
         response.status == 200
-        response.data.size() == accounts.size()
+        response.data.size() == accounts.size() + 3// for the bootstrap accounts
         deleteAccounts()
     }
 

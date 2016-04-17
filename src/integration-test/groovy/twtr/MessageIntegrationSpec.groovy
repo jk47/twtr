@@ -17,12 +17,8 @@ class MessageIntegrationSpec extends Specification {
     }
 
     def "Ensure messages linked to a user can be retrieved"() {
-        given: "A user with several posts"
-        def account = new Account(handle: 'john', email: "jhn@gmail.com", password: 'Testing123', realName: "john guy")
-        account.addToMessages(new Message(content: "First"))
-        account.addToMessages(new Message(content: "Second"))
-        account.addToMessages(new Message(content: "Third"))
-        account.save()
+        given: "A user with several posts"//from bootstrap
+        def account = Account.findByHandle("john")
 
         when: "The user is retrieved by their id"
         def foundAccount = Account.get(account.id)
@@ -31,6 +27,6 @@ class MessageIntegrationSpec extends Specification {
         }.sort()
 
         then: "The posts appear on the retrieved user"
-        sortedMessageContent == ['First', 'Second', 'Third']
+        sortedMessageContent.size() == 10
     }
 }
