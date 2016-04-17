@@ -233,12 +233,8 @@ class AngularFunctionalSpec extends GebSpec {
         }
 
         and: 'search messages using search box'
-        $('#searchBox').value('#')
+        $('#searchBox').value('John')
         $('#searchButton').click()
-
-        then: 'results in scrollable list'
-        Thread.sleep(2000)
-        $('#resultsDiv').height < $('#searchResultsTable').height
 
         and: 'content and author are displayed'
         $('#messageContent').isDisplayed()
