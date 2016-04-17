@@ -15,10 +15,10 @@
             </ul>
         </div>
     </nav>
-    <div id="headerDiv" data-ng-init="getAccount()" style="margin-left: 8px; margin-top: -8px">
+    <div id="headerDiv" data-ng-init="getAccount()" style="margin-left: 8px; margin-top: -8px; margin-bottom: 24px">
         <span>
             <div style="display:inline-block">
-                <h3 id="detailsHeader"><p><b>{{handleRealName}}</b></p></h3>
+                <h2 id="detailsHeader"><p><b>{{handleRealName}}</b></p></h2>
             </div>
             <div style="display:inline-block">
                 <button style="margin-top: -10px" id="alreadyFollowing" type="button" class="btn btn-success"
@@ -30,7 +30,7 @@
                 </button>
             </div>
         </span>
-        <p id="detailName"><b>@{{account.handle}}</b></p>
+        <h3 style="margin-top: -8px" id="detailName">@{{account.handle}}</h3>
     </div>
     <div class="panel-group" style="margin: 8px">
         <div class="panel panel-primary" style="height: 350px; overflow: auto;">

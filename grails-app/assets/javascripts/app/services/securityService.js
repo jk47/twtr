@@ -1,6 +1,7 @@
 app.factory('securityService', ['$http', '$rootScope', '$location', 'webStorage', function ($http, $rootScope, $location, webStorage) {
   var service = {};
   var currentUser;
+  var isSignOutSuccessful;
 
   var setCurrentUser = function(user){
     currentUser = user;
@@ -21,6 +22,10 @@ app.factory('securityService', ['$http', '$rootScope', '$location', 'webStorage'
     delete $rootScope.currentUser;
   };
 
+  service.isSignOutSuccessful = function(){
+    return isSignOutSuccessful;
+  };
+
   service.getToken = function(){
     return currentUser.token;
   };
@@ -36,6 +41,8 @@ app.factory('securityService', ['$http', '$rootScope', '$location', 'webStorage'
   service.logout = function () {
     setCurrentUser(undefined);
     delete $rootScope.currentUser;
+
+    isSignOutSuccessful = true;
 
     $location.url($location.path());
     $location.path('/login');
