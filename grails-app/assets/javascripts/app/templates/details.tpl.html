@@ -8,7 +8,7 @@
                 <li class="active"><a href="#/home">Home</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <button ng-click="doLogout()" id="logout" type="button" class="btn btn-default navbar-btn"
+                <button ng-click="doLogout()" id="logout" type="button" class="btn btn-primary navbar-btn"
                         style="margin-right: 8px"><span
                         class="glyphicon glyphicon-log-out"></span> Logout
                 </button>
@@ -21,9 +21,13 @@
                 <h3 id="detailsHeader"><p><b>{{handleRealName}}</b></p></h3>
             </div>
             <div style="display:inline-block">
-                <button style="margin-top: -10px" id="alreadyFollowing" type="button" class="btn btn-success" ng-show="!myOwnDetails && isAFollower">Following</button>
-                <button style="margin-top: -10px" id="follow" type="button" class="btn btn-info" ng-show="!myOwnDetails && !isAFollower"
-                        ng-click="startFollowing()">Follow</button>
+                <button style="margin-top: -10px" id="alreadyFollowing" type="button" class="btn btn-success"
+                        ng-show="!myOwnDetails && isAFollower">Following
+                </button>
+                <button style="margin-top: -10px" id="follow" type="button" class="btn btn-info"
+                        ng-show="!myOwnDetails && !isAFollower"
+                        ng-click="startFollowing()">Follow
+                </button>
             </div>
             <p id="detailName"><b>@{{account.handle}}</b></p>
         </div>
@@ -35,8 +39,8 @@
             <table class="table table-striped">
                 <thead>
                 <tr>
-                    <th class="column-header">Tweet Content</th>
-                    <th class="column-header">Tweet Time</th>
+                    <th class="column-header">Content</th>
+                    <th class="column-header">Time</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -49,34 +53,35 @@
         </div>
         <div class="panel panel-primary" ng-show="myOwnDetails" style="margin-top:18px">
             <div class="panel-heading">Personal Info</div>
-            <form role="form">
-                <div class="form-group">
-                    <label for="nameInput">Name:</label>
+            <div class="row panel-body" style="margin: 8px">
+
+                <form class="form-inline" role="form" style="margin-bottom: 8px">
+                    <label for="nameInput">Name</label>
                     <input id="nameInput"
                            class="form-control"
-                           ng-model="account.realName" autofocus>
-                </div>
-                <div class="form-group">
-                    <label for="emailInput">Email address:</label>
+                           ng-model="account.realName">
+                </form>
+
+                <form class="form-inline" role="form" style="margin-bottom: 8px">
+                    <label for="emailInput" style="display: inline">Email</label>
                     <input id="emailInput"
+                           style="display: inline"
                            type="email"
                            class="form-control"
                            ng-model="account.email">
-                </div>
-                <div class="form-group">
-                    <button
-                            class="btn btn-default" ng-click="updateUserDetails()">Update
-                    </button>
-                </div>
-                <div class="form-group">
-                    <div class="alert alert-danger" ng-show="error">
-                        <strong>Error!</strong> {{ error }}
-                    </div>
+                </form>
+
+
+                <button style="margin-bottom: 8px"
+                        class="btn btn-primary" ng-click="updateUserDetails()">Update
+                </button>
+                <div class="alert alert-danger" ng-show="error">
+                    <strong>Error!</strong> {{ error }}
                 </div>
                 <div class="alert alert-success" ng-show="success">
                     <strong>Success!</strong> {{ success }}
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 </div>
