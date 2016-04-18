@@ -182,6 +182,30 @@ class AngularFunctionalSpec extends GebSpec {
         signOut()
     }
 
+    def '!U3: When the logged in user is viewing his/her own details view, the follow and following button should not be displayed'() {
+        when: 'signed in and current user link is clicked'
+        signIn2()
+        waitFor {
+            $('#homeView').isDisplayed()
+        }
+        $('#currentUserDetailsLink').click()
+
+        then: 'page will navigate to the current logged in user detail page'
+        waitFor {
+            $('#detailsView').isDisplayed()
+        }
+
+        and: 'displayed name in user detail view matches current logged in user'
+        $('#detailsRealName').text() == 'Aragorn'
+
+        and: 'follow and following buttons are not displayed'
+        !$('#followButton').isDisplayed()
+        !$('#followingButton').isDisplayed()
+
+        cleanup:
+        signOut()
+    }
+
     def 'U4: When logged in user is on their own detail page, they can edit their name and email'() {
         when: 'signed in and on own detail page'
         signIn()
