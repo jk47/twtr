@@ -13,6 +13,8 @@ Repo for Web Dev class
 
 ## Assignment 4 - due 5/7/2016
 
+R0. Add ability to post message to the UI. 
+
 R1. Use a alert control from the Angular UI library to display an info message saying ‘Message Posted!’.
 
 R2. Use Angular validation to validate a message prior to posting it to the server via the REST API (client side validation).
