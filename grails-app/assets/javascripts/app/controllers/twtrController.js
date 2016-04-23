@@ -27,4 +27,27 @@ app.controller('twtrController', function ($scope, $location, $http, securitySer
                 alert("search error");
             })
     };
+    
+    $scope.doTweet = function() {
+        var messageDetails = new Object();
+        messageDetails.content = $scope.tweetArgs.text;
+        messageDetails.account = $scope.currentId;
+        var jsonBody = JSON.stringify(messageDetails);
+
+        $http.post('/api/accounts/' + $scope.currentId + '/messages', jsonBody,
+            {
+                headers: {
+                    'X-Auth-Token': $scope.auth.token.toString(),
+                    'Content-Type': 'application/json'
+                }
+
+            })
+            .success(function (data) {
+                $scope.createdMessageResponse = data;
+                $scope.success = true;
+            })
+            .error(function (error){
+                alert("Tweet Error");
+            })
+    };
 });
