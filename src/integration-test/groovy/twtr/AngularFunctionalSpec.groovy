@@ -61,7 +61,6 @@ class AngularFunctionalSpec extends GebSpec {
         waitFor {
             $('#errorMessage').isDisplayed()
         }
-
     }
 
     def 'S1: search box allows user to search messages'() {
@@ -76,7 +75,6 @@ class AngularFunctionalSpec extends GebSpec {
 
         cleanup:
         signOut()
-
     }
 
     def 'S2/S3/S4: messages are displayed in scrollable area'() {
@@ -104,7 +102,6 @@ class AngularFunctionalSpec extends GebSpec {
 
         cleanup:
         signOut()
-
     }
 
     def 'U1/U2: detail page will display user’s name and a scrollable list of that user’s postings and follow button'() {
