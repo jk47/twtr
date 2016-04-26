@@ -14,21 +14,21 @@ buildscript {
 }
 
 plugins {
-    id "io.spring.dependency-management" version "0.5.4.RELEASE"
-
+    id 'io.spring.dependency-management' version '0.5.4.RELEASE'
     id 'com.craigburke.bower-installer' version '2.5.1'
+    id 'com.craigburke.karma' version '1.4.3'
 }
 
 version "0.1"
-group "twtr"
+group "com.citronella.restaurants"
 
-apply plugin: "spring-boot"
-apply plugin: "war"
+apply plugin: 'spring-boot'
+apply plugin: 'war'
+apply plugin: 'asset-pipeline'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
-apply plugin: "org.grails.grails-web"
-apply plugin: "org.grails.grails-gsp"
-apply plugin: "asset-pipeline"
+apply plugin: 'org.grails.grails-web'
+apply plugin: 'org.grails.grails-gsp'
 
 ext {
     grailsVersion = project.grailsVersion
@@ -53,7 +53,6 @@ dependencyManagement {
 }
 
 dependencies {
-    assets "com.craigburke.angular:angular-template-asset-pipeline:2.2.7"
     compile "org.springframework.boot:spring-boot-starter-logging"
     compile "org.springframework.boot:spring-boot-starter-actuator"
     compile "org.springframework.boot:spring-boot-autoconfigure"
@@ -66,53 +65,38 @@ dependencies {
     compile "org.hibernate:hibernate-ehcache"
     compile "org.grails.plugins:scaffolding"
 
-    compile (group: 'org.hibernate', name: 'hibernate-ehcache', version: '4.3.10.Final')
-
     runtime "org.grails.plugins:asset-pipeline"
 
     testCompile "org.grails:grails-plugin-testing"
     testCompile "org.grails.plugins:geb"
 
     // Note: It is recommended to update to a more robust driver (Chrome, Firefox etc.)
-    testRuntime 'org.seleniumhq.selenium:selenium-htmlunit-driver:2.47.0'
-    testRuntime 'org.seleniumhq.selenium:selenium-firefox-driver:2.53.0'
-    testRuntime 'org.seleniumhq.selenium:selenium-chrome-driver:2.53.0'
-
-    testRuntime "net.sourceforge.htmlunit:htmlunit:2.18"
+    testRuntime 'org.seleniumhq.selenium:selenium-htmlunit-driver:2.44.0'
 
     console "org.grails:grails-console"
-
-    // Making REST calls from functional tests
-    testCompile 'org.codehaus.groovy.modules.http-builder:http-builder:0.7'
 
     // Spring REST Security
     compile 'org.grails.plugins:spring-security-rest:2.0.0.M2'
     compile 'org.grails.plugins:spring-security-rest-gorm:2.0.0.M2'
 
-    testCompile ("org.grails.plugins:geb"){
-        exclude group: 'org.seleniumhq.selenium'
-    }
+    // Making REST calls from functional tests
+    testCompile 'org.codehaus.groovy.modules.http-builder:http-builder:0.7'
 
-    testCompile 'com.google.guava:guava:18.0'
-}
-
-task wrapper(type: Wrapper) {
-    gradleVersion = gradleWrapperVersion
+    // Angular Templates Plugin
+    assets "com.craigburke.angular:angular-template-asset-pipeline:2.2.7"
 }
 
 bower {
-    installBase = 'grails-app/assets/bower'
+
+    'jquery'('2.2.x') {
+        source 'dist/jquery.js'
+    }
 
     'bootstrap'('3.3.x') {
         source 'dist/css/bootstrap.css' >> 'css/'
         source 'dist/css/bootstrap-theme.css' >> 'css/'
         source 'dist/fonts/**' >> 'fonts/'
         source 'dist/js/bootstrap.js'
-        excludes 'jquery'
-    }
-
-    'angular-route'('1.5.x') {
-        source 'angular-route.js'
     }
 
     'angular'('1.5.x') {
@@ -120,14 +104,53 @@ bower {
         source 'angular-csp.css'
     }
 
+    'angular-mocks'('1.5.x') {
+        source 'angular-mocks.js'
+    }
+
+    'angular-route'('1.5.x') {
+        source 'angular-route.js'
+    }
+
     'angular-resource'('1.5.x') {
         source 'angular-resource.js'
+    }
+
+    'angular-bootstrap'('1.3.x') {
+        source 'ui-bootstrap.js'
+        source 'ui-bootstrap-tpls.js'
+        source 'ui-bootstrap-csp.css' >> 'css/'
     }
 
     'angular-webstorage'() {
         source 'angular-webstorage.js'
     }
+
 }
 
-compileJava.dependsOn bowerInstall
-clean.dependsOn bowerClean
+task wrapper(type: Wrapper) {
+    gradleVersion = gradleWrapperVersion
+}
+
+karma {
+    profile 'default'
+    colors = true
+
+    browsers = ['Chrome']
+    frameworks = ['jasmine']
+    reporters = ['junit', 'progress', 'coverage']
+    preprocessors = [
+            '**/grails-app/assets/javascripts/app/**/*.js': ['coverage']
+    ]
+
+    profile('default') {
+        libraryBases = ['**/grails-app/assets/bower/']
+        libraryFiles = ['**/jquery.js', '**/angular.js', '**/!(jquery|angular).js']
+
+        sourceBases = ['**/grails-app/assets/javascripts/']
+        sourceFiles = ['application.js', 'app/**/*.js']
+
+        testBases = ['**/src/test/javascript/']
+        testFiles = ['*.js']
+    }
+}

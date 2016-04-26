@@ -15,7 +15,8 @@ app.controller('loginController', function($scope, $location, securityService) {
                     delete $scope.error;
                     $location.path('/home');
                 } else {
-                    $scope.error = 'Invalid login';
+                    $scope.alerts = [{msg: 'Invalid login', type: 'danger'}];
+                    //$scope.error = 'Invalid login';
                 }
             });
     };
