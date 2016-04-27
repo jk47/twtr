@@ -31,7 +31,7 @@
                 </div>
 
                 <div class="form-group">
-                    <uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="alerts.splice($index, 1)">{{alert.msg}}</uib-alert>
+                    <uib-alert id="errorMessage" ng-repeat="alert in alerts" type="{{alert.type}}" close="alerts.splice($index, 1)">{{alert.msg}}</uib-alert>
                 </div>
             </form>
         </div>
