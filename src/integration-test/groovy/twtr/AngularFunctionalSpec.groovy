@@ -328,7 +328,7 @@ class AngularFunctionalSpec extends GebSpec {
         DateFormat df = new SimpleDateFormat("MMM dd");
         months.contains($('#postingDate').text().trim().substring(0,3))
         try{
-            Date date = df.parse($('#postingDate').text().trim())
+            df.parse($('#postingDate').text().trim())
             true
         }
         catch(ParseException pe){
