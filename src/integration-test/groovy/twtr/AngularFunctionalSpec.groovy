@@ -126,7 +126,7 @@ class AngularFunctionalSpec extends GebSpec {
         signOut()
     }
 
-    def 'U3: When the logged in user is following the detail user, the detail page will display the following button'() {
+    def 'U3/R4: When the logged in user is following the detail user, the detail page will display the following button'() {
         given: 'logged in'
         signIn2()
 
@@ -151,6 +151,7 @@ class AngularFunctionalSpec extends GebSpec {
         and: 'verify user real name and check that the following button is displayed to show that user is currently being followed'
         $('#detailsRealName').text() == 'john'
         $('#followingButton').isDisplayed()
+        $('#followingDirective').isDisplayed()
 
         cleanup:
         signOut()
@@ -337,6 +338,7 @@ class AngularFunctionalSpec extends GebSpec {
 
         cleanup:
         signOut()
-
     }
+
+
 }
