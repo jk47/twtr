@@ -21,6 +21,6 @@ R2. Use Angular validation to validate a message prior to posting it to the serv
 
 R3. Write a Jasmine test to validate the Angular controller for the feed page. Use the $httpBackend functionality to mock calls to the server.
 
-~R4. Create an Angular directive to display the follow button or “Following User” indicator on another user’s account page. Validate ~this control with either a functional test or a Jasmine test.
+~~R4. Create an Angular directive to display the follow button or “Following User” indicator on another user’s account page. Validate this control with either a functional test or a Jasmine test.~~
 
-~R5. Use the AngularJS date filter to format the date of a message in the feed in this style: Mar 16. Validate with a functional test.
+~~R5. Use the AngularJS date filter to format the date of a message in the feed in this style: Mar 16. Validate with a functional test.~~
