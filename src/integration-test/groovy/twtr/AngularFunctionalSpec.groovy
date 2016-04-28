@@ -2,11 +2,18 @@ package twtr
 
 import geb.spock.GebSpec
 import grails.test.mixin.integration.Integration
+import spock.lang.Shared
 import spock.lang.Stepwise
+import java.text.DateFormat
+import java.text.ParseException
+import java.text.SimpleDateFormat
 
 @Integration
 @Stepwise
 class AngularFunctionalSpec extends GebSpec {
+
+    @Shared
+    def months = "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec".split()
 
     def signIn() {
         go("localhost:8080")
@@ -308,5 +315,28 @@ class AngularFunctionalSpec extends GebSpec {
 
         then: 'sign out message is displayed'
         $('#logoutMessage').isDisplayed()
+    }
+
+    def 'R5: Angular filter for date feed in MMM dd format'(){
+        when: 'signed in and at the details page'
+        signIn()
+        Thread.sleep(1000)
+        go('/#/userDetail?handle=john')
+        Thread.sleep(1000)
+
+        then: 'date will be displayed as MMM dd format'
+        DateFormat df = new SimpleDateFormat("MMM dd");
+        months.contains($('#postingDate').text().trim().substring(0,3))
+        try{
+            Date date = df.parse($('#postingDate').text().trim())
+            true
+        }
+        catch(ParseException pe){
+            false
+        }
+
+        cleanup:
+        signOut()
+
     }
 }

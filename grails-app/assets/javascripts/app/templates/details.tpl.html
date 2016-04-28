@@ -45,7 +45,7 @@
                 <tbody>
                 <tr ng-repeat="t in tweets">
                     <td id="postingContent"> {{ t.content }}</td>
-                    <td id="postingName"> {{ t.dateCreated }}</td>
+                    <td id="postingDate" type="date"> {{ t.dateCreated | date: 'MMM dd'}}</td>
                 </tr>
                 </tbody>
             </table>
