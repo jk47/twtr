@@ -30,7 +30,7 @@ app.controller('twtrController', function ($scope, $location, $http, securitySer
     
     $scope.doTweet = function() {
         var messageDetails = new Object();
-        messageDetails.content = $scope.tweetArgs.text;
+        messageDetails.content = $scope.tweetText;
         messageDetails.account = $scope.currentId;
         var jsonBody = JSON.stringify(messageDetails);
 
@@ -45,6 +45,15 @@ app.controller('twtrController', function ($scope, $location, $http, securitySer
             .success(function (data) {
                 $scope.createdMessageResponse = data;
                 $scope.success = true;
+
+                $http.get('/api/accounts/'+$scope.currentId   + '/messages', {headers: {'X-Auth-Token': $scope.auth.token.toString()}})
+                    .success(function (data){
+                        $scope.messages = data;
+                    });
+
+                $scope.tweetText = null;
+
+                alert("Message Posted Successfully");
             })
             .error(function (error){
                 alert("Tweet Error");

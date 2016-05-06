@@ -48,6 +48,19 @@
                     </div>
                 </div>
             </div>
+            <form name="form" novalidate>
+                <textarea name="tweetTextArea" class="form-control" id="tweetArea" rows="6" ng-model="tweetText"></textarea>
+                <div style="margin-top: 8px">
+                <span>
+                    <button type="button" class="btn btn-primary" ng-click="doClearTweet()">
+                        <span class="glyphicon glyphicon-remove"> Clear</span>
+                    </button>
+                    <button type="submit" class="btn btn-primary" ng-click="doTweet()">
+                        <span class="glyphicon glyphicon-pencil"> Tweet</span>
+                    </button>
+                </span>
+                </div>
+            </form>
         </div>
         <div class="col-md-9" id="resultsDiv">
             <form class="form-inline" role="form">
