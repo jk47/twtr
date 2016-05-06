@@ -53,7 +53,7 @@ app.controller('twtrController', function ($scope, $location, $http, securitySer
 
                 $scope.tweetText = null;
 
-                alert("Message Posted Successfully");
+                alert("Message Posted!");
             })
             .error(function (error){
                 alert("Tweet Error");
