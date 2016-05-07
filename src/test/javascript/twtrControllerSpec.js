@@ -53,9 +53,11 @@ describe('twtrController', function () {
                 });
 
             $httpBackend.expectGET('/api/accounts/2/messages').respond(200, [{}]);
+            $httpBackend.expectGET('/api/accounts/2/messages').respond(200, [{}]);
 
             expect($scope).toBeDefined();
             expect($scope.currentUser).toBeDefined();
+            $scope.currentId = 2
 
             $scope.doTweet();
             $httpBackend.flush();

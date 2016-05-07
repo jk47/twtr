@@ -43,6 +43,11 @@ app.controller('twtrController', function ($scope, $location, $http, securitySer
         var token = $scope.auth.token.toString();
         var currentId = $scope.currentId;
         tweetService.doTweet(messageContent, messageAccount, token, currentId);
+        $http.get('/api/accounts/'+ $scope.currentId  + '/messages', {headers: {'X-Auth-Token': $scope.auth.token.toString()}})
+            .success(function (data){
+                $scope.messages = data;
+            });
+
     }
     
 });

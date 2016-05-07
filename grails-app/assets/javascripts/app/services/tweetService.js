@@ -27,6 +27,7 @@ app.service('tweetService', ['$http', '$rootScope', '$location', 'webStorage', f
           $rootScope.tweetText = null;
 
           $rootScope.alert = { type: 'success', msg: 'Message Posted!' };
+          
         })
         .error(function (error){
           alert("Tweet Error");
