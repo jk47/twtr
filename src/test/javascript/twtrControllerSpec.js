@@ -54,22 +54,6 @@ describe('twtrController', function () {
 
             $httpBackend.expectGET('/api/accounts/2/messages').respond(200, [{}]);
 
-            /*$httpBackend.expectPOST('/api/accounts/2/messages', {
-                content: "twitter message content",
-                account: 2
-            }).respond(201,
-                {
-                    class: "twtr.Message",
-                    id: 109,
-                    account: {
-                        class: "twtr.Account",
-                        id: 1
-                    },
-                    content: "dsf",
-                    dateCreated: "2016-05-07T15:19:11Z"
-                });
-        */
-
             expect($scope).toBeDefined();
             expect($scope.currentUser).toBeDefined();
 
