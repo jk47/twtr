@@ -34,10 +34,10 @@ app.controller('twtrController', function ($scope, $location, $http, securitySer
             })
             .error(function (error){
                 alert("search error");
-            })
+            });
     };
     
-    var doTweet = function() {
+    $scope.doTweet = function() {
         var messageDetails = new Object();
         messageDetails.content = $scope.tweetText;
         messageDetails.account = $scope.currentId;
