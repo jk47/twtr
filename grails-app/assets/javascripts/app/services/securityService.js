@@ -30,12 +30,20 @@ app.factory('securityService', ['$http', '$rootScope', '$location', 'webStorage'
     return currentUser.token;
   };
 
+  service.setToken = function(newToken){
+    currentUser.token = newToken;
+  };
+
     service.getCurrentUser= function(){
         return currentUser;
     };
 
   service.getUsername= function(){
     return currentUser.username;
+  };
+
+  service.setUsername= function(newName){
+     currentUser.username = newName;
   };
 
   service.logout = function () {

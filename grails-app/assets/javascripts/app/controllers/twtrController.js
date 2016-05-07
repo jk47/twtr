@@ -33,7 +33,7 @@ app.controller('twtrController', function ($scope, $location, $http, securitySer
             })
     };
     
-    $scope.doTweet = function() {
+    var doTweet = function() {
         var messageDetails = new Object();
         messageDetails.content = $scope.tweetText;
         messageDetails.account = $scope.currentId;
