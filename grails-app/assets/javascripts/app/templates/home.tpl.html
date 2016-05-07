@@ -50,13 +50,13 @@
             </div>
             <form name="form" novalidate>
                 <textarea name="tweetTextArea" class="form-control" id="tweetArea" rows="6"
-                          ng-model="tweetText"></textarea>
+                          ng-model="tweetText" ng-minlength="1" ng-maxlength="40" required></textarea>
                 <div style="margin-top: 8px">
                     <span>
-                        <button type="button" class="btn btn-primary" ng-click="doClearTweet()">
+                        <button type="button" class="btn btn-primary" ng-click="doClearTweet()" ng-disabled="form.tweetTextArea.$error.required">
                             <span class="glyphicon glyphicon-remove"> Clear</span>
                         </button>
-                        <button type="submit" class="btn btn-primary" ng-click="doTweet()">
+                        <button type="submit" ng-disabled="form.tweetTextArea.$invalid || form.tweetTextArea.$error.required" class="btn btn-primary" ng-click="doTweet()">
                             <span class="glyphicon glyphicon-pencil"> Tweet</span>
                         </button>
                     </span>
