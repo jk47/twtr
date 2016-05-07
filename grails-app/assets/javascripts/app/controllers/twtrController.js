@@ -3,6 +3,7 @@ app.controller('twtrController', function ($scope, $location, $http, securitySer
     $scope.auth.token = securityService.getToken();
     $scope.username = securityService.getUsername();
     $scope.currentUser = securityService.getCurrentUser();
+
     $http.get('/api/accounts/handle='+$scope.currentUser.username, {headers: {'X-Auth-Token': $scope.auth.token.toString()}})
         .success(function (data){
             $scope.currentId = data.id;
@@ -16,6 +17,10 @@ app.controller('twtrController', function ($scope, $location, $http, securitySer
 
     $scope.doLogout = function() {
         securityService.logout();
+    };
+
+    $scope.doCloseAlert = function() {
+        $scope.alert = null;
     };
 
     $scope.doMessageSearch = function() {
@@ -53,7 +58,7 @@ app.controller('twtrController', function ($scope, $location, $http, securitySer
 
                 $scope.tweetText = null;
 
-                alert("Message Posted!");
+                $scope.alert = { type: 'success', msg: 'Message Posted!' };
             })
             .error(function (error){
                 alert("Tweet Error");

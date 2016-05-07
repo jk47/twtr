@@ -49,17 +49,21 @@
                 </div>
             </div>
             <form name="form" novalidate>
-                <textarea name="tweetTextArea" class="form-control" id="tweetArea" rows="6" ng-model="tweetText"></textarea>
+                <textarea name="tweetTextArea" class="form-control" id="tweetArea" rows="6"
+                          ng-model="tweetText"></textarea>
                 <div style="margin-top: 8px">
-                <span>
-                    <button type="button" class="btn btn-primary" ng-click="doClearTweet()">
-                        <span class="glyphicon glyphicon-remove"> Clear</span>
-                    </button>
-                    <button type="submit" class="btn btn-primary" ng-click="doTweet()">
-                        <span class="glyphicon glyphicon-pencil"> Tweet</span>
-                    </button>
-                </span>
+                    <span>
+                        <button type="button" class="btn btn-primary" ng-click="doClearTweet()">
+                            <span class="glyphicon glyphicon-remove"> Clear</span>
+                        </button>
+                        <button type="submit" class="btn btn-primary" ng-click="doTweet()">
+                            <span class="glyphicon glyphicon-pencil"> Tweet</span>
+                        </button>
+                    </span>
                 </div>
+                <uib-alert style="margin-top: 8px" type="{{alert.type}}" close="doCloseAlert()" ng-show="alert != null">
+                    {{alert.msg}}
+                </uib-alert>
             </form>
         </div>
         <div class="col-md-9" id="resultsDiv">
