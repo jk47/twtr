@@ -15,6 +15,6 @@ Repo for Web Dev class
 
 ### New Tests:
 
-New functional tests in twtr/src/integration-test/groovy/twtr/AngularFunctionalSpec.groovy and labelled with requirement \# (R\#)
+New functional tests in twtr/src/integration-test/groovy/twtr/AngularFunctionalSpec.groovy and labelled with requirement \# (as R\#)
 
 Jasmine/Karma Tests in the twtr/src/test/javascript/twtrControllerSpec.js file
