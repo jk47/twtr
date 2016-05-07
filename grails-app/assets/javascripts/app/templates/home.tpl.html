@@ -48,20 +48,23 @@
                     </div>
                 </div>
             </div>
-            <form name="form" novalidate>
-                <textarea name="tweetTextArea" class="form-control" id="tweetArea" rows="6"
-                          ng-model="tweetText" ng-minlength="1" ng-maxlength="40" required></textarea>
+            <form name="form">
+                <textarea name="tweetTextArea" class="form-control" id="tweetArea" rows="6" ng-trim="false"
+                          ng-model="tweetText" required></textarea>
                 <div style="margin-top: 8px">
                     <span>
                         <button type="button" class="btn btn-primary" ng-click="doClearTweet()" ng-disabled="form.tweetTextArea.$error.required">
                             <span class="glyphicon glyphicon-remove"> Clear</span>
                         </button>
-                        <button type="submit" ng-disabled="form.tweetTextArea.$invalid || form.tweetTextArea.$error.required" class="btn btn-primary" ng-click="doTweet()">
+                        <button type="submit" ng-disabled="tweetText.length > 40 || form.tweetTextArea.$error.required" class="btn btn-primary" ng-click="doTweet()">
                             <span class="glyphicon glyphicon-pencil"> Tweet</span>
                         </button>
+                        <div class="text-right">
+                            <p style="margin-top: -34px" >{{40 - tweetText.length}}</p>
+                        </div>
                     </span>
                 </div>
-                <uib-alert style="margin-top: 8px" type="{{alert.type}}" close="doCloseAlert()" ng-show="alert != null">
+                <uib-alert style="margin-top: 24px" type="{{alert.type}}" close="doCloseAlert()" ng-show="alert != null">
                     {{alert.msg}}
                 </uib-alert>
             </form>
