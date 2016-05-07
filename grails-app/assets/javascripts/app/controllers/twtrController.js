@@ -19,6 +19,10 @@ app.controller('twtrController', function ($scope, $location, $http, securitySer
         securityService.logout();
     };
 
+    $scope.doClearTweet = function() {
+        $scope.tweetText = null;
+    };
+
     $scope.doCloseAlert = function() {
         $scope.alert = null;
     };
