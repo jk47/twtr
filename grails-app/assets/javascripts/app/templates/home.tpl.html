@@ -53,10 +53,10 @@
                           ng-model="tweetText" required></textarea>
                 <div style="margin-top: 8px">
                     <span>
-                        <button type="button" class="btn btn-primary" ng-click="doClearTweet()" ng-disabled="form.tweetTextArea.$error.required">
+                        <button type="button" id="clearTweetButton" class="btn btn-primary" ng-click="doClearTweet()" ng-disabled="form.tweetTextArea.$error.required">
                             <span class="glyphicon glyphicon-remove"> Clear</span>
                         </button>
-                        <button type="submit" ng-disabled="tweetText.length > 40 || form.tweetTextArea.$error.required" class="btn btn-primary" ng-click="doTweet()">
+                        <button type="submit" id="tweetButton" ng-disabled="tweetText.length > 40 || form.tweetTextArea.$error.required" class="btn btn-primary" ng-click="doTweet()">
                             <span class="glyphicon glyphicon-pencil"> Tweet</span>
                         </button>
                         <div class="text-right">
@@ -64,7 +64,7 @@
                         </div>
                     </span>
                 </div>
-                <uib-alert style="margin-top: 24px" type="{{alert.type}}" close="doCloseAlert()" ng-show="alert != null">
+                <uib-alert style="margin-top: 24px" id="tweetAlert" type="{{alert.type}}" close="doCloseAlert()" ng-show="alert != null">
                     {{alert.msg}}
                 </uib-alert>
             </form>

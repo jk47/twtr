@@ -340,5 +340,32 @@ class AngularFunctionalSpec extends GebSpec {
         signOut()
     }
 
+    def 'R0/R1: Validated tweet can be posted from the UI'(){
+        when: 'signed in and at the home page'
+        signIn()
+        Thread.sleep(1000)
 
+        then: 'user can post from the UI'
+        $('#tweetArea').value('sample Tweet')
+        $('#tweetButton').click()
+        Thread.sleep(1000)
+        $('#tweetAlert').isDisplayed()
+
+        cleanup:
+        signOut()
+    }
+
+    def 'R2: Too long of a twee results in inactive tweet button'(){
+        when: 'signed in and at the home page'
+        signIn()
+        Thread.sleep(1000)
+
+        then: 'user attempting post of too long of a tweet will see inactive tweet button'
+        $('#tweetArea').value('11111111112222222222333333333344444444441') //length of 41
+        $('#tweetButton').disabled
+        Thread.sleep(1000)
+
+        cleanup:
+        signOut()
+    }
 }
