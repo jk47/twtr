@@ -1,3 +1,4 @@
+
 describe('twtrController', function () {
     beforeEach(module('app'));
 
@@ -37,32 +38,33 @@ describe('twtrController', function () {
 
 
 
-//-----------------------------THIS WILL BREAK THE TESTS --------------------------------//
+//-----------------------------BELOW CODE WILL BREAK THE TESTS --------------------------------//
+
 
 /*
-
 describe('twtrController', function () {
     beforeEach(module('app'));
 
     var $scope;
-    var $twtrController;
+    var $controller;
     var $httpBackend;
     var securityService;
+    var tweetService;
 
 
-    beforeEach(inject(function (_$twtrController_, _$httpBackend_, _$rootScope_, _securityService_ ) {
+    beforeEach(inject(function (_$controller_, _$httpBackend_, _$rootScope_, _securityService_, _tweetService_ ) {
         // The injector unwraps the underscores (_) from around the parameter names when matching
-
         securityService = _securityService_;
-        securityService.setToken("theToken");
-        securityService.setUsername("john");
         securityService.setCurrentUser({
             username: 'john',
             roles: ['the role'],
             token: "theToken",
         });
+        securityService.setToken("theToken");
+        securityService.setUsername("john");
+        tweetService = _tweetService_;
         $scope = _$rootScope_.$new();
-        $twtrController = _$twtrController_;
+        $controller = _$controller_;
         $httpBackend = _$httpBackend_;
     }));
 
@@ -74,36 +76,23 @@ describe('twtrController', function () {
 
         beforeEach(function ()
         {
-            $controller('twtrController', {$scope: $scope});
-            spyOn($controller, 'doTweet');
+            $controller('twtrController', {$scope: $scope, securityService: securityService, tweetService: tweetService});
+            spyOn(tweetService, 'doTweet');
         });
 
         it("handles the posting of a message", function(){
-            $httpBackend.expectGET('/api/accounts/handle=john').respond(200, {id: 2, handle: 'john'});
-            alert("john");
+            $httpBackend.expectGET('/api/accounts/handle=john').respond(200);
             $httpBackend.expectPOST('/api/accounts/2/messages', {content: "twitter message content", account:2}).respond(201);
-            $httpBackend.expectGET('/api/accounts/messages', [
-                {
-                    class: "twtr.Message",
-                    id: 1,
-                    account: {
-                        class: "twtr.Account",
-                        id: 2
-                    },
-                    content: "John's Message #1",
-                    dateCreated: "2016-05-06T01:34:11Z"
-                }]);
+            
             expect($scope).toBeDefined();
             expect($scope.currentUser).toBeDefined();
 
             $scope.doTweet();
             $httpBackend.flush();
-            expect($controller.doTweet).toHaveBeenCalledTimes(1);
+            expect(tweetService.doTweet).toHaveBeenCalledTimes(1);
 
         });
-
     });
+});
 
-
-
-});*/
+ */

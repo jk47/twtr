@@ -1,9 +1,15 @@
-app.factory('securityService', ['$http', '$rootScope', '$location', 'webStorage', function ($http, $rootScope, $location, webStorage) {
-  var service = {};
+app.service('securityService', ['$http', '$rootScope', '$location', 'webStorage', function ($http, $rootScope, $location, webStorage) {
+  var securityService = {};
   var currentUser;
   var isSignOutSuccessful;
 
   var setCurrentUser = function(user){
+    currentUser = user;
+    webStorage.set('twitterUser', currentUser);
+    $rootScope.$emit('userChange', currentUser);
+  };
+
+  securityService.setCurrentUser = function(user){
     currentUser = user;
     webStorage.set('twitterUser', currentUser);
     $rootScope.$emit('userChange', currentUser);
@@ -22,31 +28,31 @@ app.factory('securityService', ['$http', '$rootScope', '$location', 'webStorage'
     delete $rootScope.currentUser;
   };
 
-  service.isSignOutSuccessful = function(){
+  securityService.isSignOutSuccessful = function(){
     return isSignOutSuccessful;
   };
 
-  service.getToken = function(){
+  securityService.getToken = function(){
     return currentUser.token;
   };
 
-  service.setToken = function(newToken){
+  securityService.setToken = function(newToken){
     currentUser.token = newToken;
   };
 
-    service.getCurrentUser= function(){
+    securityService.getCurrentUser= function(){
         return currentUser;
     };
 
-  service.getUsername= function(){
+  securityService.getUsername= function(){
     return currentUser.username;
   };
 
-  service.setUsername= function(newName){
+  securityService.setUsername= function(newName){
      currentUser.username = newName;
   };
 
-  service.logout = function () {
+  securityService.logout = function () {
     setCurrentUser(undefined);
     delete $rootScope.currentUser;
 
@@ -56,16 +62,16 @@ app.factory('securityService', ['$http', '$rootScope', '$location', 'webStorage'
     $location.path('/login');
   };
 
-  service.login = function (username, password) {
+  securityService.login = function (username, password) {
     var loginPayload = {username: username, password: password};
     return $http.post('/api/login', loginPayload).then(loginSuccess, loginFailure);
   };
 
-  service.currentUser = function () {
+  securityService.currentUser = function () {
     return currentUser;
   };
 
   setCurrentUser(webStorage.get('twitterUser'));
 
-  return service;
+  return securityService;
 }]);

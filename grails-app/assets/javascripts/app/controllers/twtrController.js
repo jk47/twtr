@@ -1,4 +1,4 @@
-app.controller('twtrController', function ($scope, $location, $http, securityService) {
+app.controller('twtrController', function ($scope, $location, $http, securityService, tweetService) {
     $scope.auth = {};
     $scope.auth.token = securityService.getToken();
     $scope.username = securityService.getUsername();
@@ -36,36 +36,13 @@ app.controller('twtrController', function ($scope, $location, $http, securitySer
                 alert("search error");
             });
     };
+
+    $scope.doTweet = function(){
+        var messageContent =  $scope.tweetText;
+        var messageAccount = $scope.currentId;
+        var token = $scope.auth.token.toString();
+        var currentId = $scope.currentId;
+        tweetService.doTweet(messageContent, messageAccount, token, currentId);
+    }
     
-    $scope.doTweet = function() {
-        var messageDetails = new Object();
-        messageDetails.content = $scope.tweetText;
-        messageDetails.account = $scope.currentId;
-        var jsonBody = JSON.stringify(messageDetails);
-
-        $http.post('/api/accounts/' + $scope.currentId + '/messages', jsonBody,
-            {
-                headers: {
-                    'X-Auth-Token': $scope.auth.token.toString(),
-                    'Content-Type': 'application/json'
-                }
-
-            })
-            .success(function (data) {
-                $scope.createdMessageResponse = data;
-                $scope.success = true;
-
-                $http.get('/api/accounts/'+$scope.currentId   + '/messages', {headers: {'X-Auth-Token': $scope.auth.token.toString()}})
-                    .success(function (data){
-                        $scope.messages = data;
-                    });
-
-                $scope.tweetText = null;
-
-                $scope.alert = { type: 'success', msg: 'Message Posted!' };
-            })
-            .error(function (error){
-                alert("Tweet Error");
-            })
-    };
 });
