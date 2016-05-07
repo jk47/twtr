@@ -355,7 +355,7 @@ class AngularFunctionalSpec extends GebSpec {
         signOut()
     }
 
-    def 'R2: Too long of a twee results in inactive tweet button'(){
+    def 'R2: Too long of a tweet results in inactive tweet button'(){
         when: 'signed in and at the home page'
         signIn()
         Thread.sleep(1000)
