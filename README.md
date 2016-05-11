@@ -11,10 +11,10 @@ Repo for Web Dev class
 
 ## Assignment 3 - done
 
-## Assignment 4 - due 5/7/2016
+## Assignment 4 - done
 
 ### New Tests:
 
-New functional tests in twtr/src/integration-test/groovy/twtr/AngularFunctionalSpec.groovy and labelled with requirement \# (as R\#)
+New functional tests for assignment 4 in twtr/src/integration-test/groovy/twtr/AngularFunctionalSpec.groovy and labelled with requirement \# (as R\#)
 
 Jasmine/Karma Tests in the twtr/src/test/javascript/twtrControllerSpec.js file
