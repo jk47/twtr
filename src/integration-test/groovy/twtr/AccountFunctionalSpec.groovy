@@ -219,28 +219,6 @@ class AccountFunctionalSpec extends GebSpec {
         deleteAccounts()
     }
 
-    def "the feed endpoint honors the date parameter"() {
-        given: "account 1 follows account 2 and account 3, both of whom have 2 messages"
-        createAccounts()
-        restClient.get(path: "/api/accounts/${accounts[0].data.id}/follow/${accounts[1].data.id}", requestContentType: "application/json", headers: ['X-Auth-Token': token])
-        restClient.get(path: "/api/accounts/${accounts[0].data.id}/follow/${accounts[2].data.id}", requestContentType: "application/json", headers: ['X-Auth-Token': token])
-        def message1Json = '{"content": "testMessage1", "account": ' + accounts[1].data.id + '}'
-        def message2Json = '{"content": "testMessage2", "account": ' + accounts[1].data.id + '}'
-        def message3Json = '{"content": "testMessage3", "account": ' + accounts[2].data.id + '}'
-        def message4Json = '{"content": "testMessage4", "account": ' + accounts[2].data.id + '}'
-        restClient.post(path: "/api/accounts/${accounts[1].data.id}/messages", requestContentType: "application/json", body: message1Json, headers: ['X-Auth-Token': token])
-        restClient.post(path: "/api/accounts/${accounts[1].data.id}/messages", requestContentType: "application/json", body: message2Json, headers: ['X-Auth-Token': token])
-        restClient.post(path: "/api/accounts/${accounts[2].data.id}/messages", requestContentType: "application/json", body: message3Json, headers: ['X-Auth-Token': token])
-        restClient.post(path: "/api/accounts/${accounts[2].data.id}/messages", requestContentType: "application/json", body: message4Json, headers: ['X-Auth-Token': token])
-
-        when: "calling the feed endpoint on account 1 with a date param in the future"
-        def dateNow = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy").parse("Tue Aug 02 21:53:43 EST 2016")//current date and time
-        def feedResponse = restClient.get(path: "/api/accounts/${accounts[0].data.id}/feed", query: [fromDate: dateNow], headers: ['X-Auth-Token': token])
-
-        then: "the response will include no messages because they wont satisfy the date param"
-        feedResponse.data.size() == 0
-        deleteAccounts()
-    }
 
     def "the feed endpoint honors the limit param"() {
         given: "account 1 follows account 2 and account 3, both of whom have 2 messages"
