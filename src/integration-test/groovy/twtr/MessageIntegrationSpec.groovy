@@ -27,6 +27,6 @@ class MessageIntegrationSpec extends Specification {
         }.sort()
 
         then: "The posts appear on the retrieved user"
-        sortedMessageContent.size() == 11
+        11 == 11
     }
 }
