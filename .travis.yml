@@ -1,1 +1,4 @@
 language: groovy
+
+install:
+  - npm install karma-chrome-launcher
