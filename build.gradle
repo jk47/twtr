@@ -139,7 +139,7 @@ karma {
     profile 'default'
     colors = true
 
-    browsers = ['Chrome']
+    browsers = ['Firefox']
     frameworks = ['jasmine']
     reporters = ['junit', 'progress', 'coverage']
     preprocessors = [
